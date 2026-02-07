@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/01/23 14:46:50 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 11:32:31 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static int	is_blank_line(char *line)
 	}
 	return (1);
 }
+
+/*Fonction that wait for an entry in the terminal
+and parse the line to split it in args that will be analyse
+to execute commands*/
 
 static void	waiting_function(t_env *env)
 {

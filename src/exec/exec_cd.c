@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 12:50:35 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:05:03 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void	set_env_value(t_env *env, char *id, char *value)
 		tmp = tmp->next;
 	}
 }
+
+/*chdir is the function that make the computer change of directory. The rest of
+our mission is to change (in the env struct) the value of PWD and OLDPWD.
+*/
 
 int	exec_cd(char **args, t_env *env)
 {

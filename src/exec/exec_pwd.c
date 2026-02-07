@@ -6,11 +6,15 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:52:08 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 15:23:08 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:03:41 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*We look through the env struct if we see the id called PWD and display the
+value.
+*/
 
 int	exec_pwd(t_env *env)
 {

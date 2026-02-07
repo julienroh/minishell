@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:40:14 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 18:08:32 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:01:35 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 // 		tmp = tmp->next;
 // 	}
 // }
+
+/*Fonction that test if the first arg is one of the command that we have
+to handle. if that's the case, we enter in exec functions.
+*/
 
 int	analyze_args(char **args, t_env *env)
 {

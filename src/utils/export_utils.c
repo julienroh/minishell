@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/01/24 17:05:30 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:20:59 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int	already_in_struct(t_env *env, char *id, char *value, int plus)
 	return (0);
 }
 
+/*Check if a string is valid to be an id.
+*/
+
 int	check_identifier(char *id)
 {
 	int	i;
@@ -56,6 +59,9 @@ int	check_identifier(char *id)
 	}
 	return (1);
 }
+
+/*Put the value at the end of the actual string in then env struct.
+*/
 
 static void	add_end_value(t_env *env, char *id, char *value, int printable)
 {
@@ -78,6 +84,11 @@ static void	add_end_value(t_env *env, char *id, char *value, int printable)
 		tmp = tmp->next;
 	}
 }
+
+/*If we put in the terminal "VAR+=oui", we have to put "oui" at the end of the
+value register for VAR. If VAR doesn't exist, we have to create a new env for
+the id VAR that will have the value "oui".
+*/
 
 void	plus_equal_condition(t_env *env, char *str, int printable)
 {

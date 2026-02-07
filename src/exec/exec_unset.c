@@ -6,11 +6,14 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 16:15:19 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/23 15:06:37 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:14:07 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*Erase id int the env sutruct.
+*/
 
 void	exec_unset(char **args, t_env **env)
 {

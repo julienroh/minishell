@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_utils.c                                   :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/13 11:44:21 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:24:02 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ void	add_new_part(t_lexer *lexer, char *line, int i)
 		p->next = n;
 	}
 }
+
+/*Change the state depending of the actual char and the actual state.
+For example if we are in the normal state and we see a quote, then we switch
+in a quote state. But if we are already in a double quote state, we only switch
+the state if we see another double quote (we dont switch if we see
+a simple quote).
+*/
 
 int	state_change(t_state *state, char c)
 {

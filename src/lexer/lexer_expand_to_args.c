@@ -6,11 +6,18 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 18:18:12 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 11:59:28 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*The only acceptable char for the id of a value are ft_isalnum == 1 and "_".
+So first, the function increase "i_dollar" until we found a forbidden char for
+the id of a value. Then we take this potential id and check if there is the same
+id in our env struct. If the answer is yes, we change the value after the "$" by
+the value in the struct.
+*/
 
 static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 {
@@ -65,6 +72,9 @@ static void	expand_part(t_part *part, t_env *env)
 	}
 }
 
+/*Expand the token part if needed.
+*/
+
 static void	parts_expand(t_token *token, t_env *env)
 {
 	t_part	*p;
@@ -77,6 +87,9 @@ static void	parts_expand(t_token *token, t_env *env)
 		p = p->next;
 	}
 }
+
+/*Make ft_strjoin on all parts of the token to have only one string.
+*/
 
 static char	*join_parts(t_token token)
 {
@@ -95,6 +108,9 @@ static char	*join_parts(t_token token)
 	}
 	return (to_return);
 }
+
+/*Fontion that converts the struct lexer into a (char *) array. We detect if a
+value needs to be expand by searching for the char "$"*/
 
 char	**lexer_expand_to_args(t_lexer *lexer, t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/11 16:13:59 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:10:39 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,12 @@ static void	print_echo(char **args, int i, int n)
 		printf("\n");
 }
 
+/*If there is the option "-n" after echo, we have to not put the "\n" after
+the execution of echo.
+*/
+
 void	exec_echo(char **args)
 {
-	int	size_arg;
-
-	size_arg = ft_strlen(args[1]);
-	if (args[1][0] == '"' && args[1][size_arg - 1] == '"')
-	{
-		printf("oui\n");
-		args[1] = ft_substr(args[1], 1, size_arg - 2);
-	}
 	if (!args[1])
 	{
 		printf("\n");

@@ -6,16 +6,13 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/23 14:26:40 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 11:44:02 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_new_token(t_lexer *lexer)
-{
-	lexer->token_i++;
-}
+/*Add the char at the end of the last part of the last token*/
 
 static void	add_char(t_lexer *lexer, char c)
 {
@@ -60,6 +57,11 @@ static int	number_of_tokens(char *line)
 	return (count);
 }
 
+/*Each token contains parts which are determined by spaces, but only if we are
+in normal state (not in double quote or simple quote).
+
+*/
+
 static void	fill_tokens(char *line, t_lexer *lexer)
 {
 	int		i;
@@ -74,7 +76,7 @@ static void	fill_tokens(char *line, t_lexer *lexer)
 			|| (i > 0 && !is_space(line[i]) && is_space(line[i - 1])
 				&& !state.s_quote && !state.d_quote))
 		{
-			add_new_token(lexer);
+			lexer->token_i++;
 		}
 		if (state_change(&state, line[i]))
 		{
@@ -87,6 +89,9 @@ static void	fill_tokens(char *line, t_lexer *lexer)
 		i++;
 	}
 }
+
+/*Fonction that returns an array of struct t_lexer that contains
+tokens*/
 
 t_lexer	*lexer_parse_line(char *line)
 {

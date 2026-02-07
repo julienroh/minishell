@@ -6,11 +6,15 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:15:50 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 17:27:27 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:15:12 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*Display the id and value of the env struct only if they have their printable
+register as 1.
+*/
 
 void	exec_env(t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 18:10:38 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:13:13 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ static void	check_if_exist(t_env *env, char *arg)
 		tmp = tmp->next;
 	}
 }
+
+/*Check if the id already exist, if that's the case, we only replace the old
+value by the new one. If not, we create a new space for the new id and value.
+*/
 
 void	exec_export(char **args, t_env *env)
 {

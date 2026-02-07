@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/01/24 17:09:04 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:25:53 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int	free_new(t_env *new, char *str)
 	return (0);
 }
 
+/*Create a new env if even if there is no value (no '=').
+*/
+
 t_env	*new_without_equal(t_env *new, char *str)
 {
 	new->id = ft_strdup(str);
@@ -31,6 +34,9 @@ t_env	*new_without_equal(t_env *new, char *str)
 	new->value = NULL;
 	return (new);
 }
+
+/*Normal case of export (if there is a '=').
+*/
 
 t_env	*new_with_equal(t_env *new, char *str, int i)
 {
