@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:20:25 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/18 16:20:54 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ typedef struct s_lexer
 	int		token_total;
 	int		token_i;
 }				t_lexer;
+
+typedef struct s_command
+{
+	int			fd_in;
+	int			fd_out;
+	char		**args;
+	t_command	*next;
+}				t_command;
 
 //analyse
 

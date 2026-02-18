@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/07 11:32:31 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/18 16:21:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void	waiting_function(t_env *env)
 		}
 		lexer = lexer_parse_line(line);
 		args = lexer_expand_to_args(lexer, env);
+		initialize_command(args);
 		if (!analyze_args(args, env))
 		{
 			print_exit(line);
@@ -84,3 +85,12 @@ int	main(int argc, char **argv, char **env)
 	waiting_function(env_struct);
 	return (0);
 }
+
+
+// fd = open(file, O_WRONLY | O_CREAT | O_APPEND | O_TRNC, 0644);
+
+// O_CREAT -> Cree le fichier si il existe pas.
+
+// O_TRUNC -> Si le fiichier existe deja, il le vide.
+
+// o_APPEND -> Ecris a la fin du fichier.
