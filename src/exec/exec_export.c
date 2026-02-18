@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 12:13:13 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/18 17:27:57 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void	exec_export(char **args, t_env *env)
 	t_env	*new;
 
 	i = 0;
+
+	if (!args[1])
+		only_export(env);
 	while (args[i + 1])
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)

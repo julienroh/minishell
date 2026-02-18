@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/18 16:20:54 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/18 17:30:58 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ typedef struct s_lexer
 	int		token_i;
 }				t_lexer;
 
-typedef struct s_command
-{
-	int			fd_in;
-	int			fd_out;
-	char		**args;
-	t_command	*next;
-}				t_command;
+// typedef struct s_command
+// {
+// 	int			fd_in;
+// 	int			fd_out;
+// 	char		**args;
+// 	t_command	*next;
+// }				t_command;
 
 //analyse
 
@@ -78,6 +78,7 @@ void	exec_env(t_env *env);
 int		exec_cd(char **args, t_env *env);
 int		exec_pwd(t_env *env);
 int		exec_pot_export(char **args, t_env *env);
+void	only_export(t_env *env);
 
 //lexer
 

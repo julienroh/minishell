@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/18 16:21:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/18 16:42:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	waiting_function(t_env *env)
 		}
 		lexer = lexer_parse_line(line);
 		args = lexer_expand_to_args(lexer, env);
-		initialize_command(args);
+		//initialize_command(args);
 		if (!analyze_args(args, env))
 		{
 			print_exit(line);

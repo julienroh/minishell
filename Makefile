@@ -17,6 +17,7 @@ SRC =	src/main/main.c \
 		src/exec/exec_cd.c \
 		src/exec/exec_pwd.c \
 		src/exec/exec_pot_export.c \
+		src/exec/only_export.c \
 		src/lexer/lexer_expand_to_args.c \
 		src/lexer/lexer_parse_line.c \
 		src/parser_env/parser_env.c \
