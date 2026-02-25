@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 11:09:31 by adavid            #+#    #+#             */
-/*   Updated: 2026/01/24 17:07:19 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/25 15:12:30 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_env	*parser_env(char **env)
 		env_add_back(&env_struct, new);
 		i++;
 	}
+	env_add_back(&env_struct, NULL);
 	return (env_struct);
 }

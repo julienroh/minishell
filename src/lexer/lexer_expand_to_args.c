@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand_to_args.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 11:59:28 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/25 14:13:38 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 {
 	int		i;
 	char	*check;
+	t_env	*current;
 
 	i = 0;
 	(*i_dollar)++;
+	current = env;
 	check = malloc(sizeof(char) * (ft_strlen(part->value + *i_dollar) + 1));
 	if (!check)
 		return (NULL);
@@ -33,16 +35,15 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 			|| part->value[*i_dollar] == '_'))
 		check[i++] = part->value[(*i_dollar)++];
 	check[i] = '\0';
-	i = -1;
-	while (env[++i].id)
+	while (current != NULL)
 	{
-		if (ft_strncmp(env[i].id, check, ft_strlen(check)) == 0
-			&& ft_strlen(check) == ft_strlen(env[i].id))
+		if (ft_strncmp(current->id, check, ft_strlen(check)) == 0
+			&& ft_strlen(check) == ft_strlen(current->id))
 		{
 			free(check);
-			return (env[i].value);
+			return (current->value);
 		}
-		i++;
+		current = current->next;
 	}
 	free(check);
 	return (NULL);
@@ -82,6 +83,7 @@ static void	parts_expand(t_token *token, t_env *env)
 	p = token->parts;
 	while (p)
 	{
+		printf("p->expand = : %d\n", p->expand);
 		if (p->expand == 1)
 			expand_part(p, env);
 		p = p->next;

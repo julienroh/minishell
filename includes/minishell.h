@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/18 17:30:58 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/25 15:00:48 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void	plus_equal_condition(t_env *env, char *id, int printable);
 
 char	*get_identifier(char *arg);
 char	*get_value(char *arg);
+int		max(char *arg_a, char *arg_b);
+void	swap(char **arg_a, char **arg_b);
 
 //lexer_utils.c
 

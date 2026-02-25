@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 17:19:54 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/25 15:00:22 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,39 @@ char	*get_value(char *arg)
 	if (!find_equal)
 		return (NULL);
 	return (ft_strdup(find_equal + 1));
+}
+
+int	max(char *arg_a, char *arg_b)
+{
+	int	count_a;
+	int	count_b;
+	int	i;
+
+	count_a = 0;
+	count_b = 0;
+	i = 0;
+	while (arg_a[i])
+	{
+		count_a++;
+		i++;
+	}
+	i = 0;
+	while (arg_b[i])
+	{
+		count_b++;
+		i++;
+	}
+	if (count_a >= count_b)
+		return (count_a);
+	else
+		return (count_b);
+}
+
+void	swap(char **arg_a, char **arg_b)
+{
+	char	*tmp;
+
+	tmp = *arg_a;
+	*arg_a = *arg_b;
+	*arg_b = tmp;
 }

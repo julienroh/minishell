@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyze_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:40:14 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 12:01:35 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/25 13:17:37 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int	analyze_args(char **args, t_env *env)
 		exec_env(env);
 	else
 		exec_pot_export(args, env);
-	//print_env(env);
+	// print_env(env);
 	return (1);
 }
