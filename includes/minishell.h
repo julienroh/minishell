@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishellmodif.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:33:10 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef struct s_env
 {
@@ -40,9 +40,21 @@ typedef struct s_part
 	struct s_part	*next;
 }				t_part;
 
+typedef enum e_toktype //le type du token
+{
+	WORD, //grep, ls, -l, "lorem $VAR", 'lorem'
+	PIPE, // |
+	R_IN, // <
+	R_OUT, // >
+	R_APPEND, // >>
+	R_HEREDOC, // <<
+}	t_toktype;
+
 typedef struct s_token
 {
 	t_part	*parts;
+	t_toktype		type; //word, pipe...
+	char			*value; //grep, <, <<, ls, -n, etc..
 }				t_token;
 
 typedef struct s_lexer
@@ -52,13 +64,29 @@ typedef struct s_lexer
 	int		token_i;
 }				t_lexer;
 
-// typedef struct s_command
-// {
-// 	int			fd_in;
-// 	int			fd_out;
-// 	char		**args;
-// 	t_command	*next;
-// }				t_command;
+// pour la cmd table : 
+
+typedef enum e_redir_type 
+{
+	R_IN, // <
+	R_OUT, // >
+	R_APPEND, // >>
+	R_HEREDOC // <<
+}	t_redir_type;
+
+typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.
+{
+	t_redir_type	type; //cf t_redir_type
+	char			*target; //in.txt, out.txt, etc... check l'arg apres le type de redir. (ex : < in.txt)
+	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
+}	t_redir;
+
+typedef struct s_command //une node de la liste chainee de la cmd table.
+{
+	char			**argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
+	t_redir			*redirs; //liste chainee des redirs pour 1 cmd.
+	t_command		*next; //next cmd.
+}	t_command;
 
 //analyse
 
@@ -78,7 +106,6 @@ void	exec_env(t_env *env);
 int		exec_cd(char **args, t_env *env);
 int		exec_pwd(t_env *env);
 int		exec_pot_export(char **args, t_env *env);
-void	only_export(t_env *env);
 
 //lexer
 
@@ -101,9 +128,6 @@ void	plus_equal_condition(t_env *env, char *id, int printable);
 
 char	*get_identifier(char *arg);
 char	*get_value(char *arg);
-int		max(char *arg_a, char *arg_b);
-void	swap(char **arg_a, char **arg_b);
-void	free_char_env(char **char_env);
 
 //lexer_utils.c
 
