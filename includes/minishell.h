@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishellmodif.h                                   :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 14:33:10 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:37:23 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,13 @@ typedef struct s_command //une node de la liste chainee de la cmd table.
 	t_redir			*redirs; //liste chainee des redirs pour 1 cmd.
 	t_command		*next; //next cmd.
 }	t_command;
+
+typedef struct	s_data
+{
+	t_lexer		*lexer;
+	t_env		*env;
+	t_command	*cmd_table;
+}	t_data;
 
 //analyse
 
