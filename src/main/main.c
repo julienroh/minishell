@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 15:16:00 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,21 @@ static void	waiting_function(t_env *env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_env	*env_struct;
+	t_data	data;
 
 	(void)argc;
 	(void)argv;
-	env_struct = parser_env(env);
-	if (!env_struct)
+	data.env = parser_env(env);
+	data.line = NULL;
+	data.lexer = NULL;
+	data.command = NULL;
+	data.last_status = 0;
+	if (!data.env)
 	{
-		print_error("Out of memory\n");
+		perror("malloc");
 		exit(1);
 	}
-	waiting_function(env_struct);
+	waiting_function(data);
 	return (0);
 }
 

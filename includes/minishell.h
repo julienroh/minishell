@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 14:37:23 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 15:14:57 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,18 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
-	char			**argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
-	t_redir			*redirs; //liste chainee des redirs pour 1 cmd.
-	t_command		*next; //next cmd.
+	char				**argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
+	t_redir				*redirs; //liste chainee des redirs pour 1 cmd.
+	struct s_command	*next; //next cmd.
 }	t_command;
 
 typedef struct	s_data
 {
+	char		*line;
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
+	int			last_status;
 }	t_data;
 
 //analyse
@@ -157,6 +159,5 @@ void	env_add_back(t_env **env, t_env *new);
 int		is_space(char c);
 int		size_env(t_env *env);
 int		invalid_export(char *id, char *value, char *arg);
-void	print_exit(char *line);
 
 #endif

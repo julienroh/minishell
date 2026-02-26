@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:32:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 15:15:01 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,4 @@ int	invalid_export(char *id, char *value, char *arg)
 	free(id);
 	free(value);
 	return (0);
-}
-
-void	print_exit(char *line)
-{
-	printf("exit\n");
-	free(line);
 }
