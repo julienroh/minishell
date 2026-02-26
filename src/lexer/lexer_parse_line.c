@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 11:44:02 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,18 @@ t_lexer	*lexer_parse_line(char *line)
 
 	i = 0;
 	lexer = malloc(sizeof(t_lexer));
+	if (!lexer)
+	{
+
+	}
 	number = number_of_tokens(line);
 	lexer->token_total = number;
 	lexer->token_i = -1;
 	lexer->tokens = malloc(sizeof(t_token) * number);
+	if (!lexer->tokens)
+	{
+		
+	}
 	if (!lexer->tokens)
 		return (NULL);
 	while (i < number)

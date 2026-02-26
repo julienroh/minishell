@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 16:15:19 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 12:14:07 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 /*Erase id int the env sutruct.
 */
 
+static void	free_cur(t_env *cur)
+{
+	free(cur->id);
+	free(cur->value);
+	free(cur);
+}
+
 void	exec_unset(char **args, t_env **env)
 {
 	int		i;
 	t_env	*cur;
 	t_env	*prev;
 
-	i = 0;
-	while (args[i + 1])
+	i = -1;
+	while (args[++i + 1])
 	{
 		cur = *env;
 		prev = NULL;
@@ -35,14 +42,11 @@ void	exec_unset(char **args, t_env **env)
 					prev->next = cur->next;
 				else
 					*env = cur->next;
-				free(cur->id);
-				free(cur->value);
-				free(cur);
+				free_cur(cur);
 				break ;
 			}
 			prev = cur;
 			cur = cur->next;
 		}
-		i++;
 	}
 }

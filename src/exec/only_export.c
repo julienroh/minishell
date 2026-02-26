@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/25 15:17:45 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	define_size(t_env *env)
 {
-	int	i;
-	t_env *current;
+	int		i;
+	t_env	*current;
 
 	i = 0;
 	current = env;
@@ -80,18 +80,22 @@ void	only_export(t_env *env)
 	int		size;
 	char	**char_env;
 	t_env	*current;
-	
+
 	i = 0;
 	current = env;
 	size = define_size(env);
 	char_env = malloc(sizeof(char *) * (size + 1));
 	if (!char_env)
-		return ;
+	{
+		
+	}
 	while (current != NULL)
 	{
 		char_env[i] = malloc(sizeof(char) * (ft_strlen(current->id) + 1));
 		if (!char_env[i])
-			return ;
+		{
+			
+		}
 		char_env[i] = current->id;
 		i++;
 		current = current->next;

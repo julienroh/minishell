@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/07 12:24:02 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ void	add_new_part(t_lexer *lexer, char *line, int i)
 
 	n = malloc(sizeof(t_part));
 	if (!n)
-		return ;
+	{
+
+	}
 	n->value = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (!n->value)
 	{
-		free(n);
-		return ;
+		
 	}
 	n->value[0] = '\0';
 	n->next = NULL;

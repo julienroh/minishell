@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/07 12:25:53 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_env	*new_without_equal(t_env *new, char *str)
 t_env	*new_with_equal(t_env *new, char *str, int i)
 {
 	if (check_identifier(ft_substr(str, 0, i)))
-		new->id = ft_substr(str, 0 , i);
+		new->id = ft_substr(str, 0, i);
 	if (!new->id)
 		return (free(new), NULL);
 	new->value = ft_strdup(str + i + 1);
@@ -59,7 +59,9 @@ t_env	*env_new(char *str)
 	i = 0;
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+	{
+		
+	}
 	if (!ft_strchr(str, '='))
 	{
 		new = new_without_equal(new, str);

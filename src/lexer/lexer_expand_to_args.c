@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/25 14:13:38 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 	current = env;
 	check = malloc(sizeof(char) * (ft_strlen(part->value + *i_dollar) + 1));
 	if (!check)
-		return (NULL);
+	{
+		
+	}
 	while (part->value[*i_dollar] && (ft_isalnum(part->value[*i_dollar])
 			|| part->value[*i_dollar] == '_'))
 		check[i++] = part->value[(*i_dollar)++];
@@ -39,10 +41,7 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 	{
 		if (ft_strncmp(current->id, check, ft_strlen(check)) == 0
 			&& ft_strlen(check) == ft_strlen(current->id))
-		{
-			free(check);
-			return (current->value);
-		}
+			return (free(check), current->value);
 		current = current->next;
 	}
 	free(check);
@@ -122,7 +121,9 @@ char	**lexer_expand_to_args(t_lexer *lexer, t_env *env)
 	i = 0;
 	args = malloc(sizeof(char *) * (lexer->token_total + 1));
 	if (!args)
-		return (NULL);
+	{
+		
+	}
 	while (i < lexer->token_total)
 	{
 		parts_expand(&lexer->tokens[i], env);
@@ -130,8 +131,6 @@ char	**lexer_expand_to_args(t_lexer *lexer, t_env *env)
 		i++;
 	}
 	args[i] = NULL;
-
-
 	i = 0;
 	while (args[i])
 		printf("args = : %s\n", args[i++]);

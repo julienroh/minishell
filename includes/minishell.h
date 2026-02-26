@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/25 15:00:48 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef struct s_env
 {
@@ -103,6 +103,7 @@ char	*get_identifier(char *arg);
 char	*get_value(char *arg);
 int		max(char *arg_a, char *arg_b);
 void	swap(char **arg_a, char **arg_b);
+void	free_char_env(char **char_env);
 
 //lexer_utils.c
 

@@ -6,11 +6,17 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/18 16:42:03 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_all(char **args, char *line)
+{
+	free(line);
+	free(args);
+}
 
 static int	check_exit(char *line)
 {
@@ -65,8 +71,7 @@ static void	waiting_function(t_env *env)
 			break ;
 		}
 		add_history(line);
-		free(args);
-		free(line);
+		free_all(args, line);
 	}
 }
 
@@ -85,7 +90,6 @@ int	main(int argc, char **argv, char **env)
 	waiting_function(env_struct);
 	return (0);
 }
-
 
 // fd = open(file, O_WRONLY | O_CREAT | O_APPEND | O_TRNC, 0644);
 

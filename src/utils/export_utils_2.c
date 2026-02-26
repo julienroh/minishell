@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/25 15:00:22 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ char	*get_identifier(char *arg)
 	len_id = find_equal - arg;
 	to_return = malloc(sizeof(char) * (len_id + 1));
 	if (!to_return)
-		return (NULL);
+	{
+		
+	}
 	ft_strlcpy(to_return, arg, len_id + 1);
 	return (to_return);
 }
@@ -80,4 +82,16 @@ void	swap(char **arg_a, char **arg_b)
 	tmp = *arg_a;
 	*arg_a = *arg_b;
 	*arg_b = tmp;
+}
+
+void	free_char_env(char **char_env)
+{
+	int	i;
+
+	i = 0;
+	while (char_env[i])
+	{
+		free(char_env[i]);
+		i++;
+	}
 }

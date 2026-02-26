@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:40:14 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/25 13:17:37 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 // 	tmp = env;
 // 	while (tmp)
 // 	{
-// 		printf("id = : %s && value = : %s && printable = : %d\n", tmp->id, tmp->value, tmp->printable);
+// 		printf("id = : %s && value = : %s && printable = : %d\n", 
+// 		tmp->id, tmp->value, tmp->printable);
 // 		tmp = tmp->next;
 // 	}
 // }
@@ -46,6 +47,5 @@ int	analyze_args(char **args, t_env *env)
 		exec_env(env);
 	else
 		exec_pot_export(args, env);
-	// print_env(env);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pot_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 16:21:05 by haoky             #+#    #+#             */
-/*   Updated: 2026/01/24 18:10:42 by haoky            ###   ########.fr       */
+/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	put_pot_export(char *arg, t_env *env)
 		new->printable = 0;
 		env_add_back(&env, new);
 	}
+	free(id);
 }
 
 int	exec_pot_export(char **args, t_env *env)
