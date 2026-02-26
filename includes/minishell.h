@@ -91,6 +91,7 @@ typedef struct s_command //une node de la liste chainee de la cmd table.
 typedef struct	s_data
 {
 	char		*line;
+	char		**args;
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
