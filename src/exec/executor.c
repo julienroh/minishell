@@ -12,40 +12,16 @@
 
 #include "minishell.h"
 
-void	free_fakecmdtable(t_data *data)
+// #### FINAL TODOLIST ####
+// ADD FILES OF DIR EXEC TO MAKEFILE
+
+
+// #### THINKLIST ####
+// mon ENV il arrive comment quand je dois lexec ? en liste chainee ou en argv ?
+
+static void	init_fake_cmdtable(t_data *data)
 {
-	int	i;
-	t_redir	*redir;
-	t_redir	*nxt_redir;
-
-	i = 0;
-	// free de argv
-	while(data->cmd_table->argv[i])
-	{
-		free(data->cmd_table->argv[i]);
-		data->cmd_table->argv[i++] = NULL;
-	}
-	free(data->cmd_table->argv);
-	data->cmd_table->argv = NULL;
-
-	//free des redirs
-	redir = data->cmd_table->redirs;
-	while (redir)
-	{
-		nxt_redir = redir->next;
-		free(redir->target);
-		redir->target = NULL;
-		free(redir);
-		redir = nxt_redir;
-	}
-	data->cmd_table->redirs = NULL;
-	//add free next node certainement.
-	free(data->cmd_table);
-	data->cmd_table = NULL;
-}
-
-void	fake_cmdtable(t_data *data)
-{
+	//INIT une fake cmd table pour pouvoir compiler.
 	data->cmd_table = malloc(sizeof(t_command));
 	data->cmd_table->argv = malloc(sizeof(char *) * 3);
 	data->cmd_table->argv[0] = ft_strdup("grep");
@@ -54,16 +30,72 @@ void	fake_cmdtable(t_data *data)
 	data->cmd_table->next = NULL;
 	data->cmd_table->redirs = NULL;
 }
+static void print_cmd_table(t_data *data)
+{
+	//Imprime les infos de la CMD table.
+	int	i;
+
+	i = 0;
+	if (!data || !data->cmd_table || !data->cmd_table->argv)
+	{
+		printf("%s\n", "no accessible cmd table or no cmds in it");
+		return;
+	}
+	while(data->cmd_table)
+	{
+		while (data->cmd_table->argv[i])
+		{
+			printf("%s\n", data->cmd_table->argv[i++]);
+		}
+		while (data->cmd_table->redirs)
+		{
+			printf("%d\n", data->cmd_table->redirs->type);
+			printf("%s\n", data->cmd_table->redirs->target);
+			data->cmd_table->redirs = data->cmd_table->redirs->next;
+		}
+		data->cmd_table = data->cmd_table->next;
+	}
+}
+
+int	count_cmd_numbers(t_data *data)
+{
+	//compte le nombre de cmd.s.
+	int	i;
+
+	i = 0;
+	if (!data || !data->cmd_table || !data->cmd_table->argv) 
+		return (0);
+	while(data->cmd_table)
+	{
+		i++;
+		data->cmd_table = data->cmd_table->next; 
+	}
+	return (i);
+}
+void	prepare_all_heredocs(t_data *data)
+{
+
+}
 
 void	executor_run(t_data *data)
 {
+	int	cmd_numbers;
 	
+	cmd_numbers = count_cmd_numbers(data);
+	printf("debug : cmd numbers : [%d]", cmd_numbers); //debug
+	prepare_all_heredocs(data);
+
 }
 
 int main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
+	(void)env;
 	t_data data;
-	fake_cmdtable(&data);
+	init_fake_cmdtable(&data);
+	print_cmd_table(&data);
 	executor_run(&data);
-
+	free_cmdtable(&data);
 }
+

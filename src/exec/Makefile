@@ -5,7 +5,7 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/01/28 12:14:16 by mfumeaux          #+#    #+#              #
+#    Created: 2026/02/19 11:15:32 by mfumeaux          #+#    #+#              #
 #    Updated: 2026/02/19 12:06:13 by mfumeaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -14,19 +14,18 @@
 ################################################################################
 ## ARGUMENTS
 
-NAME = fdf
-LIBFT_PATH = libft
-LIBFT = $(LIBFT_PATH)/libft.a
+NAME = executor
+LIBFT_PATH = ../../libft
+LIBFT = ../../libft/libft.a
 CC = gcc 
-CFLAGS = -Werror -Wall -Wextra -O3 -std=gnu11 -g3 -O0 -fno-omit-frame-pointer -fno-inline
-MLX = libmlx_Linux.a
-MLXFLAGS = -lXext -lX11 -lm
+CFLAGS = -Werror -Wall -Wextra -O3 -g3 -O0 -fno-omit-frame-pointer -fno-inline \
+	-I ../../includes -I ../../libft -I ../../libft/get_next_line
+
 
 ################################################################################
 ## SOURCES
 
-SRC =	fdf.c fdf_utils1.c parse_map.c parse_map_utils.c camera.c draw.c \
-		draw_utils.c draw_utils_2.c parse_map_error.c hook.c
+SRC =	executor.c executor_free_utils.c
 
 OBJS = $(SRC:.c=.o)
 #Src's folders which are terminated by .o .
@@ -39,7 +38,7 @@ BONUSOBJS = $(BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) $(MLXFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
