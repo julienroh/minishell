@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 09:29:22 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int	check_identifier(char *id)
 /*Put the value at the end of the actual string in then env struct.
 */
 
-static void	add_end_value(t_env *env, char *id, char *value, int printable)
+static void	add_end_value(t_data *data, char *id, char *value, int printable)
 {
 	t_env	*tmp;
 	char	*old;
 
-	tmp = env;
+	tmp = data->env;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->id, id, ft_strlen(id))
@@ -76,6 +76,8 @@ static void	add_end_value(t_env *env, char *id, char *value, int printable)
 		{
 			old = tmp->value;
 			tmp->value = ft_strjoin(tmp->value, value);
+			if (!tmp->value)
+				free_all(data);
 			if (printable == 1)
 				tmp->printable = 1;
 			free(old);
@@ -90,7 +92,7 @@ value register for VAR. If VAR doesn't exist, we have to create a new env for
 the id VAR that will have the value "oui".
 */
 
-void	plus_equal_condition(t_env *env, char *str, int printable)
+void	plus_equal_condition(t_data *data, char *str, int printable)
 {
 	int		i;
 	char	*id;
@@ -106,16 +108,16 @@ void	plus_equal_condition(t_env *env, char *str, int printable)
 		{
 			id = ft_substr(str, 0, i);
 			value = ft_strdup(str + i + 2);
+			if (!id || !value)
+				free_all(data);
 			break ;
 		}
 		i++;
 	}
 	new = malloc(sizeof(t_env));
 	if (!new)
-	{
-
-	}
-	if (!already_in_struct(env, id, value, 1))
+		free_all(data);
+	if (!already_in_struct(data->env, id, value, 1))
 	{
 		new->id = id;
 		new->value = value;
@@ -124,13 +126,13 @@ void	plus_equal_condition(t_env *env, char *str, int printable)
 		else
 			new->printable = 0;
 		new->next = NULL;
-		env_add_back(&env, new);
+		env_add_back(&data->env, new);
 	}
 	else
 	{
 		if (printable == 1)
-			add_end_value(env, id, value, 1);
+			add_end_value(data, id, value, 1);
 		else
-			add_end_value(env, id, value, 0);
+			add_end_value(data, id, value, 0);
 	}
 }

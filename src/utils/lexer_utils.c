@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 11:27:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	change_state_dquote(t_state *state)
 {
+	if (state->s_quote == 1)
+		return ;
 	if (state->d_quote == 0)
 		state->d_quote = 1;
 	else
@@ -22,6 +24,8 @@ void	change_state_dquote(t_state *state)
 
 void	change_state_squote(t_state *state)
 {
+	if (state->d_quote == 1)
+		return ;
 	if (state->s_quote == 1)
 		state->s_quote = 0;
 	else
@@ -40,32 +44,28 @@ t_part	*last_part(t_token *token)
 	return (to_return);
 }
 
-void	add_new_part(t_lexer *lexer, char *line, int i)
+void	add_new_part(t_data *data, char *line, int i)
 {
 	t_part	*n;
 	t_part	*p;
 
 	n = malloc(sizeof(t_part));
 	if (!n)
-	{
-
-	}
+		free_all(data);
 	n->value = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (!n->value)
-	{
-		
-	}
+		free_all(data);
 	n->value[0] = '\0';
 	n->next = NULL;
 	if (line[i] == '\'')
 		n->expand = 0;
 	else
 		n->expand = 1;
-	if (lexer->tokens[lexer->token_i].parts == NULL)
-		lexer->tokens[lexer->token_i].parts = n;
+	if (data->lexer->tokens[data->lexer->token_i].parts == NULL)
+	data->lexer->tokens[data->lexer->token_i].parts = n;
 	else
 	{
-		p = last_part(&lexer->tokens[lexer->token_i]);
+		p = last_part(&data->lexer->tokens[data->lexer->token_i]);
 		p->next = n;
 	}
 }

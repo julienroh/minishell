@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 09:44:21 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ id in our env struct. If the answer is yes, we change the value after the "$" by
 the value in the struct.
 */
 
-static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
+static char	*check_expand(t_data *data, t_part *part, int *i_dollar)
 {
 	int		i;
 	char	*check;
@@ -27,12 +27,10 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 
 	i = 0;
 	(*i_dollar)++;
-	current = env;
+	current = data->env;
 	check = malloc(sizeof(char) * (ft_strlen(part->value + *i_dollar) + 1));
 	if (!check)
-	{
-		
-	}
+		free_all(data);
 	while (part->value[*i_dollar] && (ft_isalnum(part->value[*i_dollar])
 			|| part->value[*i_dollar] == '_'))
 		check[i++] = part->value[(*i_dollar)++];
@@ -48,7 +46,7 @@ static char	*check_expand(t_env *env, t_part *part, int *i_dollar)
 	return (NULL);
 }
 
-static void	expand_part(t_part *part, t_env *env)
+static void	expand_part(t_data *data, t_part *part)
 {
 	int		i;
 	char	*env_value;
@@ -59,7 +57,7 @@ static void	expand_part(t_part *part, t_env *env)
 	{
 		if (part->value[i] == '$')
 		{
-			env_value = check_expand(env, part, &i);
+			env_value = check_expand(data, part, &i);
 			if (env_value != NULL)
 			{
 				old_value = part->value;
@@ -75,16 +73,15 @@ static void	expand_part(t_part *part, t_env *env)
 /*Expand the token part if needed.
 */
 
-static void	parts_expand(t_token *token, t_env *env)
+static void	parts_expand(t_data *data, t_token *token)
 {
 	t_part	*p;
 
 	p = token->parts;
 	while (p)
 	{
-		printf("p->expand = : %d\n", p->expand);
 		if (p->expand == 1)
-			expand_part(p, env);
+			expand_part(data, p);
 		p = p->next;
 	}
 }
@@ -92,17 +89,21 @@ static void	parts_expand(t_token *token, t_env *env)
 /*Make ft_strjoin on all parts of the token to have only one string.
 */
 
-static char	*join_parts(t_token token)
+static char	*join_parts(t_data *data, t_token token)
 {
 	char	*to_return;
 	char	*tmp;
 	t_part	*p;
 
 	to_return = ft_strdup("");
+	if (!to_return)
+		free_all(data);
 	p = token.parts;
 	while (p)
 	{
 		tmp = ft_strjoin(to_return, p->value);
+		if (!tmp)
+			free_all(data);
 		free(to_return);
 		to_return = tmp;
 		p = p->next;
@@ -113,21 +114,19 @@ static char	*join_parts(t_token token)
 /*Fontion that converts the struct lexer into a (char *) array. We detect if a
 value needs to be expand by searching for the char "$"*/
 
-char	**lexer_expand_to_args(t_lexer *lexer, t_env *env)
+char	**lexer_expand_to_args(t_data *data)
 {
 	char	**args;
 	int		i;
 
 	i = 0;
-	args = malloc(sizeof(char *) * (lexer->token_total + 1));
+	args = malloc(sizeof(char *) * (data->lexer->token_total + 1));
 	if (!args)
+		free_all(data);
+	while (i < data->lexer->token_total)
 	{
-		
-	}
-	while (i < lexer->token_total)
-	{
-		parts_expand(&lexer->tokens[i], env);
-		args[i] = join_parts(lexer->tokens[i]);
+		parts_expand(data, &data->lexer->tokens[i]);
+		args[i] = join_parts(data, data->lexer->tokens[i]);
 		i++;
 	}
 	args[i] = NULL;

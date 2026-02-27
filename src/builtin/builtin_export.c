@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_export.c                                      :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 09:53:31 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,48 @@ static void	check_if_exist(t_env *env, char *arg)
 	}
 }
 
-static void	add_in_env(char **args, t_env *env, int i)
+static void	add_in_env(t_data *data, int i)
 {
 	t_env	*new;
 
-	new = env_new(args[i + 1]);
+	new = env_new(data, data->args[i + 1]);
 	new->printable = 1;
-	env_add_back(&env, new);
+	env_add_back(&data->env, new);
 }
 
 /*Check if the id already exist, if that's the case, we only replace the old
 value by the new one. If not, we create a new space for the new id and value.
 */
 
-void	exec_export(char **args, t_env *env)
+void	exec_export(t_data *data)
 {
 	int		i;
 	char	*id;
 	char	*value;
 
 	i = 0;
-	if (!args[1])
-		only_export(env);
-	while (args[i + 1])
+	if (!data->args[1])
+		only_export(data);
+	while (data->args[i + 1])
 	{
-		if (ft_strchr(args[i + 1], '=') == NULL)
+		if (ft_strchr(data->args[i + 1], '=') == NULL)
 		{
-			check_if_exist(env, args[i + 1]);
+			check_if_exist(data->env, data->args[i + 1]);
 			i++;
 			continue ;
 		}
-		id = get_identifier(args[i + 1]);
-		value = get_value(args[i + 1]);
+		id = get_identifier(data, data->args[i + 1]);
+		if (!id)
+			free_all(data);
+		value = get_value(data, data->args[i + 1]);
 		if (!check_identifier(id))
-			invalid_export(id, value, args[i + 1]);
+			invalid_export(id, value, data->args[i + 1]);
 		else if (check_identifier(id) == 2)
-			plus_equal_condition(env, args[i + 1], 1);
-		else if (!already_in_struct(env, id, value, 0))
-			add_in_env(args, env, i);
+			plus_equal_condition(data, data->args[i + 1], 1);
+		else if (!already_in_struct(data->env, id, value, 0))
+			add_in_env(data, i);
 		i++;
 	}
-	free(id);
 }
 
 //SI ON FAIT VAR=42 et ensuite export VAR, ca doit marcher

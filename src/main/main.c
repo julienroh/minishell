@@ -6,23 +6,17 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 15:16:00 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 11:29:29 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_all(char **args, char *line)
-{
-	free(line);
-	free(args);
-}
-
 static int	check_exit(char *line)
 {
 	if (!line)
 	{
-		print_exit(line);
+		printf("exit\n");
 		return (1);
 	}
 	return (0);
@@ -46,32 +40,35 @@ static int	is_blank_line(char *line)
 and parse the line to split it in args that will be analyse
 to execute commands*/
 
-static void	waiting_function(t_env *env)
+static void	waiting_function(t_data *data)
 {
-	char	*line;
-	char	**args;
-	t_lexer	*lexer;
-
 	while (1)
 	{
-		line = readline("minishell$ ");
-		if (check_exit(line))
+		data->line = readline("minishell$ ");
+		if (check_exit(data->line))
 			break ;
-		if (is_blank_line(line))
+		if (is_blank_line(data->line))
 		{
-			free(line);
+			free(data->line);
 			continue ;
 		}
-		lexer = lexer_parse_line(line);
-		args = lexer_expand_to_args(lexer, env);
-		//initialize_command(args);
-		if (!analyze_args(args, env))
+		data->lexer = lexer_parse_line(data);
+		if (!data->lexer)
 		{
-			print_exit(line);
+			add_history(data->line);
+			free(data->line);
+			continue ;
+		}
+		data->args = lexer_expand_to_args(data);
+		//data->cmd_table = initialize_command(args);
+		if (!analyze_args(data))
+		{
+			printf("exit\n");
+			free_all(data);
 			break ;
 		}
-		add_history(line);
-		free_all(args, line);
+		add_history(data->line);
+		free_data_except_env(data);
 	}
 }
 
@@ -81,17 +78,19 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	data.env = parser_env(env);
+	data.env = parser_env(&data, env);
 	data.line = NULL;
 	data.lexer = NULL;
-	data.command = NULL;
+	data.cmd_table = NULL;
+	data.args = NULL;
 	data.last_status = 0;
 	if (!data.env)
 	{
 		perror("malloc");
 		exit(1);
 	}
-	waiting_function(data);
+	waiting_function(&data);
+	free_env(data.env);
 	return (0);
 }
 

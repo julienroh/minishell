@@ -6,13 +6,13 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 09:54:21 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_identifier(char *arg)
+char	*get_identifier(t_data *data, char *arg)
 {
 	char	*find_equal;
 	char	*to_return;
@@ -32,21 +32,23 @@ char	*get_identifier(char *arg)
 	len_id = find_equal - arg;
 	to_return = malloc(sizeof(char) * (len_id + 1));
 	if (!to_return)
-	{
-		
-	}
+		free_all(data);
 	ft_strlcpy(to_return, arg, len_id + 1);
 	return (to_return);
 }
 
-char	*get_value(char *arg)
+char	*get_value(t_data *data, char *arg)
 {
 	char	*find_equal;
+	char	*to_return;
 
 	find_equal = ft_strchr(arg, '=');
 	if (!find_equal)
 		return (NULL);
-	return (ft_strdup(find_equal + 1));
+	to_return = ft_strdup(find_equal + 1);
+	if (!to_return)
+		free_all(data);
+	return (to_return);
 }
 
 int	max(char *arg_a, char *arg_b)
@@ -94,4 +96,5 @@ void	free_char_env(char **char_env)
 		free(char_env[i]);
 		i++;
 	}
+	free(char_env);
 }

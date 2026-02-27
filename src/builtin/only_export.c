@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 10:00:04 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	sort_char_env(char **args)
 	}
 }
 
-void	only_export(t_env *env)
+void	only_export(t_data *data)
 {
 	int		i;
 	int		size;
@@ -82,26 +82,27 @@ void	only_export(t_env *env)
 	t_env	*current;
 
 	i = 0;
-	current = env;
-	size = define_size(env);
+	current = data->env;
+	size = define_size(data->env);
 	char_env = malloc(sizeof(char *) * (size + 1));
 	if (!char_env)
-	{
-		
-	}
+		free_all(data);
 	while (current != NULL)
 	{
 		char_env[i] = malloc(sizeof(char) * (ft_strlen(current->id) + 1));
 		if (!char_env[i])
+			free_all(data);
+		char_env[i] = ft_strdup(current->id);
+		if (!char_env[i])
 		{
-			
+			free_char_env(char_env);
+			free_all(data);
 		}
-		char_env[i] = current->id;
 		i++;
 		current = current->next;
 	}
 	char_env[i] = NULL;
 	sort_char_env(char_env);
-	print_export(char_env, env);
+	print_export(char_env, data->env);
 	free_char_env(char_env);
 }

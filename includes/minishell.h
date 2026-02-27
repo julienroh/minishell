@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 15:14:57 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 16:37:07 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef enum e_toktype //le type du token
 {
 	WORD, //grep, ls, -l, "lorem $VAR", 'lorem'
 	PIPE, // |
-	R_IN, // <
-	R_OUT, // >
-	R_APPEND, // >>
-	R_HEREDOC, // <<
+	T_IN, // <
+	T_OUT, // >
+	T_APPEND, // >>
+	T_HEREDOC, // <<
 }	t_toktype;
 
 typedef struct s_token
@@ -91,6 +91,7 @@ typedef struct s_command //une node de la liste chainee de la cmd table.
 typedef struct	s_data
 {
 	char		*line;
+	char		**args;
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
@@ -99,31 +100,38 @@ typedef struct	s_data
 
 //analyse
 
-int		analyze_args(char **args, t_env *env);
+int		analyze_args(t_data *data);
 
 //errors
 
 void	print_error(char *msg);
 void	print_error_identifier(char *str);
 
-//exec
+//builtin
 
-void	exec_echo(char **args);
-void	exec_export(char **args, t_env*env);
-void	exec_unset(char **args, t_env **env);
+int		exec_cd(t_data *data);
+void	exec_echo(t_data *data);
 void	exec_env(t_env *env);
-int		exec_cd(char **args, t_env *env);
+void	exec_export(t_data *data);
+int		exec_pot_export(t_data *data);
 int		exec_pwd(t_env *env);
-int		exec_pot_export(char **args, t_env *env);
+void	exec_unset(char **args, t_env **env);
+void	only_export(t_data *data);
+
+//free
+
+void	free_env(t_env *env);
+void	free_data_except_env(t_data *data);
+void	free_all(t_data *data);
 
 //lexer
 
-t_lexer	*lexer_parse_line(char *line);
-char	**lexer_expand_to_args(t_lexer *lexer, t_env *env);
+t_lexer	*lexer_parse_line(t_data *data);
+char	**lexer_expand_to_args(t_data *data);
 
 //parser_env
 
-t_env	*parser_env(char **env);
+t_env	*parser_env(t_data *data, char **env);
 
 //UTILS
 
@@ -131,33 +139,38 @@ t_env	*parser_env(char **env);
 
 int		already_in_struct(t_env *env, char *id, char *value, int plus);
 int		check_identifier(char *id);
-void	plus_equal_condition(t_env *env, char *id, int printable);
+void	plus_equal_condition(t_data *data, char *id, int printable);
 
 //export_utils_2.c
 
-char	*get_identifier(char *arg);
-char	*get_value(char *arg);
+char	*get_identifier(t_data *data, char *arg);
+char	*get_value(t_data *data, char *arg);
+int		max(char *arg_a, char *arg_b);
+void	swap(char **arg_a, char **arg_b);
+void	free_char_env(char **char_env);
 
 //lexer_utils.c
 
 void	change_state_dquote(t_state *state);
 void	change_state_squote(t_state *state);
 t_part	*last_part(t_token *token);
-void	add_new_part(t_lexer *lexer, char *line, int i);
+void	add_new_part(t_data *data, char *line, int i);
 int		state_change(t_state *state, char c);
+
+//lexer_utils_2.c
+
+int		ft_is_delimiter(char c);
 
 //parser_utils.c
 
 int		free_new(t_env *new, char *str);
-t_env	*new_without_equal(t_env *new, char *str);
-t_env	*new_with_equal(t_env *new, char *str, int i);
-t_env	*env_new(char *str);
+t_env	*env_new(t_data *data, char *str);
 void	env_add_back(t_env **env, t_env *new);
 
 //utils.c
 
 int		is_space(char c);
 int		size_env(t_env *env);
-int		invalid_export(char *id, char *value, char *arg);
+void	invalid_export(char *id, char *value, char *arg);
 
 #endif
