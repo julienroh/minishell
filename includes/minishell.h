@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/26 15:14:57 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 11:44:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,10 @@ void	print_error(char *msg);
 void	print_error_identifier(char *str);
 
 //exec
+
+void	executor_run(t_data *data);
+
+//builtins
 
 void	exec_echo(char **args);
 void	exec_export(char **args, t_env*env);
