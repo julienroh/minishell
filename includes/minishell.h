@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "stdbool.h"
 
 typedef struct s_env
 {
@@ -44,10 +45,10 @@ typedef enum e_toktype //le type du token
 {
 	WORD, //grep, ls, -l, "lorem $VAR", 'lorem'
 	PIPE, // |
-	R_IN, // <
-	R_OUT, // >
-	R_APPEND, // >>
-	R_HEREDOC, // <<
+	T_IN, // <
+	T_OUT, // >
+	T_APPEND, // >>
+	T_HEREDOC, // <<
 }	t_toktype;
 
 typedef struct s_token
@@ -109,6 +110,7 @@ void	print_error_identifier(char *str);
 
 //exec
 
+void	free_cmdtable(t_data *data);
 void	executor_run(t_data *data);
 
 //builtins
