@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/27 16:37:07 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/01 12:28:45 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ typedef struct s_lexer
 	int		token_i;
 }				t_lexer;
 
-// pour la cmd table : 
+// pour la cmd table :
 
-typedef enum e_redir_type 
+typedef enum e_redir_type
 {
 	R_IN, // <
 	R_OUT, // >
@@ -159,7 +159,8 @@ int		state_change(t_state *state, char c);
 
 //lexer_utils_2.c
 
-int		ft_is_delimiter(char c);
+int		is_operator(char c);
+void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i);
 
 //parser_utils.c
 

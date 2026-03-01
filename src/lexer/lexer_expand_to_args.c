@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand_to_args.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 09:44:21 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/01 12:41:15 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,12 @@ char	**lexer_expand_to_args(t_data *data)
 		free_all(data);
 	while (i < data->lexer->token_total)
 	{
+		if (data->lexer->tokens[i].parts == NULL)
+		{
+			args[i] = data->lexer->tokens[i].value;
+			i++;
+			continue ;
+		}
 		parts_expand(data, &data->lexer->tokens[i]);
 		args[i] = join_parts(data, data->lexer->tokens[i]);
 		i++;
