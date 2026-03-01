@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/27 11:44:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/01 19:27:28 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,13 @@ typedef struct	s_data
 	int			last_status;
 }	t_data;
 
+typedef enum e_assign_type
+{
+	NONE,
+	SET,
+	APPEND,
+}	t_assign_type;
+
 //analyse
 
 int		analyze_args(char **args, t_env *env);
@@ -109,11 +116,15 @@ void	print_error(char *msg);
 void	print_error_identifier(char *str);
 
 //exec
-
-void	free_cmdtable(t_data *data);
 void	executor_run(t_data *data);
+void	free_cmdtable(t_data *data);
 
-//builtins
+	//assignments
+bool	is_only_assignment_no_cmd(char **argv, int assign_count);
+int		count_prefix_assignments(char **argv);
+t_assign_type get_assignment_type(char *word);
+
+//builtin
 
 void	exec_echo(char **args);
 void	exec_export(char **args, t_env*env);

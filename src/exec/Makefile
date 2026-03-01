@@ -6,7 +6,7 @@
 #    By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/19 11:15:32 by mfumeaux          #+#    #+#              #
-#    Updated: 2026/02/19 12:06:13 by mfumeaux         ###   ########.fr        #
+#    Updated: 2026/03/01 13:58:28 by mfumeaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ CFLAGS = -Werror -Wall -Wextra -O3 -g3 -O0 -fno-omit-frame-pointer -fno-inline \
 ################################################################################
 ## SOURCES
 
-SRC =	executor.c executor_free_utils.c
+SRC =	executor.c executor_free_utils.c executor_assignment.c \
+		
 
 OBJS = $(SRC:.c=.o)
 #Src's folders which are terminated by .o .

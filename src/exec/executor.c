@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/02/27 12:31:56 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/01 17:06:54 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static void	init_fake_cmdtable(t_data *data)
 {
 	//INIT une fake cmd table pour pouvoir compiler.
 	data->cmd_table = malloc(sizeof(t_command));
-	data->cmd_table->argv = malloc(sizeof(char *) * 3);
-	data->cmd_table->argv[0] = ft_strdup("grep");
-	data->cmd_table->argv[1] = ft_strdup("hi");
-	data->cmd_table->argv[2] = NULL;
+	data->cmd_table->argv = ft_split("VAR=42 VAR+=4 _VAR=4", ' ');
 	data->cmd_table->next = NULL;
 	data->cmd_table->redirs = NULL;
 }
@@ -34,56 +31,87 @@ static void print_cmd_table(t_data *data)
 {
 	//Imprime les infos de la CMD table.
 	int	i;
-
+	t_command	*cur;
+	t_redir	*redirs;
+	
 	i = 0;
+	cur = data->cmd_table;
+	redirs = data->cmd_table->redirs;
 	if (!data || !data->cmd_table || !data->cmd_table->argv)
 	{
 		printf("%s\n", "no accessible cmd table or no cmds in it");
 		return;
 	}
-	while(data->cmd_table)
+	while(cur)
 	{
-		while (data->cmd_table->argv[i])
+		while (cur->argv[i])
 		{
 			printf("%s\n", data->cmd_table->argv[i++]);
 		}
-		while (data->cmd_table->redirs)
+		while (redirs)
 		{
-			printf("%d\n", data->cmd_table->redirs->type);
-			printf("%s\n", data->cmd_table->redirs->target);
-			data->cmd_table->redirs = data->cmd_table->redirs->next;
+			printf("%d\n", redirs->type);
+			printf("%s\n", redirs->target);
+			redirs = redirs->next;
 		}
-		data->cmd_table = data->cmd_table->next;
+		cur = cur->next;
 	}
 }
 
 int	count_cmd_numbers(t_data *data)
 {
 	//compte le nombre de cmd.s.
-	int	i;
+	int			i;
+	t_command	*cur;
 
 	i = 0;
+	cur = data->cmd_table;
 	if (!data || !data->cmd_table || !data->cmd_table->argv) 
 		return (0);
-	while(data->cmd_table)
+	while (cur)
 	{
 		i++;
-		data->cmd_table = data->cmd_table->next; 
+		cur = cur->next; 
 	}
 	return (i);
 }
-void	prepare_all_heredocs(t_data *data)
-{
+// void	prepare_all_heredocs(t_data *data)
+// {
+// 	return;
+// }
 
+void	exec_single_command(t_data *data)
+{
+	t_command *cmd;
+	int	assign_count;
+	char **exec_argv;
+	
+	cmd = data->cmd_table;
+	if (!cmd || !cmd->argv)
+		return ; 
+	assign_count = count_prefix_assignments(cmd->argv);
+	exec_argv = &cmd->argv[assign_count];
+	
 }
+
+// void	exec_pipeline(t_data *data)
+// {
+// 	//detect assign dans chaque pipeline
+// }
 
 void	executor_run(t_data *data)
 {
 	int	cmd_numbers;
 	
 	cmd_numbers = count_cmd_numbers(data);
-	printf("debug : cmd numbers : [%d]", cmd_numbers); //debug
-	prepare_all_heredocs(data);
+	printf("debug : cmd numbers : [%d]\n", cmd_numbers); //debug
+	//prepare_all_heredocs(data);
+	
+	if (cmd_numbers == 1)
+		exec_single_command(data);
+	// else
+	// 	exec_pipeline(data);
+	//free_cmdtable(&data);, autre chose a free ?
 
 }
 

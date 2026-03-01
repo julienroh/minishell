@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 15:41:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/02/27 15:42:13 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/01 13:58:05 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	close_all(int *pipefd, int fd_in, int fd_out)
 	close(fd_in);
 	close(fd_out);
 }
-
 
 char	*ft_find_path(char *cmd, char **env)
 {
