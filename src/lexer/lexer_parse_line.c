@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 10:46:25 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 11:18:09 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,20 @@ static void	print_tokens(t_lexer *lexer, int number)
 	i = 0;
 	while (i < number)
 	{
-		int j = 0;
-		current = lexer->tokens[i].parts;
-		while (current != NULL)
+		printf("TOKEN %d\n", i);
+		if (lexer->tokens[i].type == WORD)
 		{
-			printf("value = %s\n", lexer->tokens[i].value);
-			printf("token %d part %d = %s\n", i, j, current->value);
-			current = current->next;
-			j++;
+			int	j = 0;
+			current = lexer->tokens[i].parts;
+			while (current != NULL)
+			{
+				printf("token %d part %d = %s\n", i, j, current->value);
+				current = current->next;
+				j++;
+			}
 		}
+		else
+			printf("operator = %s\n", lexer->tokens[i].value);
 		i++;
 	}
 }
@@ -37,25 +42,35 @@ static void	print_tokens(t_lexer *lexer, int number)
 
 /*Add the char at the end of the last part of the last token*/
 
-static void	add_char(t_data *data, char c)
+static void	add_char(t_data *data, t_token *token, char c)
 {
-	t_part	*p;
-	char	*new;
-	char	tmp[2];
+	t_part	*part;
+	char	*tmp;
+	size_t	len;
 
-	p = last_part(&data->lexer->tokens[data->lexer->token_i]);
-	if (!p)
+	if (!token->parts)
+		add_new_part(data, token, 1);
+	part = last_part(token);
+	if (!part->value)
 	{
-		add_new_part(data, "", 0);
-		p = last_part(&data->lexer->tokens[data->lexer->token_i]);
+		part->value = malloc(2);
+		if (!part->value)
+			free_all(data);
+		part->value[0] = c;
+		part->value[1] = '\0';
 	}
-	tmp[0] = c;
-	tmp[1] = '\0';
-	new = ft_strjoin(p->value, tmp);
-	if (!new)
-		free_all(data);
-	free(p->value);
-	p->value = new;
+	else
+	{
+		len = ft_strlen(part->value);
+		tmp = malloc(len + 2);
+		if (!tmp)
+			free_all(data);
+		ft_strlcpy(tmp, part->value, len);
+		tmp[len] = c;
+		tmp[len + 1] = '\0';
+		free(part->value);
+		part->value = tmp;
+	}
 }
 
 static int	number_of_tokens(char *line)
@@ -102,6 +117,7 @@ static void	fill_tokens(t_data *data, char *line)
 {
 	int		i;
 	t_state	state;
+	t_token *tok;
 
 	i = 0;
 	state.s_quote = 0;
@@ -122,15 +138,16 @@ static void	fill_tokens(t_data *data, char *line)
 				i++;
 				continue ;
 			}
+			tok = &data->lexer->tokens[data->lexer->token_i];
 			/* opérateur */
-			if (is_operator(line[i]))
+			if (!state.s_quote && !state.d_quote && is_operator(line[i]))
 			{
 				set_operator_token(data, line, data->lexer, &i);
 				continue ;
 			}
 			/* WORD */
-			data->lexer->tokens[data->lexer->token_i].type = WORD;
-			data->lexer->tokens[data->lexer->token_i].value = NULL;
+			tok->type = WORD;
+			tok->value = NULL;
 			while (line[i]
 				&& (!is_space(line[i]) || state.s_quote || state.d_quote)
 				&& !is_operator(line[i]))
@@ -138,22 +155,20 @@ static void	fill_tokens(t_data *data, char *line)
 				if (line[i] == '"' && !state.s_quote)
 				{
 					change_state_dquote(&state);
-					if (state.d_quote)
-						add_new_part(data, line, i + 1);
+					add_new_part(data, tok, 1);
 					i++;
 					continue ;
 				}
 				else if (line[i] == '\'' && !state.d_quote)
 				{
 					change_state_squote(&state);
-					if (state.d_quote)
-						add_new_part(data, line, i + 1);
+					add_new_part(data, tok, 0);
 					i++;
 					continue ;
 				}
-				if (!last_part(&data->lexer->tokens[data->lexer->token_i]))
-					add_new_part(data, line, i);
-				add_char(data, line[i]);
+				if (!tok->parts)
+					add_new_part(data, tok, 1);
+				add_char(data, tok, line[i]);
 				i++;
 			}
 			data->lexer->token_i++;

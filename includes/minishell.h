@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/01 12:28:45 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/02 11:14:41 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	free_char_env(char **char_env);
 void	change_state_dquote(t_state *state);
 void	change_state_squote(t_state *state);
 t_part	*last_part(t_token *token);
-void	add_new_part(t_data *data, char *line, int i);
+void	add_new_part(t_data *data, t_token *token, int expand);
 int		state_change(t_state *state, char c);
 
 //lexer_utils_2.c
