@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 11:15:14 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 13:49:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,37 +64,33 @@ void	add_new_part(t_data *data, t_token *token, int expand)
 	}
 }
 
-/*Change the state depending of the actual char and the actual state.
-For example if we are in the normal state and we see a quote, then we switch
-in a quote state. But if we are already in a double quote state, we only switch
-the state if we see another double quote (we dont switch if we see
-a simple quote).
-*/
+/*Add the char at the end of the last part of the last token*/
 
-int	state_change(t_state *state, char c)
+void	add_char(t_data *data, t_token *token, char c)
 {
-	if (c == '"' && state->d_quote == 1)
+	t_part	*part;
+	char	*tmp;
+	size_t	len;
+
+	part = last_part(token);
+	if (!part->value)
 	{
-		change_state_dquote(state);
-		return (1);
+		part->value = malloc(2);
+		if (!part->value)
+			free_all(data);
+		part->value[0] = c;
+		part->value[1] = '\0';
 	}
-	else if (c == '\'' && state->s_quote == 1)
+	else
 	{
-		change_state_squote(state);
-		return (1);
+		len = ft_strlen(part->value);
+		tmp = malloc(len + 2);
+		if (!tmp)
+			free_all(data);
+		ft_memcpy(tmp, part->value, len);
+		tmp[len] = c;
+		tmp[len + 1] = '\0';
+		free(part->value);
+		part->value = tmp;
 	}
-	else if (!state->s_quote && !state->d_quote)
-	{
-		if (c == '"')
-		{
-			change_state_dquote(state);
-			return (1);
-		}
-		if (c == '\'')
-		{
-			change_state_squote(state);
-			return (1);
-		}
-	}
-	return (0);
 }

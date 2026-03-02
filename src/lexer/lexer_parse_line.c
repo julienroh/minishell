@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 11:42:58 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/02 14:43:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,9 @@ static void	print_tokens(t_lexer *lexer, int number)
 				j++;
 			}
 		}
-		else
-			printf("operator = %s\n", lexer->tokens[i].value);
+		printf("operator = %s\n", lexer->tokens[i].value);
+		printf("toktype = %d\n", lexer->tokens[i].type);
 		i++;
-	}
-}
-
-
-
-/*Add the char at the end of the last part of the last token*/
-
-static void	add_char(t_data *data, t_token *token, char c)
-{
-	t_part	*part;
-	char	*tmp;
-	size_t	len;
-
-	if (!token->parts)
-		add_new_part(data, token, 1);
-	part = last_part(token);
-	if (!part->value)
-	{
-		part->value = malloc(2);
-		if (!part->value)
-			free_all(data);
-		part->value[0] = c;
-		part->value[1] = '\0';
-	}
-	else
-	{
-		len = ft_strlen(part->value);
-		tmp = malloc(len + 2);
-		if (!tmp)
-			free_all(data);
-		ft_memcpy(tmp, part->value, len);
-		tmp[len] = c;
-		tmp[len + 1] = '\0';
-		free(part->value);
-		part->value = tmp;
 	}
 }
 
@@ -86,18 +51,7 @@ static int	number_of_tokens(char *line)
 	while (line[i])
 	{
 		if (!state.s_quote && !state.d_quote)
-		{
-			if ((i == 0 || is_space(line[i - 1]) || is_operator(line[i - 1]))
-				&& !is_space(line[i]) && !is_operator(line[i]))
-				count++;
-			else if (is_operator(line[i]))
-			{
-				count++;
-				if ((line[i] == '<' && line[i + 1] == '<')
-					|| (line[i] == '>' && line[i + 1] == '>'))
-					i++;
-			}
-		}
+			count = count_operator_case(line, &i, count);
 		if (line[i] == '"')
 			change_state_dquote(&state);
 		else if (line[i] == '\'')
@@ -109,74 +63,76 @@ static int	number_of_tokens(char *line)
 	return (count);
 }
 
-/*Each token contains parts which are determined by spaces, but only if we are
+static int	handle_quotes(t_state *state, char c, int *i)
+{
+	if (c == '"' && !state->s_quote)
+	{
+		change_state_dquote(state);
+		(*i)++;
+		return (1);
+	}
+	if (c == '\'' && !state->d_quote)
+	{
+		change_state_squote(state);
+		(*i)++;
+		return (0);
+	}
+	return (0);
+}
+
+static int	handle_word(t_data *data, t_state state, char *line, int i)
+{
+	int		new_part_needed;
+	int		expand;
+	t_token	*tok;
+
+	new_part_needed = 1;
+	tok = &data->lexer->tokens[data->lexer->token_i];
+	tok->type = WORD;
+	tok->value = NULL;
+	while (line[i] && (!is_space(line[i]) || state.s_quote || state.d_quote)
+		&& (!is_operator(line[i]) || state.d_quote || state.s_quote))
+	{
+		expand = 1;
+		if ((line[i] == '"' && !state.s_quote) || (line[i] == '\'' && !state.d_quote))
+		{
+			expand = handle_quotes(&state, line[i], &i);
+			new_part_needed = 1;
+			continue ;
+		}
+		new_part_needed = test_if_new_part(data, tok, expand, new_part_needed);
+		add_char(data, tok, line[i]);
+		i++;
+	}
+	return (i);
+}
+
+/*Each token contains parts which are determined by spaces or operators, but only if we are
 in normal state (not in double quote or simple quote).
 */
 
 static void	fill_tokens(t_data *data, char *line)
 {
-	int i = 0;
-	t_state state = {0, 0};
-	t_token *tok;
-	int	expand;
-	int	new_part_needed;
+	int 	i;
+	t_state state;
 
+	i = 0;
+	state.d_quote = 0;
+	state.s_quote = 0;
 	data->lexer->token_i = 0;
-
 	while (line[i])
 	{
-		// skip espaces hors quotes
 		if (!state.s_quote && !state.d_quote && is_space(line[i]))
 		{
 			i++;
 			continue;
 		}
-
-
-		// opérateurs
 		if (!state.s_quote && !state.d_quote && is_operator(line[i]))
 		{
 			set_operator_token(data, line, data->lexer, &i);
 			continue;
 		}
-
-		// WORD : on crée une part normale **uniquement au début**
-		tok = &data->lexer->tokens[data->lexer->token_i];
-		tok->type = WORD;
-		new_part_needed = 1;
-		while (line[i] && (!is_space(line[i]) || state.s_quote || state.d_quote) && !is_operator(line[i]))
-		{
-			expand = 1;
-			// entrée dans double quote
-			if (line[i] == '"' && !state.s_quote)
-			{
-				change_state_dquote(&state);
-				new_part_needed = 1;
-				i++;
-				continue;
-			}
-
-			// entrée dans simple quote
-			if (line[i] == '\'' && !state.d_quote)
-			{
-				change_state_squote(&state);
-				expand = 0;
-				new_part_needed = 1;
-				i++;
-				continue;
-			}
-			t_part	*last = last_part(tok);
-			if (!last || new_part_needed)
-			{
-				add_new_part(data, tok, expand);
-				last = last_part(tok);
-				new_part_needed = 0;
-			}
-			// ajouter caractère à la dernière part
-			add_char(data, tok, line[i]);
-			i++;
-		}
-
+		i = handle_word(data, state, line, i);
 		data->lexer->token_i++;
 	}
 }
@@ -199,6 +155,8 @@ t_lexer	*lexer_parse_line(t_data *data)
 		return (printf("invalid syntax : quote unclosed\n"), NULL);
 	data->lexer->token_total = number;
 	data->lexer->token_i = -1;
+	data->lexer->state.s_quote = 0;
+	data->lexer->state.d_quote = 0;
 	data->lexer->tokens = malloc(sizeof(t_token) * number);
 	if (!data->lexer->tokens)
 		free_all(data);

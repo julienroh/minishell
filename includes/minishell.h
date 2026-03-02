@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/02 11:14:41 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 14:42:04 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_token
 typedef struct s_lexer
 {
 	t_token	*tokens;
+	t_state	state;
 	int		token_total;
 	int		token_i;
 }				t_lexer;
@@ -155,11 +156,13 @@ void	change_state_dquote(t_state *state);
 void	change_state_squote(t_state *state);
 t_part	*last_part(t_token *token);
 void	add_new_part(t_data *data, t_token *token, int expand);
-int		state_change(t_state *state, char c);
+void	add_char(t_data *data, t_token *token, char c);
 
 //lexer_utils_2.c
 
 int		is_operator(char c);
+int		test_if_new_part(t_data *data, t_token *tok, int expand, int new_part);
+int		count_operator_case(char *line, int *i, int count);
 void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i);
 
 //parser_utils.c
