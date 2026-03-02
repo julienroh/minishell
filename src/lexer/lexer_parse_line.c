@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/01 12:38:57 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/02 10:46:25 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_tokens(t_lexer *lexer, int number)
+{
+	t_part	*current;
+	int	i;
+
+	i = 0;
+	while (i < number)
+	{
+		int j = 0;
+		current = lexer->tokens[i].parts;
+		while (current != NULL)
+		{
+			printf("value = %s\n", lexer->tokens[i].value);
+			printf("token %d part %d = %s\n", i, j, current->value);
+			current = current->next;
+			j++;
+		}
+		i++;
+	}
+}
+
+
 
 /*Add the char at the end of the last part of the last token*/
 
@@ -66,7 +89,6 @@ static int	number_of_tokens(char *line)
 			change_state_squote(&state);
 		i++;
 	}
-
 	if (state.s_quote || state.d_quote)
 		return (0);
 	return (count);
@@ -85,15 +107,13 @@ static void	fill_tokens(t_data *data, char *line)
 	state.s_quote = 0;
 	state.d_quote = 0;
 	data->lexer->token_i = 0;
-
 	while (line[i])
 	{
-		/* gestion des quotes */
-		if (line[i] == '"')
-			change_state_dquote(&state);
-		else if (line[i] == '\'')
-			change_state_squote(&state);
-
+		// /* gestion des quotes */
+		// if (line[i] == '"')
+		// 	change_state_dquote(&state);
+		// else if (line[i] == '\'')
+		// 	change_state_squote(&state);
 		if (!state.s_quote && !state.d_quote)
 		{
 			/* skip espaces */
@@ -102,24 +122,38 @@ static void	fill_tokens(t_data *data, char *line)
 				i++;
 				continue ;
 			}
-
 			/* opérateur */
 			if (is_operator(line[i]))
 			{
 				set_operator_token(data, line, data->lexer, &i);
 				continue ;
 			}
-
 			/* WORD */
 			data->lexer->tokens[data->lexer->token_i].type = WORD;
+			data->lexer->tokens[data->lexer->token_i].value = NULL;
 			while (line[i]
 				&& (!is_space(line[i]) || state.s_quote || state.d_quote)
 				&& !is_operator(line[i]))
 			{
-				if (state_change(&state, line[i]))
+				if (line[i] == '"' && !state.s_quote)
+				{
+					change_state_dquote(&state);
+					if (state.d_quote)
+						add_new_part(data, line, i + 1);
+					i++;
+					continue ;
+				}
+				else if (line[i] == '\'' && !state.d_quote)
+				{
+					change_state_squote(&state);
+					if (state.d_quote)
+						add_new_part(data, line, i + 1);
+					i++;
+					continue ;
+				}
+				if (!last_part(&data->lexer->tokens[data->lexer->token_i]))
 					add_new_part(data, line, i);
-				else
-					add_char(data, line[i]);
+				add_char(data, line[i]);
 				i++;
 			}
 			data->lexer->token_i++;
@@ -142,7 +176,6 @@ t_lexer	*lexer_parse_line(t_data *data)
 	if (!data->lexer)
 		free_all(data);
 	number = number_of_tokens(data->line);
-	printf("number of token = %d\n", number);
 	if (number == 0)
 		return (printf("invalid syntax : quote unclosed\n"), NULL);
 	data->lexer->token_total = number;
@@ -158,5 +191,6 @@ t_lexer	*lexer_parse_line(t_data *data)
 		i++;
 	}
 	fill_tokens(data, data->line);
+	print_tokens(data->lexer, number);
 	return (data->lexer);
 }

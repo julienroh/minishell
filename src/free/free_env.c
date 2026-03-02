@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:58:50 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/26 16:53:42 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 10:29:07 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	free_env(t_env *env)
 {
-	if (!env)
-		return ;
 	t_env	*current;
 	t_env	*next;
 
+	if (!env)
+		return ;
 	current = env;
 	while (current != NULL)
 	{

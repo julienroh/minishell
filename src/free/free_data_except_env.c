@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:54:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/27 09:36:12 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 10:28:12 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	free_args(char **args)
 
 static void	free_lexer(t_lexer *lexer)
 {
-	int	i;
+	int		i;
 	t_part	*current;
 	t_part	*next;
 

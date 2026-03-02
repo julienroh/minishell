@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 11:27:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 10:27:34 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	add_new_part(t_data *data, char *line, int i)
 	else
 		n->expand = 1;
 	if (data->lexer->tokens[data->lexer->token_i].parts == NULL)
-	data->lexer->tokens[data->lexer->token_i].parts = n;
+		data->lexer->tokens[data->lexer->token_i].parts = n;
 	else
 	{
 		p = last_part(&data->lexer->tokens[data->lexer->token_i]);
