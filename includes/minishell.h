@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 11:38:51 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 12:10:30 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,10 @@ int		is_operator(char c);
 int		test_if_new_part(t_data *data, t_token *tok, int expand, int new_part);
 int		count_operator_case(char *line, int *i, int count);
 void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i);
+
+//lexer_utils_3.c
+
+void	expand_part(t_data *data, t_part *p);
 
 //parser_utils.c
 

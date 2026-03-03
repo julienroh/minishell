@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 11:34:06 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 11:54:49 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static int	handle_word(t_data *data, t_state state, char *line, int i)
 	while (line[i] && (!is_space(line[i]) || state.s_quote || state.d_quote)
 		&& (!is_operator(line[i]) || state.d_quote || state.s_quote))
 	{
-		expand = 1;
 		if ((line[i] == '"' && !state.s_quote)
 			|| (line[i] == '\'' && !state.d_quote))
 		{
@@ -102,6 +101,7 @@ static int	handle_word(t_data *data, t_state state, char *line, int i)
 			new_part_needed = 1;
 			continue ;
 		}
+		expand = !state.s_quote;
 		new_part_needed = test_if_new_part(data, tok, expand, new_part_needed);
 		add_char(data, tok, line[i]);
 		i++;

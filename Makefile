@@ -20,6 +20,7 @@ SRC =	src/main/main.c \
 		src/utils/export_utils_2.c \
 		src/utils/lexer_utils.c \
 		src/utils/lexer_utils_2.c \
+		src/utils/lexer_utils_3.c \
 		src/utils/parser_utils.c \
 		src/utils/utils.c \
 # 		src/builtin/builtin_echo.c \
