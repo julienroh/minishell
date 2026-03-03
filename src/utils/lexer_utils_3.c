@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 14:12:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 14:22:41 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ static void	free_expand(t_expand *expand)
 {
 	free(expand->prefix);
 	free(expand->suffix);
-	free(expand->val);
-	free(expand->id);
 	free(expand->tmp);
-	free(expand->new_part);
+	if (expand->id)
+		free(expand->id);
 }
 
 static char	*extract_id(char *str, int *i)
@@ -48,12 +47,10 @@ static char *get_env_value(t_data *data, char *id)
 	return NULL;
 }
 
-void expand_part(t_data *data, t_part *p)
+void expand_part(t_data *data, t_part *p, int i)
 {
-	int			i;
 	t_expand	expand;
 
-	i = 0;
     while (p->value[i])
     {
 		if (p->value[i] == '$' && p->expand)
@@ -61,11 +58,14 @@ void expand_part(t_data *data, t_part *p)
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
 			expand.val = get_env_value(data, expand.id);
+			if (!expand.val)
+				expand.val = "";
 			expand.suffix = ft_strdup(p->value + i);
 			expand.tmp = ft_strjoin(expand.prefix, expand.val);
 			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
-			if (!expand.tmp || !expand.new_part || !expand.suffix || !expand.id || !expand.prefix)
+			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
 				free_all(data);
+			free(p->value);
 			p->value = expand.new_part;
 			i = ft_strlen(expand.tmp);
 			free_expand(&expand);

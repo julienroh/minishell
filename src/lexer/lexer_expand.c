@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 14:11:09 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 14:22:55 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ static void	print_tokens(t_lexer *lexer, int number)
 
 static void	parts_expand(t_data *data, t_token *token)
 {
+	int		i;
 	t_part	*p;
 
+	i = 0;
 	p = token->parts;
 	while (p)
 	{
 		if (p->expand == 1)
-			expand_part(data, p);
+			expand_part(data, p, i);
 		p = p->next;
 	}
 }

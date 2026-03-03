@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 14:07:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 14:30:38 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,10 @@ int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
 
+//check
+
+int	check_syntax_tokens(t_lexer *lexer);
+
 //free
 
 void	free_env(t_env *env);
@@ -175,7 +179,7 @@ void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i);
 
 //lexer_utils_3.c
 
-void	expand_part(t_data *data, t_part *p);
+void	expand_part(t_data *data, t_part *p, int i);
 
 //parser_utils.c
 
