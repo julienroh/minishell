@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 15:41:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/01 13:58:05 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:32:46 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,3 +111,4 @@ char	*find_shell_name(char **env)
 		return ("/bin/sh");
 	return (NULL);
 }
+

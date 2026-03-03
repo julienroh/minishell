@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/01 17:06:54 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:55:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static void print_cmd_table(t_data *data)
 	t_command	*cur;
 	t_redir	*redirs;
 	
-	i = 0;
 	cur = data->cmd_table;
-	redirs = data->cmd_table->redirs;
 	if (!data || !data->cmd_table || !data->cmd_table->argv)
 	{
 		printf("%s\n", "no accessible cmd table or no cmds in it");
@@ -44,9 +42,11 @@ static void print_cmd_table(t_data *data)
 	}
 	while(cur)
 	{
+		i = 0;
+		redirs = cur->redirs;
 		while (cur->argv[i])
 		{
-			printf("%s\n", data->cmd_table->argv[i++]);
+			printf("%s\n", cur->argv[i++]);
 		}
 		while (redirs)
 		{
@@ -80,17 +80,33 @@ int	count_cmd_numbers(t_data *data)
 // 	return;
 // }
 
-void	exec_single_command(t_data *data)
+int	handle_assignments(t_data *data)
 {
 	t_command *cmd;
 	int	assign_count;
+	int	i;
+
+	i = 0;
+	cmd = data->cmd_table;
+	assign_count = count_prefix_assignments(cmd->argv);
+	while(i <= assign_count - 1)
+	{
+		//appliquer mes one assign à tous mes assign au début.
+	}
+	
+}
+
+void	exec_single_command(t_data *data)
+{
+	t_command *cmd;
 	char **exec_argv;
 	
 	cmd = data->cmd_table;
 	if (!cmd || !cmd->argv)
-		return ; 
-	assign_count = count_prefix_assignments(cmd->argv);
-	exec_argv = &cmd->argv[assign_count];
+		return ;
+	handle_assignments(data);
+	exec_argv = &cmd->argv[count_prefix_assignments(cmd->argv)];
+
 	
 }
 
@@ -106,7 +122,6 @@ void	executor_run(t_data *data)
 	cmd_numbers = count_cmd_numbers(data);
 	printf("debug : cmd numbers : [%d]\n", cmd_numbers); //debug
 	//prepare_all_heredocs(data);
-	
 	if (cmd_numbers == 1)
 		exec_single_command(data);
 	// else

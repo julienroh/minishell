@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/01 22:26:16 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:30:46 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,78 @@
 
 int	get_assignment_name_len(char *word, t_assign_type type)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!word)
 		return (0);
-	while (word[i] != '=')
+	while (word[i] != '=' && word[i])
 		i++;
 	if (type == APPEND)
 		i--;
 	return (i);
 }
 
-int	split_assignment_word(char *word, char **name, char **value, t_assign_type *type)
+static int	set_logic(t_env *env, t_env *tmp, char *id, char *value)
 {
-	char	*tmp;
-	int		len;
-	int		i;
-
-	*name = NULL;
-	*value = NULL;
-	*type = get_assignment_type(word);
-	i = 0;
-	if (!word || *type == NONE)
-		return (1);
-	len = get_assignment_name_len(word, *type);
-	*name = ft_substr(word, 0, len);
-	if (*type == SET)
-		len++;
-	else
-		len += 2;
-	*value = ft_strdup(&word[len]);
-	if (!*value)
-		return(free(*name), *name = NULL, 1);
-	return (0);
+	char *str_tmp;
+	
+	str_tmp = NULL;
+	str_tmp = ft_strdup(value);
+	if (check_malloc_ok(str_tmp))
+		return (-1);
+	return (free(tmp->value), tmp->value = str_tmp, 1);
 }
 
-int	apply_one_assignment(t_env **env, char *word)
+static int	append_logic(t_env *env, t_env *tmp, char *id, char *value)
 {
-	char			*name;
-	char			*value;
-	t_assign_type	type;
-	t_env			*new;
+	char *str_tmp;
+	
+	str_tmp = NULL;
+	str_tmp = ft_strjoin(tmp->value, value);
+	if (check_malloc_ok(str_tmp))
+		return (-1);
+	return (free(tmp->value), tmp->value = str_tmp, 1);
+	
+}
 
-	if (!word || !env)
-		return (1);
-	if (split_assignment_word(word, &name, &value, &type) != 0)
-		return (1);
-	//coder logique si append, logique si add.
-	if (type == APPEND)
+int	assign_already_in_list(t_env *env, char *id, char *value,
+	t_assign_type type)
+{
+	//renvoie -1 erreur, 1 deja dans struct, 0 a créer. //ok sans accolade dans les if ?
+	size_t	len;
+	t_env	*tmp;
+	char	*str_tmp;
+
+	tmp = env;
+	len = ft_strlen(id);
+	while (tmp)
 	{
-		if (!already_in_struct(env, name, value, 0))
-		{
-			new = env_new(arg);
-			new->printable = 0;
-			env_add_back(&env, new);
-		}
+		if (ft_strncmp(tmp->id, id, len) == 0 && ft_strlen(tmp->id) == len
+			&& type == SET)
+			if (set_logic(env, tmp, id, value) == -1)
+				return (-1);
+			else
+				return (1);
+		else if (ft_strncmp(tmp->id, id, len) == 0 && ft_strlen(tmp->id) == len
+			&& type == APPEND)
+			if (append_logic(env, tmp, id, value) == -1)
+				return (-1);
+			else
+				return (1);
+		tmp = tmp->next;
 	}
+	return (0);
+}
+int	count_prefix_assignments(char **argv)
+{
+	//nombre de VAR=machin, VAR+=machin...
+	int	i;
 
+	i = 0;
+	if (!argv)
+		return (0);
+	while (argv[i] && get_assignment_type(argv[i]) != NONE)
+		i++;
+	return (i);
 }

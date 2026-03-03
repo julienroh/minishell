@@ -6,12 +6,11 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/01 21:25:37 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:29:00 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static bool	is_valid_var_name_start(int c)
 {
@@ -29,7 +28,7 @@ static bool	is_valid_var_name_char(int c)
 	return (false);
 }
 
-t_assign_type get_assignment_type(char *word)
+static t_assign_type get_assignment_type(char *word)
 {
 	//renvoie le type d'assign + Check les erreurs de nom de vars.
 	int	i;
@@ -49,23 +48,53 @@ t_assign_type get_assignment_type(char *word)
 	return (NONE);
 }
 
-int	count_prefix_assignments(char **argv)
+static int	split_assignment_word(char *word, char **name, char **value,
+	t_assign_type *type)
 {
-	//nombre de VAR=machin, VAR+=machin...
-	int	i;
+	int		len;
 
-	i = 0;
-	if (!argv)
-		return (0);
-	while (argv[i] && get_assignment_type(argv[i]) != NONE)
-		i++;
-	return (i);
+	*name = NULL;
+	*value = NULL;
+	*type = get_assignment_type(word);
+	if (!word || *type == NONE)
+		return (-1);
+	len = get_assignment_name_len(word, *type);
+	*name = ft_substr(word, 0, len);
+	if (check_malloc_ok(*name))
+		return (-1);
+	if (*type == SET)
+		len++;
+	else
+		len += 2;
+	*value = ft_strdup(&word[len]);
+	if (check_malloc_ok(*value))
+		return (free(*name), *name = NULL, -1);
+	return (0);
 }
 
-bool	is_only_assignment_no_cmd(char **argv, int assign_count)
+int	apply_one_assignment(t_env **env, char *word)
 {
-	//uniquement des assign dans mon argv, pas de vrai cmds.
-	if (argv[assign_count++] == NULL)
-		return (true);
-	return (false);
+	int				status;
+	char			*name;
+	char			*value;
+	t_env			*new;
+	t_assign_type	type;
+
+	status = 0;
+	if (!word || !env)
+		return (-1);
+	status = split_assignment_word(word, &name, &value, &type);
+	if (status == -1)
+		return (-1);
+	status = assign_already_in_list(*env, name, value, type);
+	if (status == -1)
+		return (free(name), name = NULL, free(value), value = NULL, -1);
+	else if (status == 0)
+	{
+		new = lst_env_new(name, value);
+		if (!new)
+			return (free(name), name = NULL, free(value), value = NULL, -1);
+		lst_add_back(env, new);
+	}
+	return (free(name), name = NULL, free(value), value = NULL, 0);
 }

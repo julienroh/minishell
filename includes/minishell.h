@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/01 19:27:28 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:41:58 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct	s_data
 	int			last_status;
 }	t_data;
 
+//type des assigns.
 typedef enum e_assign_type
 {
 	NONE,
@@ -118,11 +119,18 @@ void	print_error_identifier(char *str);
 //exec
 void	executor_run(t_data *data);
 void	free_cmdtable(t_data *data);
+bool	is_only_assignment_no_cmd(char **argv, int assign_count);
 
 	//assignments
-bool	is_only_assignment_no_cmd(char **argv, int assign_count);
-int		count_prefix_assignments(char **argv);
-t_assign_type get_assignment_type(char *word);
+bool			is_only_assignment_no_cmd(char **argv, int assign_count);
+int				get_assignment_name_len(char *word, t_assign_type type);
+int				count_prefix_assignments(char **argv);
+int				check_malloc_ok(char *str);
+int				apply_one_assignment(t_env **env, char *word);
+t_env			*lst_env_new(char *name, char *value);
+void			lst_add_back(t_env **env, t_env *new);
+int				assign_already_in_list(t_env *env, char *id, char *value,
+				t_assign_type type);
 
 //builtin
 
