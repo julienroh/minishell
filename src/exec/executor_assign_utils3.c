@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_assignment.c                              :+:      :+:    :+:   */
+/*   executor_one_assignment.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 16:29:00 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 20:57:14 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	is_valid_var_name_char(int c)
 	return (false);
 }
 
-static t_assign_type get_assignment_type(char *word)
+t_assign_type get_assignment_type(char *word)
 {
 	//renvoie le type d'assign + Check les erreurs de nom de vars.
 	int	i;

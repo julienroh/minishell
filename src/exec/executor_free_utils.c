@@ -6,13 +6,13 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/02/27 14:24:56 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 21:42:22 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_double_array(char **array)
+void	free_double_array(char **array)
 {
 	int	i;
 
@@ -67,4 +67,22 @@ void	free_cmdtable(t_data *data)
 	}
 	data->cmd_table = NULL;
 }
+void	free_env_list(t_env *env)
+{
+	t_env *tmp;
+	t_env *cur;
 
+	if (!env)
+		return ;
+	cur = env;
+	while(cur)
+	{
+		tmp = cur;
+		free(tmp->id);
+		tmp->id = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
+		cur = tmp->next;
+		free(tmp);
+	}
+}

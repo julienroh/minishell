@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:01 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 16:32:51 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 22:45:41 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	check_malloc_ok(char *str)
 t_env	*lst_env_new(char *name, char *value)
 {
 	t_env	*new;
-	int		i;
 
-	i = 0;
 	new = NULL;
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -68,4 +66,20 @@ bool	is_only_assignment_no_cmd(char **argv, int assign_count)
 	if (argv[assign_count] == NULL)
 		return (true);
 	return (false);
+}
+
+int	apply_prefix_assignments(t_env **env, char **argv, int assign_count)
+{
+	int	i;
+	
+	if (!env || !argv)
+		return (-1);
+	i = 0;
+	while(i < assign_count)
+	{
+		if (apply_one_assignment(env, argv[i++]) == -1)
+			return (-1);
+	}
+	print_list_env(*env); //debug list.
+	return (0);
 }

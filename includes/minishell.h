@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 16:41:58 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/03 22:21:40 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,13 @@ void	print_error_identifier(char *str);
 
 //exec
 void	executor_run(t_data *data);
-void	free_cmdtable(t_data *data);
 bool	is_only_assignment_no_cmd(char **argv, int assign_count);
+int		apply_prefix_assignments(t_env **env, char **argv, int assign_count);
+
+	//free utilisé dans exec
+void	free_cmdtable(t_data *data);
+void	free_env_list(t_env *env);
+void	free_double_array(char **array);
 
 	//assignments
 bool			is_only_assignment_no_cmd(char **argv, int assign_count);
@@ -131,6 +136,10 @@ t_env			*lst_env_new(char *name, char *value);
 void			lst_add_back(t_env **env, t_env *new);
 int				assign_already_in_list(t_env *env, char *id, char *value,
 				t_assign_type type);
+t_assign_type 	get_assignment_type(char *word);
+
+		//debug exec, a virer
+void print_list_env(t_env *list);
 
 //builtin
 
