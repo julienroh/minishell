@@ -6,28 +6,21 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 13:51:17 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 14:12:08 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char	*build_expanded(char *str, int end, char *env)
-// {
-// 	char	*prefix;
-// 	char	*suffix;
-// 	char	*tmp;
-// 	char	*result;
-
-// 	prefix = ft_substr(str, 0, end - ft_strlen(env));
-// 	suffix = ft_strdup(str + end);
-// 	tmp = ft_strjoin(prefix, env);
-// 	free(prefix);
-// 	result = ft_strjoin(tmp, suffix);
-// 	free(tmp);
-// 	free(suffix);
-// 	return (result);
-// }
+static void	free_expand(t_expand *expand)
+{
+	free(expand->prefix);
+	free(expand->suffix);
+	free(expand->val);
+	free(expand->id);
+	free(expand->tmp);
+	free(expand->new_part);
+}
 
 static char	*extract_id(char *str, int *i)
 {
@@ -57,30 +50,27 @@ static char *get_env_value(t_data *data, char *id)
 
 void expand_part(t_data *data, t_part *p)
 {
-    int		i;
-	char	*prefix;
-	char	*suffix;
-	char	*id;
-	char	*val;
-	char	*tmp;
-	char	*new_part;
+	int			i;
+	t_expand	expand;
 
 	i = 0;
     while (p->value[i])
     {
 		if (p->value[i] == '$' && p->expand)
         {
-			prefix = ft_substr(p->value, 0, i);
-			id = extract_id(p->value, &i);
-			val = get_env_value(data, id);
-			suffix = ft_strdup(p->value + (i + 1));
-			if (!val)
+			expand.prefix = ft_substr(p->value, 0, i);
+			expand.id = extract_id(p->value, &i);
+			expand.val = get_env_value(data, expand.id);
+			expand.suffix = ft_strdup(p->value + i);
+			expand.tmp = ft_strjoin(expand.prefix, expand.val);
+			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
+			if (!expand.tmp || !expand.new_part || !expand.suffix || !expand.id || !expand.prefix)
 				free_all(data);
-			tmp = ft_strjoin(prefix, val);
-			new_part = ft_strjoin(tmp, suffix);
-			if (!tmp || !new_part)
-				free_all(data);
-			i++;
+			p->value = expand.new_part;
+			i = ft_strlen(expand.tmp);
+			free_expand(&expand);
 		}
+		else
+			i++;
     }
 }

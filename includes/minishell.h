@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 12:10:30 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/03 14:07:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+
+typedef	struct s_expand
+{
+	char	*prefix;
+	char	*suffix;
+	char	*val;
+	char	*id;
+	char	*tmp;
+	char	*new_part;	
+}	t_expand;
 
 typedef struct s_env
 {
