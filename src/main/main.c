@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/02/27 11:29:29 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 18:52:11 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	is_blank_line(char *line)
 			return (0);
 		i++;
 	}
+	free(line);
 	return (1);
 }
 
@@ -48,10 +49,7 @@ static void	waiting_function(t_data *data)
 		if (check_exit(data->line))
 			break ;
 		if (is_blank_line(data->line))
-		{
-			free(data->line);
 			continue ;
-		}
 		data->lexer = lexer_parse_line(data);
 		if (!data->lexer)
 		{

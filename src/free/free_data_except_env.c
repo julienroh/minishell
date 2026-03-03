@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data_except_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:54:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/02 10:28:12 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 18:22:01 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	free_lexer(t_lexer *lexer)
 			free(current);
 			current = next;
 		}
-		//free(lexer->tokens[i].value);
+		free(lexer->tokens[i].value);
 		i++;
 	}
 	free(lexer->tokens);

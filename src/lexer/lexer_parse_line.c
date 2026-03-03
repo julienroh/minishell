@@ -3,40 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 14:43:03 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 18:42:18 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_tokens(t_lexer *lexer, int number)
-{
-	t_part	*current;
-	int	i;
+// static void	print_tokens(t_lexer *lexer, int number)
+// {
+// 	int		i;
+// 	int		j;
+// 	t_part	*current;
 
-	i = 0;
-	while (i < number)
-	{
-		printf("TOKEN %d\n", i);
-		if (lexer->tokens[i].type == WORD)
-		{
-			int	j = 0;
-			current = lexer->tokens[i].parts;
-			while (current != NULL)
-			{
-				printf("token %d part %d = %s\n", i, j, current->value);
-				current = current->next;
-				j++;
-			}
-		}
-		printf("operator = %s\n", lexer->tokens[i].value);
-		printf("toktype = %d\n", lexer->tokens[i].type);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < number)
+// 	{
+// 		printf("TOKEN %d\n", i);
+// 		if (lexer->tokens[i].type == WORD)
+// 		{
+// 			j = 0;
+// 			current = lexer->tokens[i].parts;
+// 			while (current != NULL)
+// 			{
+// 				printf("token %d part %d = %s\n", i, j, current->value);
+// 				current = current->next;
+// 				j++;
+// 			}
+// 		}
+// 		printf("operator = %s\n", lexer->tokens[i].value);
+// 		printf("toktype = %d\n", lexer->tokens[i].type);
+// 		i++;
+// 	}
+// }
 
 static int	number_of_tokens(char *line)
 {
@@ -94,7 +95,8 @@ static int	handle_word(t_data *data, t_state state, char *line, int i)
 		&& (!is_operator(line[i]) || state.d_quote || state.s_quote))
 	{
 		expand = 1;
-		if ((line[i] == '"' && !state.s_quote) || (line[i] == '\'' && !state.d_quote))
+		if ((line[i] == '"' && !state.s_quote)
+			|| (line[i] == '\'' && !state.d_quote))
 		{
 			expand = handle_quotes(&state, line[i], &i);
 			new_part_needed = 1;
@@ -107,14 +109,14 @@ static int	handle_word(t_data *data, t_state state, char *line, int i)
 	return (i);
 }
 
-/*Each token contains parts which are determined by spaces or operators, but only if we are
-in normal state (not in double quote or simple quote).
+/*Each token contains parts which are determined by spaces or operators,
+but only if we are in normal state (not in double quote or simple quote).
 */
 
 static void	fill_tokens(t_data *data, char *line)
 {
-	int 	i;
-	t_state state;
+	int		i;
+	t_state	state;
 
 	i = 0;
 	state.d_quote = 0;
@@ -125,18 +127,17 @@ static void	fill_tokens(t_data *data, char *line)
 		if (!state.s_quote && !state.d_quote && is_space(line[i]))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (!state.s_quote && !state.d_quote && is_operator(line[i]))
 		{
 			set_operator_token(data, line, data->lexer, &i);
-			continue;
+			continue ;
 		}
 		i = handle_word(data, state, line, i);
 		data->lexer->token_i++;
 	}
 }
-
 
 /*Fonction that returns an array of struct t_lexer that contains
 tokens*/
@@ -155,8 +156,6 @@ t_lexer	*lexer_parse_line(t_data *data)
 		return (printf("invalid syntax : quote unclosed\n"), NULL);
 	data->lexer->token_total = number;
 	data->lexer->token_i = -1;
-	data->lexer->state.s_quote = 0;
-	data->lexer->state.d_quote = 0;
 	data->lexer->tokens = malloc(sizeof(t_token) * number);
 	if (!data->lexer->tokens)
 		free_all(data);

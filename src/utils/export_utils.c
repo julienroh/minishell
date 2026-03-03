@@ -102,18 +102,12 @@ void	plus_equal_condition(t_data *data, char *str, int printable)
 	i = 0;
 	id = NULL;
 	value = NULL;
-	while (str[i])
-	{
-		if (str[i] == '+')
-		{
-			id = ft_substr(str, 0, i);
-			value = ft_strdup(str + i + 2);
-			if (!id || !value)
-				free_all(data);
-			break ;
-		}
+	while (str[i] && str[i] != '+')
 		i++;
-	}
+	id = ft_substr(str, 0, i);
+	value = ft_strdup(str + i + 2);
+	if (!id || !value)
+		free_all(data);
 	new = malloc(sizeof(t_env));
 	if (!new)
 		free_all(data);

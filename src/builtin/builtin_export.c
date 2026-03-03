@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 09:53:31 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 18:38:27 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	exec_export(t_data *data)
 			continue ;
 		}
 		id = get_identifier(data, data->args[i + 1]);
-		if (!id)
-			free_all(data);
 		value = get_value(data, data->args[i + 1]);
 		if (!check_identifier(id))
 			invalid_export(id, value, data->args[i + 1]);

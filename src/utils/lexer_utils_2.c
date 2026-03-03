@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:30:33 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/02 14:41:17 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 18:53:46 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i)
 		tok->type = T_HEREDOC;
 		tok->value = ft_strdup("<<");
 		if (!tok->value)
-		free_all(data);
-	(*i) += 2;
+			free_all(data);
+		(*i) += 2;
 	}
 	else if (line[*i] == '>' && line[*i + 1] == '>')
 	{
