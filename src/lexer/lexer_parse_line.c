@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 18:42:18 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/03 11:34:06 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 // 				j++;
 // 			}
 // 		}
-// 		printf("operator = %s\n", lexer->tokens[i].value);
+// 		printf("value = %s\n", lexer->tokens[i].value);
 // 		printf("toktype = %d\n", lexer->tokens[i].type);
 // 		i++;
 // 	}
@@ -167,6 +167,6 @@ t_lexer	*lexer_parse_line(t_data *data)
 		i++;
 	}
 	fill_tokens(data, data->line);
-	print_tokens(data->lexer, number);
+	//print_tokens(data->lexer, number);
 	return (data->lexer);
 }

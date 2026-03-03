@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_expand_to_args.c                             :+:      :+:    :+:   */
+/*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/01 12:41:15 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/03 11:38:44 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_tokens(t_lexer *lexer, int number)
+{
+	int		i;
+	int		j;
+	t_part	*current;
+
+	i = 0;
+	while (i < number)
+	{
+		printf("TOKEN %d\n", i);
+		if (lexer->tokens[i].type == WORD)
+		{
+			j = 0;
+			current = lexer->tokens[i].parts;
+			while (current != NULL)
+			{
+				printf("token %d part %d = %s\n", i, j, current->value);
+				current = current->next;
+				j++;
+			}
+		}
+		printf("value = %s\n", lexer->tokens[i].value);
+		printf("toktype = %d\n", lexer->tokens[i].type);
+		i++;
+	}
+}
 
 /*The only acceptable char for the id of a value are ft_isalnum == 1 and "_".
 So first, the function increase "i_dollar" until we found a forbidden char for
@@ -114,30 +141,22 @@ static char	*join_parts(t_data *data, t_token token)
 /*Fontion that converts the struct lexer into a (char *) array. We detect if a
 value needs to be expand by searching for the char "$"*/
 
-char	**lexer_expand_to_args(t_data *data)
+int	lexer_expand(t_data *data)
 {
-	char	**args;
 	int		i;
 
 	i = 0;
-	args = malloc(sizeof(char *) * (data->lexer->token_total + 1));
-	if (!args)
-		free_all(data);
 	while (i < data->lexer->token_total)
 	{
-		if (data->lexer->tokens[i].parts == NULL)
+		if (data->lexer->tokens[i].parts != NULL)
 		{
-			args[i] = data->lexer->tokens[i].value;
-			i++;
-			continue ;
+			parts_expand(data, &data->lexer->tokens[i]);
+			data->lexer->tokens[i].value = join_parts(data, data->lexer->tokens[i]);
 		}
-		parts_expand(data, &data->lexer->tokens[i]);
-		args[i] = join_parts(data, data->lexer->tokens[i]);
+		//free_parts(data->lexer->tokens[i]);
 		i++;
 	}
-	args[i] = NULL;
 	i = 0;
-	while (args[i])
-		printf("args = : %s\n", args[i++]);
-	return (args);
+	print_tokens(data->lexer, data->lexer->token_total);
+	return (0);
 }

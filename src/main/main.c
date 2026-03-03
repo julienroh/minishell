@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/02 18:52:11 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/03 11:14:18 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ static void	waiting_function(t_data *data)
 			free(data->line);
 			continue ;
 		}
-		data->args = lexer_expand_to_args(data);
-		//data->cmd_table = initialize_command(args);
-		if (!analyze_args(data))
+		if (lexer_expand(data) == 1)
 		{
-			printf("exit\n");
-			free_all(data);
-			break ;
+			add_history(data->line);
+			free(data->line);
+			continue ;
 		}
+		//data->cmd_table = initialize_command(args);
 		add_history(data->line);
 		free_data_except_env(data);
 	}
@@ -80,7 +79,6 @@ int	main(int argc, char **argv, char **env)
 	data.line = NULL;
 	data.lexer = NULL;
 	data.cmd_table = NULL;
-	data.args = NULL;
 	data.last_status = 0;
 	if (!data.env)
 	{

@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/27 09:29:22 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/03 09:55:47 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,17 @@ static void	add_end_value(t_data *data, char *id, char *value, int printable)
 	}
 }
 
+static void	add_new(t_data *data, t_env *new, char *id, int printable)
+{
+	new->id = id;
+	if (printable == 1)
+		new->printable = 1;
+	else
+		new->printable = 0;
+	new->next = NULL;
+	env_add_back(&data->env, new);
+}
+
 /*If we put in the terminal "VAR+=oui", we have to put "oui" at the end of the
 value register for VAR. If VAR doesn't exist, we have to create a new env for
 the id VAR that will have the value "oui".
@@ -100,27 +111,17 @@ void	plus_equal_condition(t_data *data, char *str, int printable)
 	t_env	*new;
 
 	i = 0;
-	id = NULL;
-	value = NULL;
 	while (str[i] && str[i] != '+')
 		i++;
 	id = ft_substr(str, 0, i);
 	value = ft_strdup(str + i + 2);
-	if (!id || !value)
-		free_all(data);
 	new = malloc(sizeof(t_env));
-	if (!new)
+	if (!id || !value || !new)
 		free_all(data);
 	if (!already_in_struct(data->env, id, value, 1))
 	{
-		new->id = id;
 		new->value = value;
-		if (printable == 1)
-			new->printable = 1;
-		else
-			new->printable = 0;
-		new->next = NULL;
-		env_add_back(&data->env, new);
+		add_new(data, new, id, printable);
 	}
 	else
 	{

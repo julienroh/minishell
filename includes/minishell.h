@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/02 18:17:22 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/03 11:38:51 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_command //une node de la liste chainee de la cmd table.
 typedef struct	s_data
 {
 	char		*line;
-	char		**args;
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
@@ -127,7 +126,7 @@ void	free_all(t_data *data);
 //lexer
 
 t_lexer	*lexer_parse_line(t_data *data);
-char	**lexer_expand_to_args(t_data *data);
+int		lexer_expand(t_data *data);
 
 //parser_env
 
