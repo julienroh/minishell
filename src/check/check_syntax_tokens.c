@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:24:42 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/04 10:53:30 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 11:13:14 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ int	check_syntax_tokens(t_lexer *l, int total)
 			to_return = 1;
 		if (i > 0 && l->tokens[i].type == 1 && l->tokens[i - 1].type == 1)
 			to_return = 1;
-		if (i > 0 && is_redir(&l->tokens[i]) && is_redir(&l->tokens[i - 1]))
+		if (i > 0 && is_redir(l->tokens[i - 1]) && (l->tokens[i].type != 0))
 			to_return = 1;
-		if (is_redir(&l->tokens[i]) && (&l->tokens[i + 1] != 0))
+		if (i > 0 && is_redir(l->tokens[i]) && (l->tokens[i - 1].type != 0))
 			to_return = 1;
-		if (is_redir(&l->tokens[i + 1]) && (l->tokens[i].type != 0))
-			to_return = 0;
 		i++;
 	}
 	if (to_return == 1)
