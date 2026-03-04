@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/04 12:06:46 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:21:08 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,26 @@ int	assign_already_in_list(t_env *env, char *id, char *value,
 {
 	size_t	len;
 	t_env	*tmp;
+	bool	match;
 
 	tmp = env;
 	len = ft_strlen(id);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->id, id, len) == 0 && ft_strlen(tmp->id) == len
-			&& type == SET)
+		match = (ft_strncmp(tmp->id, id, len) == 0
+				&& ft_strlen(tmp->id) == len);
+		if (match && type == SET)
+		{
 			if (set_logic(tmp, value) == -1)
 				return (-1);
-			else
-				return (1);
-		else if (ft_strncmp(tmp->id, id, len) == 0 && ft_strlen(tmp->id) == len
-			&& type == APPEND)
-			{
-				if (append_logic(tmp, value) == -1)
+			return (1);
+		}
+		else if (match && type == APPEND)
+		{
+			if (append_logic(tmp, value) == -1)
 				return (-1);
-				else
-				return (1);
-			}
+			return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);

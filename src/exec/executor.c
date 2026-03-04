@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/04 12:51:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:38:53 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ static void	init_fake_cmdtable(t_data *data)
 {
 	//INIT une fake cmd table pour pouvoir compiler.
 	data->cmd_table = malloc(sizeof(t_command));
-	data->cmd_table->argv = ft_split("VAR= grep _VAR=4", ' ');
+	data->cmd_table->argv = ft_split("echo hi", ' ');
 	data->cmd_table->next = NULL;
 	data->cmd_table->redirs = NULL;
+	data->env = NULL;
 }
 
 static void print_cmd_table(t_data *data)
@@ -38,14 +39,15 @@ static void print_cmd_table(t_data *data)
 		printf("%s\n", "no accessible cmd table or no cmds in it");
 		return;
 	}
-	printf("///CMDTABLE\\\\\\");
+	printf("///CMDTABLE\\\\\\\n");
 	while(cur)
 	{
 		i = 0;
 		redirs = cur->redirs;
 		while (cur->argv[i])
 		{
-			printf("%s\n", cur->argv[i++]);
+			printf("%d, %s\n", i, cur->argv[i]);
+			i++;
 		}
 		while (redirs)
 		{
@@ -100,13 +102,9 @@ int	count_cmd_numbers(t_data *data)
 //si seulement ARG=42 par exemple.
 int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
 {
-	if (is_only_assignment_no_cmd(data->cmd_table->argv, ctx->assign_count) == true)
-	{
-		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
-			ctx->assign_count) == -1)
-			return (-1);
+	if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
+		ctx->assign_count) == -1)
 		return (-1);
-	}
 	return (0);
 }
 
@@ -140,25 +138,26 @@ int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
 	exec_ctx->envp = NULL;
 	exec_ctx->exec_argv = NULL;
 	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv);
-	exec_ctx->exec_argv[exec_ctx->assign_count];
+	exec_ctx->exec_argv = &data->cmd_table->argv[exec_ctx->assign_count];
+	return (0);
 }
 
-void	exec_single_command(t_data *data)
+int	exec_single_command(t_data *data)
 {
 	t_exec_data	ctx;
 	
 	if (!data || !data->cmd_table || !data->cmd_table->argv)
-		return ;
+		return (-1);
 	init_exec_data(&ctx, data);
-	if (handle_assignment_only_command(data, &ctx) == -1)
-		return (exec_free_single_command(&ctx));
+	if (is_only_assignment_no_cmd(data->cmd_table->argv, ctx.assign_count) == true)
+		return (handle_assignment_only_command(data, &ctx));
 	if (build_single_command_envp(data, &ctx) == -1)
-		return (exec_free_single_command(&ctx));
-	//faire un etat des lieux mental ici. qu'est ce que j'ai pour l'instant.
-	//si seulement $var ?
-	exec_cmd();
+		return (exec_free_single_command(&ctx), -1);
+	//quand j'arrive ici, j'ai mes arg= arg+= gérer, un envp prêt pour les commandes.
+	//si seulement $var ? créer un builtin expand ? pas deja fait ?
+	//exec_cmd();
 	exec_free_single_command(&ctx);
-
+	return (0);
 }
 
 void	executor_run(t_data *data)

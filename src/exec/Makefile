@@ -6,7 +6,7 @@
 #    By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/19 11:15:32 by mfumeaux          #+#    #+#              #
-#    Updated: 2026/03/03 22:34:03 by mfumeaux         ###   ########.fr        #
+#    Updated: 2026/03/04 18:28:07 by mfumeaux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ CFLAGS = -Werror -Wall -Wextra -O3 -g3 -O0 -fno-omit-frame-pointer -fno-inline \
 
 SRC =	executor.c executor_free_utils.c executor_assign_utils.c \
 		executor_assign_utils2.c executor_assign_utils3.c \
+		executor_dup_env.c executor_env_to_envp.c \
+		#executor_utils.c executor_utils2.c \
 		
 
 OBJS = $(SRC:.c=.o)

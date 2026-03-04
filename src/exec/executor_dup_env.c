@@ -1,37 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_free_utils.c                              :+:      :+:    :+:   */
+/*   executor_dup_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 21:42:22 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:30:37 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Ajoute un node à la fin de la liste t_env.
-** (Version t_env ** pour gérer aussi une liste vide)
-*/
-static void	lst_add_back(t_env **env, t_env *new_node)
-{
-	t_env	*tmp;
-
-	if (!env || !new_node)
-		return ;
-	if (!*env)
-	{
-		*env = new_node;
-		return ;
-	}
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_node;
-}
 
 /*
 ** Duplique un seul node (id, value, printable).
