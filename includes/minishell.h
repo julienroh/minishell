@@ -82,8 +82,15 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
 }	t_redir;
 
+typedef struct s_argv
+{
+	char	*arg;
+	struct s_argv	*next;
+}	t_argv;
+
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
+	t_argv				*l_argv;
 	char				**argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
 	t_redir				*redirs; //liste chainee des redirs pour 1 cmd.
 	struct s_command	*next; //next cmd.
@@ -96,7 +103,6 @@ typedef struct	s_data
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
-	t_exec_data *exec_data;
 	int			last_status;
 }	t_data;
 
@@ -135,9 +141,9 @@ int		apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
+void 	exec_free_single_command(t_exec_data *ctx);
 
 	//assignments
-bool			is_only_assignment_no_cmd(char **argv, int assign_count);
 int				get_assignment_name_len(char *word, t_assign_type type);
 int				count_prefix_assignments(char **argv);
 int				check_malloc_ok(char *str);
@@ -147,6 +153,10 @@ void			lst_add_back(t_env **env, t_env *new);
 int				assign_already_in_list(t_env *env, char *id, char *value,
 				t_assign_type type);
 t_assign_type 	get_assignment_type(char *word);
+int				handle_assignment_only_command(t_data *data, t_exec_data *ctx);
+int				build_single_command_envp(t_data *data, t_exec_data *ctx);
+t_env 			*env_dup_list(t_env *src);
+char			**env_to_envp(t_env *env);
 
 		//debug exec, a virer
 void print_list_env(t_env *list);

@@ -15,7 +15,8 @@
 // #### FINAL TODOLIST ####
 // ADD FILES OF DIR EXEC TO MAKEFILE
 
-static void	init_fake_cmdtable(t_data *data) //debug
+//HELPERS DEBUG HELP DEBUT
+static void	init_fake_cmdtable(t_data *data)
 {
 	//INIT une fake cmd table pour pouvoir compiler.
 	data->cmd_table = malloc(sizeof(t_command));
@@ -23,7 +24,8 @@ static void	init_fake_cmdtable(t_data *data) //debug
 	data->cmd_table->next = NULL;
 	data->cmd_table->redirs = NULL;
 }
-static void print_cmd_table(t_data *data) //debug
+
+static void print_cmd_table(t_data *data)
 {
 	//Imprime les infos de la CMD table.
 	int	i;
@@ -56,6 +58,22 @@ static void print_cmd_table(t_data *data) //debug
 		printf("///CMDTABLEOVER\\\\\\");
 }
 
+void print_list_env(t_env *list)
+{
+	t_env *tmp;
+
+	tmp = list;
+	while(tmp)
+	{
+		printf("id = %s\n", tmp->id);
+		printf("value = %s\n", tmp->value);
+		printf("printable = %d\n", tmp->printable);
+		tmp = tmp->next;
+	}
+}
+
+//HELPERS DEBUG HELP DEBUT
+
 int	count_cmd_numbers(t_data *data)
 {
 	//compte le nombre de cmd.s.
@@ -73,59 +91,13 @@ int	count_cmd_numbers(t_data *data)
 	}
 	return (i);
 }
+
 // void	prepare_all_heredocs(t_data *data)
 // {
 // 	return;
 // }
 
-void print_list_env(t_env *list)
-{
-	t_env *tmp;
-
-	tmp = list;
-	while(tmp)
-	{
-		printf("id = %s\n", tmp->id);
-		printf("value = %s\n", tmp->value);
-		printf("printable = %d\n", tmp->printable);
-		tmp = tmp->next;
-	}
-}
-
-//permet de brancher assigment_only (persistant)
-//apply_prefix_assignments(&data->env, cmd->argv, assign_count);
-// ou prefix assignments 
-// fake_env = env_dup_list(data->env);
-// apply_prefix_assignments(&fake_env, cmd->argv, assign_count);
-
-// int init_single_command(t_data *data, t_env **fake_env, char ***envp,
-// 	int *assign_count)
-// {
-// 	*assign_count = count_prefix_assignments(data->cmd_table->argv);
-// 	*fake_env = NULL;
-// 	if (assign_count > 0)
-// 	{
-// 		*fake_env = env_dup_list(data->env);
-// 			if (!*fake_env)
-// 				return (-1); // free qqch ? 
-// 		if (apply_prefix_assignments(fake_env, data->cmd_table->argv,
-// 			*assign_count) == -1)
-// 			return (-1); // free qqch ? 
-// 		*envp = env_to_envp(fake_env);
-// 	}
-// 	else
-// 	{
-// 		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
-// 			*assign_count) == -1)
-// 			return (-1); // free qqch ? 
-// 	}
-// 		*envp = env_to_envp(data->env);
-// 	if (!envp)
-// 		return (-1); // free qqch ? 
-// 	return (0);
-// }
-
-
+//si seulement ARG=42 par exemple.
 int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
 {
 	if (is_only_assignment_no_cmd(data->cmd_table->argv, ctx->assign_count) == true)
@@ -133,21 +105,23 @@ int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
 		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
 			ctx->assign_count) == -1)
 			return (-1);
+		return (-1);
 	}
 	return (0);
 }
+
 int	build_single_command_envp(t_data *data, t_exec_data *ctx)
 {
 	// 0 pas besoin d'un nouveau env, sinon oui.
 	if (ctx->assign_count == 0)
 	{
-		ctx->envp = env_to_envp(data->env); // a coder
+		ctx->envp = env_to_envp(data->env);
 		if (!ctx->envp)
 			return (-1);
 	}
 	else
 	{
-		ctx->fake_env = env_dup_list(data->env); //a coder
+		ctx->fake_env = env_dup_list(data->env);
 		if (!ctx->fake_env)
 			return (-1);
 		if (apply_prefix_assignments(&ctx->fake_env, data->cmd_table->argv,
@@ -155,11 +129,10 @@ int	build_single_command_envp(t_data *data, t_exec_data *ctx)
 			return (free_env_list(ctx->fake_env), ctx->fake_env = NULL, -1);
 		ctx->envp = env_to_envp(ctx->fake_env);
 		if (!ctx->envp)
-			return (free_env_list(ctx->fake_env), ctx->fake_env = NULL, -1); // a coder ? 
+			return (free_env_list(ctx->fake_env), ctx->fake_env = NULL, -1);
 	}
 	return (0);
 }
-
 
 int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
 {
@@ -167,8 +140,9 @@ int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
 	exec_ctx->envp = NULL;
 	exec_ctx->exec_argv = NULL;
 	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv);
-
+	exec_ctx->exec_argv[exec_ctx->assign_count];
 }
+
 void	exec_single_command(t_data *data)
 {
 	t_exec_data	ctx;
@@ -176,9 +150,15 @@ void	exec_single_command(t_data *data)
 	if (!data || !data->cmd_table || !data->cmd_table->argv)
 		return ;
 	init_exec_data(&ctx, data);
+	if (handle_assignment_only_command(data, &ctx) == -1)
+		return (exec_free_single_command(&ctx));
+	if (build_single_command_envp(data, &ctx) == -1)
+		return (exec_free_single_command(&ctx));
+	//faire un etat des lieux mental ici. qu'est ce que j'ai pour l'instant.
+	//si seulement $var ?
 	exec_cmd();
-	free_double_array(envp); //wrapper dans un cleanup plus tard.
-	free_env_list(fake_env);
+	exec_free_single_command(&ctx);
+
 }
 
 void	executor_run(t_data *data)

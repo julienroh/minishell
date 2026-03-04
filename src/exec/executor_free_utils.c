@@ -86,3 +86,8 @@ void	free_env_list(t_env *env)
 		free(tmp);
 	}
 }
+void exec_free_single_command(t_exec_data *ctx)
+{
+	free_double_array(ctx->envp);
+	free_env_list(ctx->fake_env);
+}

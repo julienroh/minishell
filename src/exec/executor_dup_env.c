@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_free_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
+/*   Updated: 2026/03/03 21:42:22 by mfumeaux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*
+** Ajoute un node à la fin de la liste t_env.
+** (Version t_env ** pour gérer aussi une liste vide)
+*/
+static void	lst_add_back(t_env **env, t_env *new_node)
+{
+	t_env	*tmp;
+
+	if (!env || !new_node)
+		return ;
+	if (!*env)
+	{
+		*env = new_node;
+		return ;
+	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
+}
+
+/*
+** Duplique un seul node (id, value, printable).
+** Retourne NULL si erreur malloc.
+*/
+static t_env	*dup_env_node(t_env *src)
+{
+	t_env	*new_node;
+
+	if (!src)
+		return (NULL);
+	new_node = lst_env_new(src->id, src->value);
+	if (!new_node)
+		return (NULL);
+	new_node->printable = src->printable;
+	return (new_node);
+}
+
+/*
+** Duplique toute la liste d'environnement.
+** Retourne NULL si erreur malloc (et libère ce qui a déjà été créé).
+*/
+t_env	*env_dup_list(t_env *src)
+{
+	t_env	*new_list;
+	t_env	*new_node;
+
+	new_list = NULL;
+	while (src)
+	{
+		new_node = dup_env_node(src);
+		if (!new_node)
+			return (free_env_list(new_list), NULL);
+		lst_add_back(&new_list, new_node);
+		src = src->next;
+	}
+	return (new_list);
+}
