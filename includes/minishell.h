@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/04 10:27:11 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 14:18:36 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ typedef enum e_redir_type
 	R_HEREDOC // <<
 }	t_redir_type;
 
+typedef struct s_argv
+{
+	char 	*arg;
+	struct s_argv	*next;
+}	t_argv;
+
 typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.
 {
 	t_redir_type	type; //cf t_redir_type
@@ -93,7 +99,8 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
-	char				**argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
+	char				**argv;
+	t_argv				*list_argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
 	t_redir				*redirs; //liste chainee des redirs pour 1 cmd.
 	struct s_command	*next; //next cmd.
 }	t_command;
@@ -107,9 +114,6 @@ typedef struct	s_data
 	int			last_status;
 }	t_data;
 
-//analyse
-
-int		analyze_args(t_data *data);
 
 //errors
 
@@ -129,7 +133,11 @@ void	only_export(t_data *data);
 
 //check
 
-int	check_syntax_tokens(t_lexer *l, int number);
+int		check_syntax_tokens(t_lexer *lexer, int number);
+
+//command
+
+t_command	*initialize_command(t_data *data, t_lexer *lexer);
 
 //free
 
@@ -189,6 +197,7 @@ void	env_add_back(t_env **env, t_env *new);
 
 //utils.c
 
+int		is_redir(t_token *tok);
 int		is_space(char c);
 int		size_env(t_env *env);
 void	invalid_export(char *id, char *value, char *arg);

@@ -6,11 +6,64 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/04 09:44:36 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 14:44:01 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_redirs(t_redir *redir)
+{
+	t_redir	*current;
+	int	i = 0;
+
+	current = redir;
+	while (current != NULL)
+	{
+		printf("redir_char %d : %s\n", i, current->target);
+		printf("redir_type %d : %d\n", i, current->type);
+		i++;
+		current = current->next;
+	}
+}
+
+static void	print_argv(t_argv *list_argv)
+{
+	t_argv	*current;
+	int	i = 0;
+
+	current = list_argv;
+	while (current != NULL)
+	{
+		printf("arg %d : %s\n", i, current->arg);
+		i++;
+		current = current->next;
+	}
+}
+
+static void	print_command(t_data *data)
+{
+	t_command	*current;
+	int	i = 0;
+
+	current = data->cmd_table;
+	while (current != NULL)
+	{
+		printf("command %d :\n", i);
+		print_argv(current->list_argv);
+		print_redirs(current->redirs);
+		i++;
+		printf("\n");
+		current = current->next;
+	}
+}
+
+
+
+
+
+
+
 
 static int	check_exit(char *line)
 {
@@ -69,7 +122,11 @@ static void	waiting_function(t_data *data)
 			free(data->line);
 			continue ;
 		}
-		//data->cmd_table = initialize_command(data->lexer);
+		data->cmd_table = initialize_command(data, data->lexer);
+
+		print_command(data);
+
+
 		add_history(data->line);
 		free_data_except_env(data);
 	}
@@ -95,11 +152,3 @@ int	main(int argc, char **argv, char **env)
 	free_env(data.env);
 	return (0);
 }
-
-// fd = open(file, O_WRONLY | O_CREAT | O_APPEND | O_TRNC, 0644);
-
-// O_CREAT -> Cree le fichier si il existe pas.
-
-// O_TRUNC -> Si le fiichier existe deja, il le vide.
-
-// o_APPEND -> Ecris a la fin du fichier.

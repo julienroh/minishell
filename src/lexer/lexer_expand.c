@@ -6,38 +6,38 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 14:22:55 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 14:42:39 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_tokens(t_lexer *lexer, int number)
-{
-	int		i;
-	int		j;
-	t_part	*current;
+// static void	print_tokens(t_lexer *lexer, int number)
+// {
+// 	int		i;
+// 	int		j;
+// 	t_part	*current;
 
-	i = 0;
-	while (i < number)
-	{
-		printf("TOKEN %d\n", i);
-		if (lexer->tokens[i].type == WORD)
-		{
-			j = 0;
-			current = lexer->tokens[i].parts;
-			while (current != NULL)
-			{
-				printf("token %d part %d = %s\n", i, j, current->value);
-				current = current->next;
-				j++;
-			}
-		}
-		printf("value = %s\n", lexer->tokens[i].value);
-		printf("toktype = %d\n", lexer->tokens[i].type);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < number)
+// 	{
+// 		printf("TOKEN %d\n", i);
+// 		if (lexer->tokens[i].type == WORD)
+// 		{
+// 			j = 0;
+// 			current = lexer->tokens[i].parts;
+// 			while (current != NULL)
+// 			{
+// 				printf("token %d part %d = %s\n", i, j, current->value);
+// 				current = current->next;
+// 				j++;
+// 			}
+// 		}
+// 		printf("value = %s\n", lexer->tokens[i].value);
+// 		printf("toktype = %d\n", lexer->tokens[i].type);
+// 		i++;
+// 	}
+// }
 
 /*Expand the token part if needed.
 */
@@ -100,6 +100,6 @@ int	lexer_expand(t_data *data)
 		}
 		i++;
 	}
-	print_tokens(data->lexer, data->lexer->token_total);
+	//print_tokens(data->lexer, data->lexer->token_total);
 	return (0);
 }
