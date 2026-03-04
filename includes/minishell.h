@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 22:21:40 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:28:38 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,11 @@ typedef struct	s_data
 	t_lexer		*lexer;
 	t_env		*env;
 	t_command	*cmd_table;
+	t_exec_data *exec_data;
 	int			last_status;
 }	t_data;
 
-//type des assigns.
+//type des assigns. NEED
 typedef enum e_assign_type
 {
 	NONE,
@@ -107,11 +108,20 @@ typedef enum e_assign_type
 	APPEND,
 }	t_assign_type;
 
+typedef struct s_exec_data
+{
+	t_env	*fake_env;
+	char	**envp;
+	char	**exec_argv;
+	int		assign_count;
+}	t_exec_data;
+//var pour mes execs. NEED
+
 //analyse
 
 int		analyze_args(char **args, t_env *env);
 
-//errors
+//errors 
 
 void	print_error(char *msg);
 void	print_error_identifier(char *str);

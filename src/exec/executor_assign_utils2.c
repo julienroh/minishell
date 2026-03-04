@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:01 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 22:45:41 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:05:46 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	check_malloc_ok(char *str)
 	}
 	return (0);
 }
+//check de malloc pour un str. renvoie 0 si tout est ok.
 
 t_env	*lst_env_new(char *name, char *value)
 {
@@ -42,6 +43,7 @@ t_env	*lst_env_new(char *name, char *value)
 		return (free(new->id), free(new), NULL);
 	return (new);
 }
+//crée et init une node d'env.
 
 void	lst_add_back(t_env **env, t_env *new)
 {
@@ -57,16 +59,17 @@ void	lst_add_back(t_env **env, t_env *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
+//ajoute une node dans ma list d'env.
 
 bool	is_only_assignment_no_cmd(char **argv, int assign_count)
 {
-	//uniquement des assign dans mon argv, pas de vrai cmds.
 	if (!argv)
 		return (false);
 	if (argv[assign_count] == NULL)
 		return (true);
 	return (false);
 }
+	//uniquement des assign dans mon argv, pas de vrai cmds.
 
 int	apply_prefix_assignments(t_env **env, char **argv, int assign_count)
 {
@@ -83,3 +86,4 @@ int	apply_prefix_assignments(t_env **env, char **argv, int assign_count)
 	print_list_env(*env); //debug list.
 	return (0);
 }
+	//pour chaque prefix dans ma cmd, les appliques dans env ou fakenv.

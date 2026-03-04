@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 22:43:53 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:51:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,54 +98,88 @@ void print_list_env(t_env *list)
 // fake_env = env_dup_list(data->env);
 // apply_prefix_assignments(&fake_env, cmd->argv, assign_count);
 
-int init_single_command(t_data *data, t_env **fake_env, char ***envp,
-	int *assign_count)
+// int init_single_command(t_data *data, t_env **fake_env, char ***envp,
+// 	int *assign_count)
+// {
+// 	*assign_count = count_prefix_assignments(data->cmd_table->argv);
+// 	*fake_env = NULL;
+// 	if (assign_count > 0)
+// 	{
+// 		*fake_env = env_dup_list(data->env);
+// 			if (!*fake_env)
+// 				return (-1); // free qqch ? 
+// 		if (apply_prefix_assignments(fake_env, data->cmd_table->argv,
+// 			*assign_count) == -1)
+// 			return (-1); // free qqch ? 
+// 		*envp = env_to_envp(fake_env);
+// 	}
+// 	else
+// 	{
+// 		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
+// 			*assign_count) == -1)
+// 			return (-1); // free qqch ? 
+// 	}
+// 		*envp = env_to_envp(data->env);
+// 	if (!envp)
+// 		return (-1); // free qqch ? 
+// 	return (0);
+// }
+
+
+int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
 {
-	*assign_count = count_prefix_assignments(data->cmd_table->argv);
-	*fake_env = NULL;
-	if (assign_count > 0)
+	if (is_only_assignment_no_cmd(data->cmd_table->argv, ctx->assign_count) == true)
 	{
-		*fake_env = env_dup_list(data->env);
-			if (!*fake_env)
-				return (-1); // free qqch ? 
-		if (apply_prefix_assignments(fake_env, data->cmd_table->argv,
-			*assign_count) == -1)
-			return (-1); // free qqch ? 
-		*envp = env_to_envp(fake_env);
+		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
+			ctx->assign_count) == -1)
+			return (-1);
+	}
+	return (0);
+}
+int	build_single_command_envp(t_data *data, t_exec_data *ctx)
+{
+	// 0 pas besoin d'un nouveau env, sinon oui.
+	if (ctx->assign_count == 0)
+	{
+		ctx->envp = env_to_envp(data->env); // a coder
+		if (!ctx->envp)
+			return (-1);
 	}
 	else
 	{
-		if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
-			*assign_count) == -1)
-			return (-1); // free qqch ? 
+		ctx->fake_env = env_dup_list(data->env); //a coder
+		if (!ctx->fake_env)
+			return (-1);
+		if (apply_prefix_assignments(&ctx->fake_env, data->cmd_table->argv,
+			ctx->assign_count) == -1)
+			return (free_env_list(ctx->fake_env), ctx->fake_env = NULL, -1);
+		ctx->envp = env_to_envp(ctx->fake_env);
+		if (!ctx->envp)
+			return (free_env_list(ctx->fake_env), ctx->fake_env = NULL, -1); // a coder ? 
 	}
-		*envp = env_to_envp(data->env);
-	if (!envp)
-		return (-1); // free qqch ? 
 	return (0);
 }
 
+
+int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
+{
+	exec_ctx->fake_env = NULL;
+	exec_ctx->envp = NULL;
+	exec_ctx->exec_argv = NULL;
+	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv);
+
+}
 void	exec_single_command(t_data *data)
 {
-	t_command	*cmd;
-	t_env		*fake_env;
-	char		**envp;
-	int			assign_count;
+	t_exec_data	ctx;
 	
-	cmd = data->cmd_table;
-	if (!cmd || !cmd->argv)
+	if (!data || !data->cmd_table || !data->cmd_table->argv)
 		return ;
-	if (init_single_command(data, &fake_env, &envp, &assign_count) == -1)
-		return ;
+	init_exec_data(&ctx, data);
 	exec_cmd();
-	free_double_array(envp);
+	free_double_array(envp); //wrapper dans un cleanup plus tard.
 	free_env_list(fake_env);
 }
-
-// void	exec_pipeline(t_data *data)
-// {
-// 	//detect assign dans chaque pipeline
-// }
 
 void	executor_run(t_data *data)
 {

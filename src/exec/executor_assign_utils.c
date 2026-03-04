@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 22:44:58 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 12:06:46 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	append_logic(t_env *tmp, char *value)
 	if (check_malloc_ok(str_tmp))
 		return (-1);
 	return (free(tmp->value), tmp->value = str_tmp, 1);
-	
 }
 
 int	assign_already_in_list(t_env *env, char *id, char *value,
