@@ -6,15 +6,15 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/04 18:30:37 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 23:10:50 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** Duplique un seul node (id, value, printable).
-** Retourne NULL si erreur malloc.
+Duplique un seul node (id, value, printable).
+Retourne NULL si erreur malloc.
 */
 static t_env	*dup_env_node(t_env *src)
 {
@@ -30,8 +30,8 @@ static t_env	*dup_env_node(t_env *src)
 }
 
 /*
-** Duplique toute la liste d'environnement.
-** Retourne NULL si erreur malloc (et libère ce qui a déjà été créé).
+Duplique toute la liste d'environnement.
+Retourne NULL si erreur malloc (et libère ce qui a déjà été créé).
 */
 t_env	*env_dup_list(t_env *src)
 {

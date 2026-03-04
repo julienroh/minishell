@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/03 21:42:22 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/04 23:54:03 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	free_env_list(t_env *env)
 		free(tmp);
 	}
 }
-void exec_free_single_command(t_exec_data *ctx)
+void wrapper_free_single_command(t_exec_data *ctx)
 {
 	free_double_array(ctx->envp);
 	free_env_list(ctx->fake_env);
