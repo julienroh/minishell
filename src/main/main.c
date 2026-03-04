@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 14:40:04 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 09:44:36 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ static void	waiting_function(t_data *data)
 		if (is_blank_line(data->line))
 			continue ;
 		data->lexer = lexer_parse_line(data);
-		//check_syntax_tokens(data->lexer, data->lexer->token_total);
+		if (check_syntax_tokens(data->lexer, data->lexer->token_total) == 1)
+		{
+			add_history(data->line);
+			free(data->line);
+			continue ;
+		}
 		if (!data->lexer)
 		{
 			add_history(data->line);

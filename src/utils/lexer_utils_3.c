@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 14:22:41 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 10:13:45 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,29 @@ static char	*extract_id(char *str, int *i)
 	return (ft_substr(str, start, *i - start));
 }
 
-static char *get_env_value(t_data *data, char *id)
+static char	*get_env_value(t_data *data, char *id)
 {
-	t_env *current = data->env;
+	t_env	*current;
+
+	current = data->env;
 	while (current)
 	{
-		if (ft_strlen(current->id) == ft_strlen(id) &&
-		ft_strncmp(current->id, id, ft_strlen(id)) == 0)
-			return current->value;
+		if (ft_strlen(current->id) == ft_strlen(id)
+			&& ft_strncmp(current->id, id, ft_strlen(id)) == 0)
+			return (current->value);
 		current = current->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
-void expand_part(t_data *data, t_part *p, int i)
+void	expand_part(t_data *data, t_part *p, int i)
 {
 	t_expand	expand;
 
-    while (p->value[i])
-    {
+	while (p->value[i])
+	{
 		if (p->value[i] == '$' && p->expand)
-        {
+		{
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
 			expand.val = get_env_value(data, expand.id);
@@ -72,5 +74,5 @@ void expand_part(t_data *data, t_part *p, int i)
 		}
 		else
 			i++;
-    }
+	}
 }

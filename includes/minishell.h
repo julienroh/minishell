@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/03 14:30:38 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 10:27:11 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	only_export(t_data *data);
 
 //check
 
-int	check_syntax_tokens(t_lexer *lexer);
+int	check_syntax_tokens(t_lexer *l, int number);
 
 //free
 
