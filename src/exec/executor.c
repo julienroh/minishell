@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 00:15:21 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:04:24 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,12 @@ void print_list_env(t_env *list)
 // {
 // 	return;
 // }
+
 int	exec_cmd(t_data *data, t_exec_data *ctx)
 {
-	// checks (data, ctx, ctx->exec_argv[0])
+	if(!data || !data->cmd_table || !ctx->exec_argv || !ctx)
+		return (-1);
+
 	// if builtin → exec_builtin_parent(...)
 	// else → exec_external(...)
 	// fork

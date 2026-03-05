@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/04 23:54:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:18:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,17 @@ typedef enum e_assign_type
 	SET,
 	APPEND,
 }	t_assign_type;
+
+typedef enum e_builtin
+{
+	CD,
+	PWD,
+	EXPORT,
+	ENV,
+	ECHO,
+	UNSET,
+	EXIT
+}	t_builtin;
 
 typedef struct s_exec_data
 {
