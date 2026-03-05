@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/05 12:18:09 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 15:59:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <readline/history.h>
 # include "libft.h"
 # include "stdbool.h"
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <errno.h>
 
 typedef struct s_env
 {
@@ -122,7 +125,8 @@ typedef enum e_builtin
 	ENV,
 	ECHO,
 	UNSET,
-	EXIT
+	EXIT,
+	CMD,
 }	t_builtin;
 
 typedef struct s_exec_data
@@ -144,9 +148,12 @@ void	print_error(char *msg);
 void	print_error_identifier(char *str);
 
 //exec
-void	executor_run(t_data *data);
-bool	is_only_assignment_no_cmd(char **argv, int assign_count);
-int		apply_prefix_assignments(t_env **env, char **argv, int assign_count);
+void		executor_run(t_data *data);
+bool		is_only_assignment_no_cmd(char **argv, int assign_count);
+int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
+t_builtin	is_builtin(char *exec_argv);
+int			exec_builtin_parent(char **exec_cmd, char **envp);
+pid_t		safe_fork(void);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);

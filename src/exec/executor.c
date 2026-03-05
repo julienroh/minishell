@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:04:24 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:28:57 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,19 @@ void print_list_env(t_env *list)
 
 int	exec_cmd(t_data *data, t_exec_data *ctx)
 {
+	t_builtin type;
+	
 	if(!data || !data->cmd_table || !ctx->exec_argv || !ctx)
 		return (-1);
-
-	// if builtin → exec_builtin_parent(...)
-	// else → exec_external(...)
+	type = is_builtin(ctx->exec_argv[0]);
+	if (type != CMD)
+	{
+		exec_builtin_parent(ctx->exec_argv, ctx->envp);
+		return (0);
+	}
+	else
+		exec_external_cmd(data, ctx)
+		// else → exec_external(...)
 	// fork
 	// child execve
 	// parent waitpid

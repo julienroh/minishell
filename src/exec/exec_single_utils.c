@@ -6,29 +6,57 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:16:45 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:20:22 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(char *exec_argv)
+t_builtin is_builtin(char *exec_argv)
 {
 	if (!exec_argv || !exec_argv[0])
-		return (false);
+		return (CMD);
 	if (ft_strncmp(exec_argv, "cd", 3) == 0)
-		return (true);
+		return (CD);
 	if (ft_strncmp(exec_argv, "pwd", 4) == 0)
-		return (true);
+		return (PWD);
 	if (ft_strncmp(exec_argv, "export", 7) == 0)
-		return (true);
+		return (EXPORT);
 	if (ft_strncmp(exec_argv, "env", 4) == 0)
-		return (true);
+		return (ENV);
 	if (ft_strncmp(exec_argv, "echo", 5) == 0)
-		return (true);
+		return (ECHO);
 	if (ft_strncmp(exec_argv, "unset", 6) == 0)
-		return (true);
+		return (UNSET);
 	if (ft_strncmp(exec_argv, "exit", 6) == 0)
-		return (true);
-	return(false);
+		return (EXIT);
+	return(CMD);
+}
+
+int	exec_builtin_parent(char **exec_cmd, char **envp)
+{
+	//créer et adapté le format d'env en fonction du builtin ?
+	//idée : transformer env en list, faire la cmd,
+	// puis retransformer en envp(char**)
+	//si besoin : return -1 error, 0 ok.
+}
+
+int	exec_external_cmd(t_data *data, t_exec_data *ctx)
+{
+	pid_t	pid;
+	data
+	//data->last_status;
+	pid = safe_fork();
+	if (pid == -1)
+		return;
+	if (pid == 0)
+	{
+		execve(ft_findpath(), ctx->exec_argv, ctx->envp);
+	}
+	//close ?
+	waitpid(pid, &data->last_status, 0);
+	if (WIFEXITED(data->last_status))
+		exit(WEXITSTATUS(data->last_status));
+	if (WIFSIGNALED(data->last_status))
+		exit(128 + WTERMSIG(data->last_status));
 }

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 15:41:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:07:11 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:27:18 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ pid_t	safe_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-	{
 		perror("fork");
-		exit(1);
-	}
 	return (pid);
 }
 
@@ -50,12 +47,12 @@ char	*ft_find_path(char *cmd, char **env)
 	if (ft_strchr(cmd, '/') != NULL)
 		slash_found = true;
 	if (slash_found == true && access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
+		return (cmd); //a revoir ? 
 	else if ((slash_found == true && access(cmd, X_OK) == -1))
-		return (NULL);
+		return (NULL); // add perror ?
 	while (env[i])
 	{
-		path = ft_strnstr(env[i++], "PATH=", 6);
+		path = ft_strnstr(env[i++], "PATH=", 6); // 6 ? pas 5 ? 
 		if (path != NULL)
 			break ;
 	}
