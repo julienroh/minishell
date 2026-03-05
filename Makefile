@@ -12,11 +12,13 @@ SRC =	src/main/main.c \
 		src/free/free_all.c \
 		src/free/free_data_except_env.c \
 		src/free/free_env.c \
+		src/free/free_list_argv.c \
 		src/lexer/lexer_expand.c \
 		src/lexer/lexer_parse_line.c \
 		src/check/check_syntax_tokens.c \
 		src/parser_env/parser_env.c \
 		src/command/initialize_command.c \
+		src/utils/command_utils.c \
 		src/utils/export_utils.c \
 		src/utils/export_utils_2.c \
 		src/utils/lexer_utils.c \

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/04 14:44:01 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/05 17:36:34 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_data	*g_data;
+
 static void	print_redirs(t_redir *redir)
 {
 	t_redir	*current;
-	int	i = 0;
+	int		i;
 
+	i = 0;
 	current = redir;
 	while (current != NULL)
 	{
@@ -27,43 +30,35 @@ static void	print_redirs(t_redir *redir)
 	}
 }
 
-static void	print_argv(t_argv *list_argv)
+static void	print_argv(char **argv)
 {
-	t_argv	*current;
-	int	i = 0;
+	int	i;
 
-	current = list_argv;
-	while (current != NULL)
+	i = 0;
+	while (argv[i])
 	{
-		printf("arg %d : %s\n", i, current->arg);
+		printf("arg %d = %s\n", i, argv[i]);
 		i++;
-		current = current->next;
 	}
 }
 
 static void	print_command(t_data *data)
 {
 	t_command	*current;
-	int	i = 0;
+	int			i;
 
+	i = 0;
 	current = data->cmd_table;
 	while (current != NULL)
 	{
 		printf("command %d :\n", i);
-		print_argv(current->list_argv);
+		print_argv(current->argv);
 		print_redirs(current->redirs);
 		i++;
 		printf("\n");
 		current = current->next;
 	}
 }
-
-
-
-
-
-
-
 
 static int	check_exit(char *line)
 {
@@ -123,18 +118,25 @@ static void	waiting_function(t_data *data)
 			continue ;
 		}
 		data->cmd_table = initialize_command(data, data->lexer);
-
 		print_command(data);
-
-
 		add_history(data->line);
 		free_data_except_env(data);
 	}
 }
 
+static void	handler(int sig)
+{
+	printf("Signal recu : %d\n", sig);
+	//free_all(g_data);
+	waiting_function(g_data);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
+	g_data = &data;
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 
 	(void)argc;
 	(void)argv;

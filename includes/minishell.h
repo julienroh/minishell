@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/04 14:18:36 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/05 17:15:24 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 
 typedef	struct s_expand
@@ -26,7 +27,7 @@ typedef	struct s_expand
 	char	*val;
 	char	*id;
 	char	*tmp;
-	char	*new_part;	
+	char	*new_part;
 }	t_expand;
 
 typedef struct s_env
@@ -144,6 +145,7 @@ t_command	*initialize_command(t_data *data, t_lexer *lexer);
 void	free_env(t_env *env);
 void	free_data_except_env(t_data *data);
 void	free_all(t_data *data);
+void	free_list_argv(t_command *cmd);
 
 //lexer
 
@@ -155,6 +157,11 @@ int		lexer_expand(t_data *data);
 t_env	*parser_env(t_data *data, char **env);
 
 //UTILS
+
+//comand_utils.c
+
+void	add_redir(t_redir **redir, t_data *data, int i, char *target);
+void	from_list_to_array(t_data *data, t_command *head);
 
 //export_utils.c
 
