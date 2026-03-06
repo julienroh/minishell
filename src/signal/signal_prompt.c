@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:25:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 09:41:14 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/06 10:32:14 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sigint_prompt(int sig)
 {
-	void(sig);
+	(void)sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
