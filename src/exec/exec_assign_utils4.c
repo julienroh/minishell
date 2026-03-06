@@ -48,14 +48,16 @@ int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
 	return (0);
 }
 
+/*
+Cimetiere --> gerer assign + CMD est pas dans le scope de minishell ! 
 int	build_single_command_envp(t_data *data, t_exec_data *ctx)
 {
 	// 0 pas besoin d'un nouveau env, sinon oui.
 	if (ctx->assign_count == 0)
 	{
-		ctx->envp = env_to_envp(data->env);
+		ctx->envp = env_to_envp(data->env); //cree un env char**
 		if (!ctx->envp)
-			return (-1);
+			return (-1); 
 	}
 	else
 	{
@@ -71,3 +73,4 @@ int	build_single_command_envp(t_data *data, t_exec_data *ctx)
 	}
 	return (0);
 }
+*/

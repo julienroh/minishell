@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 16:28:57 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:11:20 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,9 @@ int	exec_cmd(t_data *data, t_exec_data *ctx)
 		return (-1);
 	type = is_builtin(ctx->exec_argv[0]);
 	if (type != CMD)
-	{
-		exec_builtin_parent(ctx->exec_argv, ctx->envp);
-		return (0);
-	}
+		return (exec_builtin_parent(ctx->exec_argv, ctx->envp));
 	else
-		exec_external_cmd(data, ctx)
-		// else → exec_external(...)
+		exec_external_cmd(data, ctx);
 	// fork
 	// child execve
 	// parent waitpid
@@ -112,8 +108,6 @@ int	exec_single_command(t_data *data)
 	init_exec_data(&ctx, data);
 	if (is_only_assignment_no_cmd(data->cmd_table->argv, ctx.assign_count) == true)
 		return (handle_assignment_only_command(data, &ctx));
-	if (build_single_command_envp(data, &ctx) == -1)
-		return (exec_free_single_command(&ctx), -1);
 	exec_cmd(data, &ctx);
 	wrapper_free_single_command(&ctx);
 	return (0);

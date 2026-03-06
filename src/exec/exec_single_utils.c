@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 17:20:22 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:15:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,16 @@ int	exec_builtin_parent(char **exec_cmd, char **envp)
 int	exec_external_cmd(t_data *data, t_exec_data *ctx)
 {
 	pid_t	pid;
-	data
-	//data->last_status;
 	pid = safe_fork();
 	if (pid == -1)
 		return;
 	if (pid == 0)
 	{
-		execve(ft_findpath(), ctx->exec_argv, ctx->envp);
+		if (execve(ft_findpath(ctx->exec_argv[0]), ctx->exec_argv, ctx->envp) == -1)
+		{
+			perror("execve");
+			data->last_status = 127;
+		}
 	}
 	//close ?
 	waitpid(pid, &data->last_status, 0);

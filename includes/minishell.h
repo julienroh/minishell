@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 10:07:46 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/06 13:07:07 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ typedef enum e_builtin
 
 typedef struct s_exec_data
 {
-	t_env	*fake_env;
+	t_env	*fake_env; //delete maybe vu que assign plus besoin x
 	char	**envp;
 	char	**exec_argv;
 	int		assign_count;
@@ -204,6 +204,7 @@ void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
 void 	wrapper_free_single_command(t_exec_data *ctx);
+int		exec_external_cmd(t_data *data, t_exec_data *ctx);
 
 	//assignments
 int				get_assignment_name_len(char *word, t_assign_type type);
@@ -216,9 +217,8 @@ int				assign_already_in_list(t_env *env, char *id, char *value,
 				t_assign_type type);
 t_assign_type 	get_assignment_type(char *word);
 int				handle_assignment_only_command(t_data *data, t_exec_data *ctx);
-int				build_single_command_envp(t_data *data, t_exec_data *ctx);
-t_env 			*env_dup_list(t_env *src);
-char			**env_to_envp(t_env *env);
+t_env 			*env_dup_list(t_env *src); //noneed ?
+char			**env_to_envp(t_env *env); 
 int				init_exec_data(t_exec_data	*exec_ctx, t_data *data);
 int				count_cmd_numbers(t_data *data);
 
