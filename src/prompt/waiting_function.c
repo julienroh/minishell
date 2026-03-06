@@ -6,11 +6,23 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 09:33:29 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/06 13:13:29 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	print_env(t_env *env)
+{
+	t_env	*current;
+
+	current = env;
+	while (current != NULL)
+	{
+		printf("id = %s / value = %s / printable = %d\n", current->id, current->value, current->printable);
+		current = current->next;
+	}
+}
 
 static void	print_redirs(t_redir *redir)
 {
@@ -117,6 +129,7 @@ void	waiting_function(t_data *data)
 			continue ;
 		}
 		data->cmd_table = initialize_command(data, data->lexer);
+		print_env(data->env);
 		print_command(data);
 		add_history(data->line);
 		free_data_except_env(data);
