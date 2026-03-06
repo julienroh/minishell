@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/05 16:48:09 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/06 10:32:48 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	add_list_argv(t_argv **list_argv, t_data *data, char *value)
 	t_argv	*current;
 	t_argv	*new;
 
-	printf("pouet21\n");
 	new = malloc(sizeof(t_argv));
 	if (!new)
 		free_all(data);
