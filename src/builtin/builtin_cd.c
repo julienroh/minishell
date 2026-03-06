@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cd.c                                          :+:      :+:    :+:   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 15:19:01 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 10:13:39 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_env_value(t_env *env, char *id)
+static char	*get_env_value(t_data *data, char *id)
 {
 	char	*value;
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = data->env;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->id, id, ft_strlen(id))
@@ -31,11 +31,11 @@ static char	*get_env_value(t_env *env, char *id)
 	return (NULL);
 }
 
-void	set_env_value(t_env *env, char *id, char *value)
+void	set_env_value(t_data *data, char *id, char *value)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = data->env;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->id, id, ft_strlen(id))
@@ -43,6 +43,8 @@ void	set_env_value(t_env *env, char *id, char *value)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
+			if (!tmp->value)
+				free_all(data);
 			return ;
 		}
 		tmp = tmp->next;
@@ -53,19 +55,20 @@ void	set_env_value(t_env *env, char *id, char *value)
 our mission is to change (in the env struct) the value of PWD and OLDPWD.
 */
 
-int	exec_cd(char **args, t_env *env)
+int	exec_cd(t_data *data)
 {
 	char	*path;
 	char	*oldpwd;
 	char	*newpwd;
 
 	oldpwd = getcwd(NULL, 0);
-	if (!args[1] || !ft_strncmp(args[1], "~", ft_strlen(args[1])))
-		path = get_env_value(env, "HOME");
-	else if (ft_strncmp(args[1], "-", ft_strlen(args[1])))
-		path = get_env_value(env, "OLDPWD");
+	if (!data->args[1]
+		|| !ft_strncmp(data->args[1], "~", ft_strlen(data->args[1])))
+		path = get_env_value(data, "HOME");
+	else if (ft_strncmp(data->args[1], "-", ft_strlen(data->args[1])))
+		path = get_env_value(data, "OLDPWD");
 	else
-		path = args[1];
+		path = data->args[1];
 	if (!path || chdir(path) == -1)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", path);
@@ -73,8 +76,8 @@ int	exec_cd(char **args, t_env *env)
 		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
-	set_env_value(env, "OLDPWD", oldpwd);
-	set_env_value(env, "PWD", newpwd);
+	set_env_value(data, "OLDPWD", oldpwd);
+	set_env_value(data, "PWD", newpwd);
 	free(oldpwd);
 	free(newpwd);
 	return (0);

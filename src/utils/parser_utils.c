@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/02/27 15:25:34 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ int	free_new(t_env *new, char *str)
 /*Create a new env if even if there is no value (no '=').
 */
 
-t_env	*new_without_equal(t_env *new, char *str)
+t_env	*new_without_equal(t_data *data, t_env *new, char *str)
 {
 	new->id = ft_strdup(str);
+	if (!new->id)
+		free_all(data);
 	new->value = NULL;
 	if (check_identifier(new->id))
 		return (new);
@@ -38,20 +40,22 @@ t_env	*new_without_equal(t_env *new, char *str)
 /*Normal case of export (if there is a '=').
 */
 
-t_env	*new_with_equal(t_env *new, char *str, int i)
+static t_env	*new_with_equal(t_data *data, t_env *new, char *str, int i)
 {
 	if (check_identifier(ft_substr(str, 0, i)))
+	{
 		new->id = ft_substr(str, 0, i);
-	if (!new->id)
-		return (free(new), NULL);
+		if (!new->id)
+			free_all(data);
+	}
 	new->value = ft_strdup(str + i + 1);
 	if (!new->value)
-		return (free(new->id), free(new), NULL);
+		free_all(data);
 	new->next = NULL;
 	return (new);
 }
 
-t_env	*env_new(char *str)
+t_env	*env_new(t_data *data, char *str)
 {
 	t_env	*new;
 	int		i;
@@ -59,19 +63,19 @@ t_env	*env_new(char *str)
 	i = 0;
 	new = malloc(sizeof(t_env));
 	if (!new)
-	{
-		
-	}
+		free_all(data);
 	if (!ft_strchr(str, '='))
 	{
-		new = new_without_equal(new, str);
+		new = new_without_equal(data, new, str);
 		if (!new)
 			return (NULL);
 		return (new);
 	}
 	while (str[i] && str[i] != '=')
 		i++;
-	new = new_with_equal(new, str, i);
+	new = new_with_equal(data, new, str, i);
+	if (!new)
+		free_all(data);
 	new->printable = 1;
 	return (new);
 }

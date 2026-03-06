@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/02 13:49:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	change_state_dquote(t_state *state)
 {
+	if (state->s_quote == 1)
+		return ;
 	if (state->d_quote == 0)
 		state->d_quote = 1;
 	else
@@ -22,6 +24,8 @@ void	change_state_dquote(t_state *state)
 
 void	change_state_squote(t_state *state)
 {
+	if (state->d_quote == 1)
+		return ;
 	if (state->s_quote == 1)
 		state->s_quote = 0;
 	else
@@ -40,67 +44,53 @@ t_part	*last_part(t_token *token)
 	return (to_return);
 }
 
-void	add_new_part(t_lexer *lexer, char *line, int i)
+void	add_new_part(t_data *data, t_token *token, int expand)
 {
-	t_part	*n;
-	t_part	*p;
+	t_part	*new;
+	t_part	*last;
 
-	n = malloc(sizeof(t_part));
-	if (!n)
-	{
-
-	}
-	n->value = malloc(sizeof(char) * (ft_strlen(line) + 1));
-	if (!n->value)
-	{
-		
-	}
-	n->value[0] = '\0';
-	n->next = NULL;
-	if (line[i] == '\'')
-		n->expand = 0;
-	else
-		n->expand = 1;
-	if (lexer->tokens[lexer->token_i].parts == NULL)
-		lexer->tokens[lexer->token_i].parts = n;
+	new = malloc(sizeof(t_part));
+	if (!new)
+		free_all(data);
+	new->value = NULL;
+	new->expand = expand;
+	new->next = NULL;
+	if (!token->parts)
+		token->parts = new;
 	else
 	{
-		p = last_part(&lexer->tokens[lexer->token_i]);
-		p->next = n;
+		last = last_part(token);
+		last->next = new;
 	}
 }
 
-/*Change the state depending of the actual char and the actual state.
-For example if we are in the normal state and we see a quote, then we switch
-in a quote state. But if we are already in a double quote state, we only switch
-the state if we see another double quote (we dont switch if we see
-a simple quote).
-*/
+/*Add the char at the end of the last part of the last token*/
 
-int	state_change(t_state *state, char c)
+void	add_char(t_data *data, t_token *token, char c)
 {
-	if (c == '"' && state->d_quote == 1)
+	t_part	*part;
+	char	*tmp;
+	size_t	len;
+
+	part = last_part(token);
+	if (!part->value)
 	{
-		change_state_dquote(state);
-		return (1);
+		part->value = malloc(2);
+		if (!part->value)
+			free_all(data);
+		part->value[0] = c;
+		part->value[1] = '\0';
 	}
-	else if (c == '\'' && state->s_quote == 1)
+	else
 	{
-		change_state_squote(state);
-		return (1);
+		len = ft_strlen(part->value);
+		tmp = malloc(len + 2);
+		if (!tmp)
+			free_all(data);
+		ft_memcpy(tmp, part->value, len);
+		tmp[len] = c;
+		tmp[len + 1] = '\0';
+		free(part->value);
+		part->value = tmp;
 	}
-	else if (!state->s_quote && !state->d_quote)
-	{
-		if (c == '"')
-		{
-			change_state_dquote(state);
-			return (1);
-		}
-		if (c == '\'')
-		{
-			change_state_squote(state);
-			return (1);
-		}
-	}
-	return (0);
 }

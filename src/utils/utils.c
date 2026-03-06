@@ -6,11 +6,18 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:32:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 15:15:01 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/04 12:04:22 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_redir(t_token *tok)
+{
+	if (tok->type == 2 || tok->type == 3 || tok->type == 4 || tok->type == 5)
+		return (1);
+	return (0);
+}
 
 int	is_space(char c)
 {
@@ -34,10 +41,9 @@ int	size_env(t_env *env)
 	return (count);
 }
 
-int	invalid_export(char *id, char *value, char *arg)
+void	invalid_export(char *id, char *value, char *arg)
 {
 	printf("bash: export: '%s': not a valid identifier\n", arg);
 	free(id);
 	free(value);
-	return (0);
 }

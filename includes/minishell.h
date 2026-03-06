@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/05 15:59:52 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:07:46 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,23 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 # include "stdbool.h"
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <errno.h>
+
+typedef	struct s_expand
+{
+	char	*prefix;
+	char	*suffix;
+	char	*val;
+	char	*id;
+	char	*tmp;
+	char	*new_part;
+}	t_expand;
+
 
 typedef struct s_env
 {
@@ -68,15 +80,21 @@ typedef struct s_lexer
 	int		token_i;
 }				t_lexer;
 
-// pour la cmd table : 
+// pour la cmd table :
 
-typedef enum e_redir_type 
+typedef enum e_redir_type
 {
 	R_IN, // <
 	R_OUT, // >
 	R_APPEND, // >>
 	R_HEREDOC // <<
 }	t_redir_type;
+
+typedef struct s_argv
+{
+	char 	*arg;
+	struct s_argv	*next;
+}	t_argv;
 
 typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.
 {
@@ -94,7 +112,7 @@ typedef struct s_argv
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
 	char				**argv;
-	t_argv				*l_argv;
+	t_argv				*list_argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
 	t_redir				*redirs; //liste chainee des redirs pour 1 cmd.
 	struct s_command	*next; //next cmd.
 }	t_command;
@@ -138,9 +156,35 @@ typedef struct s_exec_data
 }	t_exec_data;
 //var pour mes execs. NEED
 
-//analyse
+//type des assigns. NEED
+typedef enum e_assign_type
+{
+	NONE,
+	SET,
+	APPEND,
+}	t_assign_type;
 
-int		analyze_args(char **args, t_env *env);
+typedef enum e_builtin
+{
+	CD,
+	PWD,
+	EXPORT,
+	ENV,
+	ECHO,
+	UNSET,
+	EXIT,
+	CMD,
+}	t_builtin;
+
+typedef struct s_exec_data
+{
+	t_env	*fake_env;
+	char	**envp;
+	char	**exec_argv;
+	int		assign_count;
+}	t_exec_data;
+//var pour mes execs. NEED
+
 
 //errors 
 
@@ -183,56 +227,100 @@ void print_list_env(t_env *list);
 
 //builtin
 
-void	exec_echo(char **args);
-void	exec_export(char **args, t_env*env);
-void	exec_unset(char **args, t_env **env);
+int		exec_cd(t_data *data);
+void	exec_echo(t_data *data);
 void	exec_env(t_env *env);
-int		exec_cd(char **args, t_env *env);
+void	exec_export(t_data *data);
+int		exec_pot_export(t_data *data);
 int		exec_pwd(t_env *env);
-int		exec_pot_export(char **args, t_env *env);
+void	exec_unset(char **args, t_env **env);
+void	only_export(t_data *data);
+
+//check
+
+int		check_syntax_tokens(t_lexer *lexer, int number);
+
+//command
+
+t_command	*initialize_command(t_data *data, t_lexer *lexer);
+
+//free
+
+void	free_env(t_env *env);
+void	free_data_except_env(t_data *data);
+void	free_all(t_data *data);
+void	free_list_argv(t_command *cmd);
 
 //lexer
 
-t_lexer	*lexer_parse_line(char *line);
-char	**lexer_expand_to_args(t_lexer *lexer, t_env *env);
+t_lexer	*lexer_parse_line(t_data *data);
+int		lexer_expand(t_data *data);
 
 //parser_env
 
-t_env	*parser_env(char **env);
+t_env	*parser_env(t_data *data, char **env);
+
+//prompt
+
+void	waiting_function(t_data *data);
+
+//signal
+
+void	signal_exec(void);
+void	signal_heredoc(void);
+void	signal_prompt(void);
 
 //UTILS
+
+//comand_utils.c
+
+void	add_redir(t_redir **redir, t_data *data, int i, char *target);
+void	from_list_to_array(t_data *data, t_command *head);
 
 //export_utils.c
 
 int		already_in_struct(t_env *env, char *id, char *value, int plus);
 int		check_identifier(char *id);
-void	plus_equal_condition(t_env *env, char *id, int printable);
+void	plus_equal_condition(t_data *data, char *id, int printable);
 
 //export_utils_2.c
 
-char	*get_identifier(char *arg);
-char	*get_value(char *arg);
+char	*get_identifier(t_data *data, char *arg);
+char	*get_value(t_data *data, char *arg);
+int		max(char *arg_a, char *arg_b);
+void	swap(char **arg_a, char **arg_b);
+void	free_char_env(char **char_env);
 
 //lexer_utils.c
 
 void	change_state_dquote(t_state *state);
 void	change_state_squote(t_state *state);
 t_part	*last_part(t_token *token);
-void	add_new_part(t_lexer *lexer, char *line, int i);
-int		state_change(t_state *state, char c);
+void	add_new_part(t_data *data, t_token *token, int expand);
+void	add_char(t_data *data, t_token *token, char c);
+
+//lexer_utils_2.c
+
+int		is_operator(char c);
+int		test_if_new_part(t_data *data, t_token *tok, int expand, int new_part);
+int		count_operator_case(char *line, int *i, int count);
+void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i);
+
+//lexer_utils_3.c
+
+void	expand_part(t_data *data, t_part *p, int i);
 
 //parser_utils.c
 
 int		free_new(t_env *new, char *str);
-t_env	*new_without_equal(t_env *new, char *str);
-t_env	*new_with_equal(t_env *new, char *str, int i);
-t_env	*env_new(char *str);
+t_env	*env_new(t_data *data, char *str);
 void	env_add_back(t_env **env, t_env *new);
 
 //utils.c
 
+int		is_redir(t_token *tok);
 int		is_space(char c);
 int		size_env(t_env *env);
-int		invalid_export(char *id, char *value, char *arg);
+void	invalid_export(char *id, char *value, char *arg);
 
 #endif
