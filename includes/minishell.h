@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 13:07:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:26:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ typedef enum e_builtin
 
 typedef struct s_exec_data
 {
-	t_env	*fake_env;
 	char	**envp;
 	char	**exec_argv;
 	int		assign_count;
@@ -175,16 +174,6 @@ typedef enum e_builtin
 	EXIT,
 	CMD,
 }	t_builtin;
-
-typedef struct s_exec_data
-{
-	t_env	*fake_env; //delete maybe vu que assign plus besoin x
-	char	**envp;
-	char	**exec_argv;
-	int		assign_count;
-}	t_exec_data;
-//var pour mes execs. NEED
-
 
 //errors 
 
