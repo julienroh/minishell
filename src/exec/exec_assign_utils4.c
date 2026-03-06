@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 23:19:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:06:50 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:53:28 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
 {
-	exec_ctx->fake_env = NULL;
 	exec_ctx->envp = NULL;
 	exec_ctx->exec_argv = NULL;
-	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv);
+	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv); //ben du coup c'est 0 maintenant.
 	exec_ctx->exec_argv = &data->cmd_table->argv[exec_ctx->assign_count];
 	return (0);
 }
