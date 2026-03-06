@@ -17,6 +17,10 @@ SRC =	src/main/main.c \
 		src/lexer/lexer_parse_line.c \
 		src/check/check_syntax_tokens.c \
 		src/parser_env/parser_env.c \
+		src/prompt/waiting_function.c \
+		src/signal/signal_exec.c \
+		src/signal/signal_heredoc.c \
+		src/signal/signal_prompt.c \
 		src/command/initialize_command.c \
 		src/utils/command_utils.c \
 		src/utils/export_utils.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/05 17:15:24 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/06 10:07:46 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,16 @@ int		lexer_expand(t_data *data);
 //parser_env
 
 t_env	*parser_env(t_data *data, char **env);
+
+//prompt
+
+void	waiting_function(t_data *data);
+
+//signal
+
+void	signal_exec(void);
+void	signal_heredoc(void);
+void	signal_prompt(void);
 
 //UTILS
 
