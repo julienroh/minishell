@@ -18,7 +18,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	signal_initialize(&data);
 	data.env = parser_env(&data, env);
 	data.line = NULL;
 	data.lexer = NULL;
