@@ -6,20 +6,11 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 23:19:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/06 13:53:28 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/06 21:17:08 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	init_exec_data(t_exec_data	*exec_ctx, t_data *data)
-{
-	exec_ctx->envp = NULL;
-	exec_ctx->exec_argv = NULL;
-	exec_ctx->assign_count = count_prefix_assignments(data->cmd_table->argv); //ben du coup c'est 0 maintenant.
-	exec_ctx->exec_argv = &data->cmd_table->argv[exec_ctx->assign_count];
-	return (0);
-}
 
 int	count_cmd_numbers(t_data *data)
 {
@@ -39,10 +30,10 @@ int	count_cmd_numbers(t_data *data)
 	return (i);
 }
 
-int	handle_assignment_only_command(t_data *data, t_exec_data *ctx)
+int	handle_assignment_only_command(t_data *data, int assign_count)
 {
 	if (apply_prefix_assignments(&data->env, data->cmd_table->argv,
-		ctx->assign_count) == -1)
+		assign_count) == -1)
 		return (-1);
 	return (0);
 }

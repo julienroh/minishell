@@ -30,6 +30,19 @@ SRC =	src/main/main.c \
 		src/utils/lexer_utils_3.c \
 		src/utils/parser_utils.c \
 		src/utils/utils.c \
+		src/exec/executor.c \
+		src/exec/exec_utils/exec_free_utils.c \
+		src/exec/exec_utils/exec_utils.c \
+		src/exec/exec_single_cmd/exec_single_redirs.c \
+		src/exec/exec_single_cmd/exec_single.c \
+		src/exec/exec_single_cmd/exec_stdio_handling.c \
+		src/exec/exec_path/exec_path.c \
+		src/exec/exec_assign/exec_assign_utils.c \
+		src/exec/exec_assign/exec_assign_utils2.c \
+		src/exec/exec_assign/exec_assign_utils3.c \
+		src/exec/exec_assign/exec_assign_utils4.c \
+		src/exec/exec_assign/exec_dup_env.c \
+		src/exec/exec_assign/exec_env_to_envp.c \
 # 		src/builtin/builtin_echo.c \
 # 		src/builtin/builtin_export.c \
 # 		src/builtin/builtin_unset.c \
@@ -38,6 +51,7 @@ SRC =	src/main/main.c \
 # 		src/builtin/builtin_pwd.c \
 # 		src/builtin/builtin_pot_export.c \
 # 		src/builtin/only_export.c \ #
+
 
 OBJS = $(SRC:.c=.o)
 
@@ -54,6 +68,9 @@ $(NAME): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+valtest:
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all  --suppressions=ignore_readline_leaks.supp ./minishell
 
 clean:
 	$(RM) $(OBJS)

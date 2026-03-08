@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:06:45 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:10:07 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ char	**env_to_envp(t_env *env)
 	size = env_list_size(env);
 	envp = malloc(sizeof(char *) * (size + 1));
 	if (!envp)
-	{
-		perror("malloc");
-		return (NULL);
-	}
+		return (perror("malloc"), NULL);
 	i = 0;
 	while (env)
 	{

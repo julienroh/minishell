@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 10:27:34 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/06 21:13:08 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
-	(void)argc;
+	if(argc != 1)
+		return (ft_putstr_fd("Wrong number of arguments.", 2), 1);
 	(void)argv;
 	data.env = parser_env(&data, env);
 	data.line = NULL;

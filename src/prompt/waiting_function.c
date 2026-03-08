@@ -3,72 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 13:13:29 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/08 17:27:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_env(t_env *env)
-{
-	t_env	*current;
+// static void	print_env(t_env *env)
+// {
+// 	t_env	*current;
 
-	current = env;
-	while (current != NULL)
-	{
-		printf("id = %s / value = %s / printable = %d\n", current->id, current->value, current->printable);
-		current = current->next;
-	}
-}
+// 	current = env;
+// 	while (current != NULL)
+// 	{
+// 		printf("id = %s / value = %s / printable = %d\n", current->id, current->value, current->printable);
+// 		current = current->next;
+// 	}
+// }
 
-static void	print_redirs(t_redir *redir)
-{
-	t_redir	*current;
-	int		i;
+// static void	print_redirs(t_redir *redir)
+// {
+// 	t_redir	*current;
+// 	int		i;
 
-	i = 0;
-	current = redir;
-	while (current != NULL)
-	{
-		printf("redir_char %d : %s\n", i, current->target);
-		printf("redir_type %d : %d\n", i, current->type);
-		i++;
-		current = current->next;
-	}
-}
+// 	i = 0;
+// 	current = redir;
+// 	while (current != NULL)
+// 	{
+// 		printf("redir_char %d : %s\n", i, current->target);
+// 		printf("redir_type %d : %d\n", i, current->type);
+// 		i++;
+// 		current = current->next;
+// 	}
+// }
 
-static void	print_argv(char **argv)
-{
-	int	i;
+// static void	print_argv(char **argv)
+// {
+// 	int	i;
 
-	i = 0;
-	while (argv[i])
-	{
-		printf("arg %d = %s\n", i, argv[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (argv[i])
+// 	{
+// 		printf("arg %d = %s\n", i, argv[i]);
+// 		i++;
+// 	}
+// }
 
-static void	print_command(t_data *data)
-{
-	t_command	*current;
-	int			i;
+// static void	print_command(t_data *data)
+// {
+// 	t_command	*current;
+// 	int			i;
 
-	i = 0;
-	current = data->cmd_table;
-	while (current != NULL)
-	{
-		printf("command %d :\n", i);
-		print_argv(current->argv);
-		print_redirs(current->redirs);
-		i++;
-		printf("\n");
-		current = current->next;
-	}
-}
+// 	i = 0;
+// 	current = data->cmd_table;
+// 	while (current != NULL)
+// 	{
+// 		printf("command %d :\n", i);
+// 		print_argv(current->argv);
+// 		print_redirs(current->redirs);
+// 		i++;
+// 		printf("\n");
+// 		current = current->next;
+// 	}
+// }
 
 static int	check_exit(char *line)
 {
@@ -129,8 +129,9 @@ void	waiting_function(t_data *data)
 			continue ;
 		}
 		data->cmd_table = initialize_command(data, data->lexer);
-		print_env(data->env);
-		print_command(data);
+		executor_run(data);
+		//print_env(data->env);
+		//print_command(data);
 		add_history(data->line);
 		free_data_except_env(data);
 	}

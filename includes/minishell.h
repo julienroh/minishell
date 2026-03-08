@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 13:07:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/08 16:46:12 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "stdbool.h"
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 
 typedef	struct s_expand
@@ -103,12 +104,6 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
 }	t_redir;
 
-typedef struct s_argv
-{
-	char	*arg;
-	struct s_argv	*next;
-}	t_argv;
-
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
 	char				**argv;
@@ -147,44 +142,17 @@ typedef enum e_builtin
 	CMD,
 }	t_builtin;
 
-typedef struct s_exec_data
-{
-	t_env	*fake_env;
-	char	**envp;
-	char	**exec_argv;
-	int		assign_count;
-}	t_exec_data;
-//var pour mes execs. NEED
+typedef struct s_stdio {
+	int saved_stdin;
+	int saved_stdout;
+}	t_stdio;
 
-//type des assigns. NEED
-typedef enum e_assign_type
-{
-	NONE,
-	SET,
-	APPEND,
-}	t_assign_type;
-
-typedef enum e_builtin
-{
-	CD,
-	PWD,
-	EXPORT,
-	ENV,
-	ECHO,
-	UNSET,
-	EXIT,
-	CMD,
-}	t_builtin;
-
-typedef struct s_exec_data
-{
-	t_env	*fake_env; //delete maybe vu que assign plus besoin x
-	char	**envp;
-	char	**exec_argv;
-	int		assign_count;
-}	t_exec_data;
-//var pour mes execs. NEED
-
+typedef struct s_pipe_ctx {
+	int prev_read;
+	int pipefd[2];
+	pid_t *pids;
+	int n_cmd;
+}	t_pipe_ctx;
 
 //errors 
 
@@ -196,15 +164,21 @@ void		executor_run(t_data *data);
 bool		is_only_assignment_no_cmd(char **argv, int assign_count);
 int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_builtin	is_builtin(char *exec_argv);
-int			exec_builtin_parent(char **exec_cmd, char **envp);
 pid_t		safe_fork(void);
+void		init_path_envp_cmd(t_data *data, char ***envp, char **path);
+int			exec_external_cmd(t_data *data);
+int			restore_stdio(t_stdio *stdio);
+int			save_stdio(t_stdio *stdio);
+int			apply_redirections(t_redir *redirs);
+int			wrapper_apply_redirs(t_data *data, t_stdio *stdio);
+int			ft_findpath(char **out_path, char *cmd, char **envp);
+int			exec_single_command(t_data *data);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
-void 	wrapper_free_single_command(t_exec_data *ctx);
-int		exec_external_cmd(t_data *data, t_exec_data *ctx);
+void	free_envp_path(char **envp, char *path);
 
 	//assignments
 int				get_assignment_name_len(char *word, t_assign_type type);
@@ -215,11 +189,10 @@ t_env			*lst_env_new(char *name, char *value);
 void			lst_add_back(t_env **env, t_env *new);
 int				assign_already_in_list(t_env *env, char *id, char *value,
 				t_assign_type type);
+int				handle_assignment_only_command(t_data *data, int assign_count);
 t_assign_type 	get_assignment_type(char *word);
-int				handle_assignment_only_command(t_data *data, t_exec_data *ctx);
 t_env 			*env_dup_list(t_env *src); //noneed ?
 char			**env_to_envp(t_env *env); 
-int				init_exec_data(t_exec_data	*exec_ctx, t_data *data);
 int				count_cmd_numbers(t_data *data);
 
 		//debug exec, a virer
