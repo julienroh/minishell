@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:08:16 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 21:05:00 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 00:03:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static char	*get_path_value(char **envp)
 	return (NULL);
 }
 
-//test si c'est un dossier. stat remplis la struct, si dossier return 1, sinon return 0.
+/*test si c'est un dossier. stat remplis la struct, 
+si dossier return 1, sinon return 0. */
 static int	is_directory(const char *path)
 {
 	struct stat	st;
@@ -60,34 +61,45 @@ static char	*join_path(const char *dir, const char *cmd)
 //Si slash trouvé, test les accès au path. 
 static int tests_path_slash(char **out_path, char *cmd)
 {
-		if (access(cmd, F_OK) != 0)
-			return (127);
-		if (is_directory(cmd))
-			return (126);
-		if (access(cmd, X_OK) != 0)
-			return (126);
-		*out_path = ft_strdup(cmd);
-		if (!*out_path)
-			return (1);
-		return (0);
+	if (access(cmd, F_OK) != 0)
+		return (127);
+	if (is_directory(cmd))
+		return (errno = EISDIR, 126);
+	if (access(cmd, X_OK) != 0)
+		return (126);
+	*out_path = ft_strdup(cmd);
+	if (!*out_path)
+		return (1);
+	return (0);
 }
-
-int	find_command_in_path(char **dirs, char *candidate, char **out_path, char *cmd)
+/*	si 0, cmd trouvée. outpath set, dirs free.
+	 si 1 err de malloc dans joinpath, outpath = NULL;
+	si 127 si impossible de trouver la cmd dans path.
+	Dans tous les cas, free dirs.
+*/
+static int	find_command_in_path(char **dirs, char **out_path, char *cmd)
 {
-	int	i;
+	char	*candidate;
+	int		i;
+	int		code;
 
 	i = 0;
+	code = 127;
 	while (dirs[i])
 	{
 		candidate = join_path(dirs[i], cmd);
 		if (!candidate)
 			return (free_double_array(dirs), 1);
-		if (access(candidate, X_OK) == 0 && !is_directory(candidate))
-			return (free_double_array(dirs), *out_path = candidate, 0);
+		if (access(candidate, F_OK) == 0)
+		{
+			if (access(candidate, X_OK) == 0 && !is_directory(candidate))
+				return (free_double_array(dirs), *out_path = candidate, 0);
+			code = 126;
+		}
 		free(candidate);
 		i++;
 	}
-	return (free_double_array(dirs), 127);
+	return (free_double_array(dirs), errno = ENOENT, code);
 }
 
 /* Résout path absolute et relatif. Teste aussi si accès à la commande ok. 
@@ -97,9 +109,9 @@ int	ft_findpath(char **out_path, char *cmd, char **envp)
 {
 	char	*path_value;
 	char	**dirs;
-	char	*candidate;
-	int		i;
-
+	int		code;
+	
+	code = 0;
 	if (!out_path || !cmd || cmd[0] == '\0')
 		return (127);
 	*out_path = NULL;
@@ -111,31 +123,6 @@ int	ft_findpath(char **out_path, char *cmd, char **envp)
 	dirs = ft_split(path_value, ':');
 	if (!dirs)
 		return (1);
-	i = 0;
-	//Réduire ici, check find_command_in_path en haut, c'est pas propre.
-	while (dirs[i])
-	{
-		candidate = join_path(dirs[i], cmd);
-		if (!candidate)
-			return (free_double_array(dirs), 1);
-		if (access(candidate, X_OK) == 0 && !is_directory(candidate))
-			return (free_double_array(dirs), *out_path = candidate, 0);
-		free(candidate);
-		i++;
-	}
-	free_double_array(dirs);
-	return (127);
+	code = find_command_in_path(dirs, out_path, cmd);
+	return (code);
 }
-
-//exemple au split de dirs : 
-// /home/swagy/.local/bin
-// /usr/local/sbin
-// /usr/local/bin
-// /usr/sbin
-// /usr/bin
-// /sbin
-// /bin
-// /usr/games
-// /usr/local/games
-// /snap/bin
-// /home/swagy/.local/bin

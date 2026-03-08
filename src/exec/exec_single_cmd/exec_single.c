@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 20:54:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 00:16:51 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ t_builtin is_builtin(char *exec_argv)
 		return (EXIT);
 	return(CMD);
 }
+/* 
 
+*/
 void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 {
 	int code;
@@ -43,10 +45,21 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 	*path = NULL;
 	*envp = env_to_envp(data->env);
 	if (!envp)
+	{
+		perror("malloc");
 		exit(1);
+	}
 	code = ft_findpath(path, data->cmd_table->argv[0], *envp);
 	if (code != 0)
 	{
+		if (!ft_strchr(data->cmd_table->argv[0], '/'))
+		{
+			print_error(data->cmd_table->argv[0]);
+			print_error(": command not found\n");
+			free_envp_path(*envp, *path);
+			exit(code);
+		}
+		perror(data->cmd_table->argv[0]);
 		free_envp_path(*envp, *path);
 		exit(code);
 	}
