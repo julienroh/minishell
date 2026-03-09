@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/06 13:15:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:36:36 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,30 @@ t_builtin is_builtin(char *exec_argv)
 	return(CMD);
 }
 
-int	exec_builtin_parent(char **exec_cmd, char **envp)
+int	exec_builtin_parent(char **exec_cmd)
 {
+	t_builtin	type_builtin;
+	int			i = 0;
+
+	while (type_builtin == 7)
+	{
+		type_builtin = is_builtin(exec_cmd[i]);
+		i++;
+	}
+	find_builtin_and_exec(type_builtin);
+	return (0);
 	//créer et adapté le format d'env en fonction du builtin ?
 	//idée : transformer env en list, faire la cmd,
 	// puis retransformer en envp(char**)
 	//si besoin : return -1 error, 0 ok.
+
+
+
+	//Est ce que je dois iterer sur exec_cmd tant que ce n'est pas autre chose
+	//que CMD comme ca je fais le premier builtin croise ?
+
+	//Est ce que je peux avoir plusieurs commandes ? Savoir si je dois prendre
+	//dans le builtin que jusqu'a la prochaine commande ?
 }
 
 int	exec_external_cmd(t_data *data, t_exec_data *ctx)
