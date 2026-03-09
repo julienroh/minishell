@@ -6,37 +6,30 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 17:38:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:52:07 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// #### FINAL TODOLIST ####
-// ADD FILES OF DIR EXEC TO MAKEFILE
-
-//HELPERS DEBUG HELP DEBUT ############################################
-
-void print_list_env(t_env *list)
+int		prepare_all_heredocs(t_data *data)
 {
-	t_env *tmp;
-
-	tmp = list;
-	while(tmp)
+	t_redir		*r;
+	t_command	*cmdtab;
+	
+	cmdtab = data->cmd_table;
+	while (cmdtab)
 	{
-		printf("id = %s\n", tmp->id);
-		printf("value = %s\n", tmp->value);
-		printf("printable = %d\n", tmp->printable);
-		tmp = tmp->next;
+		r = cmdtab->redirs;
+		while (r)
+		{
+			
+			r = r->next;
+		}
+		cmdtab = cmdtab->next;
 	}
+	return (0);
 }
-
-//HELPERS DEBUG HELP END ############################################
-
-// void	prepare_all_heredocs(t_data *data)
-// {
-// 	return;
-// }
 
 void	executor_run(t_data *data)
 {
@@ -50,23 +43,31 @@ void	executor_run(t_data *data)
 	if (cmd_numbers == 1)
 		exec_single_command(data);
 	// else
-	// 	exec_pipeline(data);
-	//free_cmdtable(&data);, autre chose a free ? ici ?
+	//  	exec_multi_command(data);
+	//cleanup_heredocs
+	//Check ici : je dois free des trucs ? 
 }
 
-// int main(int ac, char **av, char **env)
+
+//DEBUG PRINT :
+
+
+
+// void print_list_env(t_env *list)
 // {
-// 	(void)ac;
-// 	(void)av;
-// 	(void)env;
-// 	t_data data;
-	
-// 	init_fake_cmdtable(&data);
-// 	print_cmd_table(&data);
-// 	executor_run(&data);
-// 	free_cmdtable(&data);
-// 	free_env_list(data.env);
+// 	t_env *tmp;
+
+// 	tmp = list;
+// 	while(tmp)
+// 	{
+// 		printf("id = %s\n", tmp->id);
+// 		printf("value = %s\n", tmp->value);
+// 		printf("printable = %d\n", tmp->printable);
+// 		tmp = tmp->next;
+// 	}
 // }
+
+
 
 // static void print_cmd_table(t_data *data)
 // {
@@ -102,12 +103,3 @@ void	executor_run(t_data *data)
 // 		printf("///CMDTABLEOVER\\\\\\");
 // }
 
-// static void	init_fake_cmdtable(t_data *data)
-// {
-// 	//INIT une fake cmd table pour pouvoir compiler.
-// 	data->cmd_table = malloc(sizeof(t_command));
-// 	data->cmd_table->argv = ft_split("echo hi", ' ');
-// 	data->cmd_table->next = NULL;
-// 	data->cmd_table->redirs = NULL;
-// 	data->env = NULL;
-// }

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:08:16 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/09 00:03:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 11:00:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ static int	find_command_in_path(char **dirs, char **out_path, char *cmd)
 }
 
 /* Résout path absolute et relatif. Teste aussi si accès à la commande ok. 
-/!\ retourne toujours un malloc, car il y a un free qui vient derrière.
+/!\ out_path est toujours malloc, car il y a un free qui vient derrière si fail.
+return value is error code or 0 if no errors.
 */
 int	ft_findpath(char **out_path, char *cmd, char **envp)
 {

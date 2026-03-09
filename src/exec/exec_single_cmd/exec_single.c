@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/09 00:16:51 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/09 11:34:32 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_builtin is_builtin(char *exec_argv)
 	return(CMD);
 }
 /* 
-
+prépare char **envp et résout le path (en cas de relative ou absolute path, en plus de cmd normal).
 */
 void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 {
@@ -93,7 +93,7 @@ int	exec_external_cmd(t_data *data)
 	if (pid == -1)
 		return (data->last_status = 1, -1);
 	if (pid == 0)
-		exec_child(data); //ici, va falloir fix findpath et exit status dans initpath.
+		exec_child(data);
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		data->last_status = (WEXITSTATUS(wstatus));
@@ -109,6 +109,7 @@ int	exec_builtin_parent(t_data *data, t_builtin type)
 	data->last_status = 1;
 	return(printf("builtin exec dans le parent\n"), 1);
 }
+
 int	exec_cmd(t_data *data)
 {
 	t_builtin	type;
@@ -138,6 +139,5 @@ int	exec_single_command(t_data *data)
 		return (data->last_status = 0);
 	}
 	exec_cmd(data);
-	//free la char** env si pas deja fait.
 	return (0);
 }
