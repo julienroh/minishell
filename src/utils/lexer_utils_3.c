@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/04 10:13:45 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/10 11:27:55 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static char	*extract_id(char *str, int *i)
 
 	(*i)++;
 	start = *i;
-	if (!ft_isalnum(str[*i]) && str[*i] != '_')
+	if (!ft_isalnum(str[*i]) && str[*i] != '_' && str[*i] != '?')
 		return (NULL);
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '?')
 		(*i)++;
 	return (ft_substr(str, start, *i - start));
 }
@@ -41,8 +41,7 @@ static char	*get_env_value(t_data *data, char *id)
 	current = data->env;
 	while (current)
 	{
-		if (ft_strlen(current->id) == ft_strlen(id)
-			&& ft_strncmp(current->id, id, ft_strlen(id)) == 0)
+		if (ft_strncmp(current->id, id, ft_strlen(id) + 1) == 0)
 			return (current->value);
 		current = current->next;
 	}
@@ -57,9 +56,12 @@ void	expand_part(t_data *data, t_part *p, int i)
 	{
 		if (p->value[i] == '$' && p->expand)
 		{
+			printf("oui\n");
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
+			printf("expand_id = %s\n", expand.id);
 			expand.val = get_env_value(data, expand.id);
+			printf("expand_value = %s\n", expand.val);
 			if (!expand.val)
 				expand.val = "";
 			expand.suffix = ft_strdup(p->value + i);
