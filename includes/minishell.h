@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 13:26:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:12:58 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,6 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
 }	t_redir;
 
-typedef struct s_argv
-{
-	char	*arg;
-	struct s_argv	*next;
-}	t_argv;
-
 typedef struct s_command //une node de la liste chainee de la cmd table.
 {
 	char				**argv;
@@ -126,26 +120,6 @@ typedef struct	s_data
 	t_command	*cmd_table;
 	int			last_status;
 }	t_data;
-
-//type des assigns. NEED
-typedef enum e_assign_type
-{
-	NONE,
-	SET,
-	APPEND,
-}	t_assign_type;
-
-typedef enum e_builtin
-{
-	CD,
-	PWD,
-	EXPORT,
-	ENV,
-	ECHO,
-	UNSET,
-	EXIT,
-	CMD,
-}	t_builtin;
 
 typedef struct s_exec_data
 {
@@ -216,11 +190,11 @@ void print_list_env(t_env *list);
 
 //builtin
 
-int		exec_cd(t_data *data);
-void	exec_echo(t_data *data);
+int		exec_cd(t_data *data, char **args);
+void	exec_echo(t_data *data, char **args);
 void	exec_env(t_env *env);
-void	exec_export(t_data *data);
-int		exec_pot_export(t_data *data);
+void	exec_export(t_data *data, char **args);
+int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);

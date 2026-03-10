@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/09 15:36:36 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/10 10:11:07 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_builtin is_builtin(char *exec_argv)
+static t_builtin is_builtin(char *exec_argv)
 {
 	if (!exec_argv || !exec_argv[0])
 		return (CMD);
@@ -33,17 +33,34 @@ t_builtin is_builtin(char *exec_argv)
 	return(CMD);
 }
 
-int	exec_builtin_parent(char **exec_cmd)
+static int	find_builtin_and_exec(t_data *data, char **exec_cmd, t_builtin type_builtin)
+{
+	int	to_return;
+
+	if (type_builtin == 0)
+		to_return = exec_cd(data, args);
+	else if (type_builtin == 1)
+		to_return = exec_pwd(data->env);
+	else if (type_builtin == 2)
+		to_return = exec_export(data, args);
+	else if (type_builtin == 3)
+		to_return = exec_env(data->env);
+	else if (type_builtin == 4)
+		to_return = exec_echo(data, args);
+	else if (type_builtin == 5)
+		to_return = exec_unset(args, env)
+	else if (type_builtin == 1)
+
+		
+}
+
+int	exec_builtin_parent(t_data *data, char **exec_cmd)
 {
 	t_builtin	type_builtin;
 	int			i = 0;
 
-	while (type_builtin == 7)
-	{
-		type_builtin = is_builtin(exec_cmd[i]);
-		i++;
-	}
-	find_builtin_and_exec(type_builtin);
+	type_builtin = is_builtin(exec_cmd[0]);
+	find_builtin_and_exec(data, exec_cmd, type_builtin);
 	return (0);
 	//créer et adapté le format d'env en fonction du builtin ?
 	//idée : transformer env en list, faire la cmd,
