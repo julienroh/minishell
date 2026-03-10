@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:09:47 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/05 16:48:14 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/10 19:04:35 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	add_redir(t_redir **redir, t_data *data, int i, char *target)
 	new->type = define_type_redir(data, i);
 	new->target = ft_strdup(target);
 	new->next = NULL;
+	new->was_heredoc = 0;
 	if (*redir == NULL)
 	{
 		*redir = new;

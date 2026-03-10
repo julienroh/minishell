@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/10 10:46:20 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 18:19:12 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <errno.h>
+# include "limits.h"
 
 typedef	struct s_expand
 {
@@ -120,6 +121,7 @@ typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la 
 	t_redir_type	type; //cf t_redir_type
 	char			*target; //in.txt, out.txt, etc... check l'arg apres le type de redir. (ex : < in.txt)
 	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
+	int				was_heredoc; //si c'était un heredoc ou non avant, utile pour unlink après.
 }	t_redir;
 
 typedef struct s_command //une node de la liste chainee de la cmd table.
