@@ -43,15 +43,14 @@ SRC =	src/main/main.c \
 		src/exec/exec_assign/exec_assign_utils4.c \
 		src/exec/exec_assign/exec_dup_env.c \
 		src/exec/exec_assign/exec_env_to_envp.c \
-# 		src/builtin/builtin_echo.c \
-# 		src/builtin/builtin_export.c \
-# 		src/builtin/builtin_unset.c \
-# 		src/builtin/builtin_env.c \
-# 		src/builtin/builtin_cd.c \
-# 		src/builtin/builtin_pwd.c \
-# 		src/builtin/builtin_pot_export.c \
-# 		src/builtin/only_export.c \ #
-
+		src/exec/exec_builtin/exec_builtin.c \
+ 		src/builtin/builtin_echo.c \
+ 		src/builtin/builtin_export.c \
+ 		src/builtin/builtin_unset.c \
+ 		src/builtin/builtin_env.c \
+ 		src/builtin/builtin_cd.c \
+ 		src/builtin/builtin_pwd.c \
+ 		src/builtin/only_export.c \
 
 OBJS = $(SRC:.c=.o)
 

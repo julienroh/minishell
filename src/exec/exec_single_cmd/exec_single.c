@@ -6,34 +6,35 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/09 11:34:32 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:47:46 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_builtin is_builtin(char *exec_argv)
-{
-	//add acceptation pour majuscule aussi : cd ou CD, pwd ou PWD ...
-	//pour pipeline -> cd/export/unset/exit ->exec parent.
-	if (!exec_argv || !exec_argv[0])
-		return (CMD);
-	if (ft_strncmp(exec_argv, "cd", 3) == 0)
-		return (CD);
-	if (ft_strncmp(exec_argv, "pwd", 4) == 0)
-		return (PWD);
-	if (ft_strncmp(exec_argv, "export", 7) == 0)
-		return (EXPORT);
-	if (ft_strncmp(exec_argv, "env", 4) == 0)
-		return (ENV);
-	if (ft_strncmp(exec_argv, "echo", 5) == 0)
-		return (ECHO);
-	if (ft_strncmp(exec_argv, "unset", 6) == 0)
-		return (UNSET);
-	if (ft_strncmp(exec_argv, "exit", 6) == 0)
-		return (EXIT);
-	return(CMD);
-}
+// t_builtin is_builtin(char *exec_argv)
+// {
+// 	//add acceptation pour majuscule aussi : cd ou CD, pwd ou PWD ...
+// 	//pour pipeline -> cd/export/unset/exit ->exec parent.
+// 	if (!exec_argv || !exec_argv[0])
+// 		return (CMD);
+// 	if (ft_strncmp(exec_argv, "cd", 3) == 0)
+// 		return (CD);
+// 	if (ft_strncmp(exec_argv, "pwd", 4) == 0)
+// 		return (PWD);
+// 	if (ft_strncmp(exec_argv, "export", 7) == 0)
+// 		return (EXPORT);
+// 	if (ft_strncmp(exec_argv, "env", 4) == 0)
+// 		return (ENV);
+// 	if (ft_strncmp(exec_argv, "echo", 5) == 0)
+// 		return (ECHO);
+// 	if (ft_strncmp(exec_argv, "unset", 6) == 0)
+// 		return (UNSET);
+// 	if (ft_strncmp(exec_argv, "exit", 6) == 0)
+// 		return (EXIT);
+// 	return(CMD);
+// }
+
 /* 
 prépare char **envp et résout le path (en cas de relative ou absolute path, en plus de cmd normal).
 */
@@ -102,14 +103,6 @@ int	exec_external_cmd(t_data *data)
 	return (0);
 } 
 
-int	exec_builtin_parent(t_data *data, t_builtin type)
-{
-	if (type == EXIT)
-		exit(0);
-	data->last_status = 1;
-	return(printf("builtin exec dans le parent\n"), 1);
-}
-
 int	exec_cmd(t_data *data)
 {
 	t_builtin	type;
@@ -120,7 +113,7 @@ int	exec_cmd(t_data *data)
 	{
 		if (wrapper_apply_redirs(data, &stdio) == -1)
 			return (-1);
-		data->last_status = exec_builtin_parent(data, type);
+		data->last_status = exec_builtin_parent(data, data->cmd_table->argv);
 		restore_stdio(&stdio);
 		return(0);
 	}

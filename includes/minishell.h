@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/10 10:17:44 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:46:20 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ typedef	struct s_expand
 	char	*new_part;
 }	t_expand;
 
+typedef enum e_builtin
+{
+	CD,
+	PWD,
+	EXPORT,
+	ENV,
+	ECHO,
+	UNSET,
+	EXIT,
+	CMD,
+}	t_builtin;
+
+typedef enum e_assign_type
+{
+	NONE,
+	SET,
+	APPEND,
+}	t_assign_type;
 
 typedef struct s_env
 {
@@ -153,6 +171,7 @@ int			apply_redirections(t_redir *redirs);
 int			wrapper_apply_redirs(t_data *data, t_stdio *stdio);
 int			ft_findpath(char **out_path, char *cmd, char **envp);
 int			exec_single_command(t_data *data);
+int			exec_builtin_parent(t_data *data, char **exec_cmd);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
@@ -188,6 +207,7 @@ int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
+
 
 //check
 

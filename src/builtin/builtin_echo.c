@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 10:05:31 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/10 10:38:53 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	exec_echo(t_data *data, char **args)
 	}
 	else
 		print_echo(args, 2, 1);
+	data->last_status = 0;
 }

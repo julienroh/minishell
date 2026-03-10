@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:01 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:06:59 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:49:00 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	apply_prefix_assignments(t_env **env, char **argv, int assign_count)
 		if (apply_one_assignment(env, argv[i++]) == -1)
 			return (-1);
 	}
-	print_list_env(*env); //debug list.
+	//print_list_env(*env); //debug list.
 	return (0);
 }
 	//pour chaque prefix dans ma cmd, les appliques dans env ou fakenv.
