@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/08 16:46:12 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 10:17:44 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,26 +122,6 @@ typedef struct	s_data
 	int			last_status;
 }	t_data;
 
-//type des assigns. NEED
-typedef enum e_assign_type
-{
-	NONE,
-	SET,
-	APPEND,
-}	t_assign_type;
-
-typedef enum e_builtin
-{
-	CD,
-	PWD,
-	EXPORT,
-	ENV,
-	ECHO,
-	UNSET,
-	EXIT,
-	CMD,
-}	t_builtin;
-
 typedef struct s_stdio {
 	int saved_stdin;
 	int saved_stdout;
@@ -200,11 +180,11 @@ void print_list_env(t_env *list);
 
 //builtin
 
-int		exec_cd(t_data *data);
-void	exec_echo(t_data *data);
+int		exec_cd(t_data *data, char **args);
+void	exec_echo(t_data *data, char **args);
 void	exec_env(t_env *env);
-void	exec_export(t_data *data);
-int		exec_pot_export(t_data *data);
+void	exec_export(t_data *data, char **args);
+int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);

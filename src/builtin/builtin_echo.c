@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 09:13:52 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/10 10:05:31 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ static void	print_echo(char **args, int i, int n)
 the execution of echo.
 */
 
-void	exec_echo(t_data *data)
+void	exec_echo(t_data *data, char **args)
 {
-	if (!data->args[1])
+	if (!args[1])
 	{
 		printf("\n");
 		return ;
 	}
-	if (ft_strncmp(data->args[1], "-n", ft_strlen(data->args[1])) != 0)
+	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])) != 0)
 	{
-		print_echo(data->args, 1, 0);
+		print_echo(args, 1, 0);
 	}
 	else
-		print_echo(data->args, 2, 1);
+		print_echo(args, 2, 1);
 }

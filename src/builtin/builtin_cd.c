@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 10:13:39 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/10 10:08:36 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ void	set_env_value(t_data *data, char *id, char *value)
 our mission is to change (in the env struct) the value of PWD and OLDPWD.
 */
 
-int	exec_cd(t_data *data)
+int	exec_cd(t_data *data, char **args)
 {
 	char	*path;
 	char	*oldpwd;
 	char	*newpwd;
 
 	oldpwd = getcwd(NULL, 0);
-	if (!data->args[1]
-		|| !ft_strncmp(data->args[1], "~", ft_strlen(data->args[1])))
+	if (!args[1]
+		|| !ft_strncmp(args[1], "~", ft_strlen(args[1])))
 		path = get_env_value(data, "HOME");
-	else if (ft_strncmp(data->args[1], "-", ft_strlen(data->args[1])))
+	else if (ft_strncmp(args[1], "-", ft_strlen(args[1])))
 		path = get_env_value(data, "OLDPWD");
 	else
-		path = data->args[1];
+		path = args[1];
 	if (!path || chdir(path) == -1)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", path);
