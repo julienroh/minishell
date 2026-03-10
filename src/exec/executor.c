@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/09 12:52:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:44:54 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int		prepare_all_heredocs(t_data *data)
 {
-	t_redir		*r;
-	t_command	*cmdtab;
-	
-	cmdtab = data->cmd_table;
-	while (cmdtab)
+	t_redir		*cur_redir;
+	t_command	*cur_cmd;
+	char		foldername;
+
+	foldername = ft_bullshitname();
+	cur_redir = data->cmd_table;
+	while (cur_cmd)
 	{
-		r = cmdtab->redirs;
-		while (r)
+		cur_redir = cur_cmd->redirs;
+		while (cur_redir)
 		{
 			
-			r = r->next;
+			cur_redir = cur_redir->next;
 		}
-		cmdtab = cmdtab->next;
+		cur_cmd = cur_cmd->next;
 	}
 	return (0);
 }
@@ -47,7 +49,6 @@ void	executor_run(t_data *data)
 	//cleanup_heredocs
 	//Check ici : je dois free des trucs ? 
 }
-
 
 //DEBUG PRINT :
 
