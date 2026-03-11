@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 21:34:43 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:31:08 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static void exec_child(t_data *data)
 	char 	**envp;
 	char	*path;
 
-	init_path_envp_cmd(data, &envp, &path); //hééé, à mettre après les redirs je crois ? 
 	if (apply_redirections(data->cmd_table->redirs) == -1)
 	{
 		free_envp_path(envp, path);
 		exit(1);
 	}
+	init_path_envp_cmd(data, &envp, &path);
 	if (execve(path, data->cmd_table->argv, envp) == -1)
 	{	
 		perror(data->cmd_table->argv[0]);

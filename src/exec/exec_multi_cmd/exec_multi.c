@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 22:13:16 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:25:14 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	free_structv(t_multi *v)
 	
 }
 
-static void	exec_child(t_data *data, t_command *cmd, t_multi *v)
+static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 {
 	char 		**envp;
 	char		*path;
@@ -91,7 +91,7 @@ int   exec_multi_command(t_data *data, int n_cmd)
 		if (spawn_child(&v) == -1)
 			return (free_structv(&v), -1);
 		if (v.pids[v.i] == 0)
-			exec_child(data, cmd, &v);
+			exec_multi_child(data, cmd, &v);
 		wrapper_close_pipe_parent(&v, is_last);
 		cmd = cmd->next;
 		v.i++;
