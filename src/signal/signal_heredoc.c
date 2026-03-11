@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:27:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 10:31:45 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/11 17:14:58 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	sigint_heredoc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	exit(130);
+	g_sig = SIGINT;
 }
 
 void	signal_heredoc(void)
@@ -30,4 +30,16 @@ void	signal_heredoc(void)
 	
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
+}
+
+int	heredoc_cleanup(t_data *data, char **str)
+{
+	if (str && *str)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	data->last_status = 130;
+	g_sig = 0;
+	return (-1);
 }

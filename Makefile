@@ -33,9 +33,12 @@ SRC =	src/main/main.c \
 		src/exec/executor.c \
 		src/exec/exec_utils/exec_free_utils.c \
 		src/exec/exec_utils/exec_utils.c \
-		src/exec/exec_single_cmd/exec_single_redirs.c \
+		src/exec/exec_redir/exec_single_redirs.c \
 		src/exec/exec_single_cmd/exec_single.c \
 		src/exec/exec_single_cmd/exec_stdio_handling.c \
+		src/exec/exec_multi_cmd/exec_multi_utils1.c \
+		src/exec/exec_multi_cmd/exec_multi_utils2.c \
+		src/exec/exec_multi_cmd/exec_multi.c \
 		src/exec/exec_path/exec_path.c \
 		src/exec/exec_assign/exec_assign_utils.c \
 		src/exec/exec_assign/exec_assign_utils2.c \

@@ -6,37 +6,14 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/10 10:47:46 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:34:43 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_builtin is_builtin(char *exec_argv)
-// {
-// 	//add acceptation pour majuscule aussi : cd ou CD, pwd ou PWD ...
-// 	//pour pipeline -> cd/export/unset/exit ->exec parent.
-// 	if (!exec_argv || !exec_argv[0])
-// 		return (CMD);
-// 	if (ft_strncmp(exec_argv, "cd", 3) == 0)
-// 		return (CD);
-// 	if (ft_strncmp(exec_argv, "pwd", 4) == 0)
-// 		return (PWD);
-// 	if (ft_strncmp(exec_argv, "export", 7) == 0)
-// 		return (EXPORT);
-// 	if (ft_strncmp(exec_argv, "env", 4) == 0)
-// 		return (ENV);
-// 	if (ft_strncmp(exec_argv, "echo", 5) == 0)
-// 		return (ECHO);
-// 	if (ft_strncmp(exec_argv, "unset", 6) == 0)
-// 		return (UNSET);
-// 	if (ft_strncmp(exec_argv, "exit", 6) == 0)
-// 		return (EXIT);
-// 	return(CMD);
-// }
-
-/* 
-prépare char **envp et résout le path (en cas de relative ou absolute path, en plus de cmd normal).
+/* test les paths des cmds données. Si pas trouver, err de perm, ou autre, 
+exit avec code d'erreur.
 */
 void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 {
@@ -45,7 +22,7 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 	*envp = NULL;
 	*path = NULL;
 	*envp = env_to_envp(data->env);
-	if (!envp)
+	if (!*envp)
 	{
 		perror("malloc");
 		exit(1);
@@ -71,7 +48,7 @@ static void exec_child(t_data *data)
 	char 	**envp;
 	char	*path;
 
-	init_path_envp_cmd(data, &envp, &path);
+	init_path_envp_cmd(data, &envp, &path); //hééé, à mettre après les redirs je crois ? 
 	if (apply_redirections(data->cmd_table->redirs) == -1)
 	{
 		free_envp_path(envp, path);

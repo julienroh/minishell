@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/08 17:27:17 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:09:44 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ to execute commands*/
 
 void	waiting_function(t_data *data)
 {
+
 	while (1)
 	{
 		signal_prompt();

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/10 18:19:12 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:02:30 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include "limits.h"
+
+extern volatile sig_atomic_t g_sig;
+
+typedef struct s_multi
+{
+	pid_t	*pids;
+	int		**pipefd;
+	int		n_cmd;
+	int		i;
+}	t_multi;
 
 typedef	struct s_expand
 {
@@ -174,6 +184,14 @@ int			wrapper_apply_redirs(t_data *data, t_stdio *stdio);
 int			ft_findpath(char **out_path, char *cmd, char **envp);
 int			exec_single_command(t_data *data);
 int			exec_builtin_parent(t_data *data, char **exec_cmd);
+int			heredoc_cleanup(t_data *data, char **str);
+int 		init_v(t_data *data, t_multi *v, int n_cmd);
+void		child_setup_pipes(t_multi *v, int i);
+void		multi_init_path_envp_cmd(t_command *cmd, t_data *data, char ***envp, char **path);
+int			spawn_child(t_multi *v);
+bool		is_last_cmd(int cmdnumber, int i);
+void		child_setup_pipes(t_multi *v, int i);
+int   		exec_multi_command(t_data *data, int n_cmd);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
@@ -196,16 +214,13 @@ t_env 			*env_dup_list(t_env *src); //noneed ?
 char			**env_to_envp(t_env *env); 
 int				count_cmd_numbers(t_data *data);
 
-		//debug exec, a virer
-void print_list_env(t_env *list);
-
 //builtin
 
 int		exec_cd(t_data *data, char **args);
 void	exec_echo(t_data *data, char **args);
 void	exec_env(t_env *env);
 void	exec_export(t_data *data, char **args);
-int		exec_pot_export(t_data *data, char **args);
+int		exec_pot_export(t_data *data, char **args); //byebye ?
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);

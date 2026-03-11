@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/10 10:51:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 21:19:35 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_builtin is_builtin(char *exec_argv)
 		return (UNSET);
 	if (ft_strncmp(exec_argv, "exit", 6) == 0)
 		return (EXIT);
-	return(CMD);
+	return (CMD);
 }
 void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 {

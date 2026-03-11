@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 19:43:12 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:34:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,5 @@ void	free_envp_path(char **envp, char *path)
 	free_double_array(envp);
 	if (path)
 		free(path);
-
 	return ;
 }
