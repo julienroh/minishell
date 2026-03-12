@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 13:54:45 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:02:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	apply_redirections(t_redir *redirs)
 		if (!tmp->target)
 			return (-1);
 		if (tmp->type == R_HEREDOC)
-			return (-1); //A gérer plus tard. (ouvrir une file et traité ça en <)
+			return (-1);
 		fd = open_redir_fd(tmp);
 		if (fd == -1)
 			return (perror(tmp->target), -1);
