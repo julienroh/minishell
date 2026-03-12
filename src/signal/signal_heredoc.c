@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:27:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/11 17:14:58 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:16:21 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static void	sigint_heredoc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	g_sig = SIGINT;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	signal_heredoc(void)

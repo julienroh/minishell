@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 12:04:51 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:37:14 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void exec_child(t_data *data)
 	path = NULL;
 	if (apply_redirections(data->cmd_table->redirs) == -1)
 	{
+		free_all(data);
 		free_envp_path(envp, path);
 		exit(1);
 	}
@@ -61,6 +62,7 @@ static void exec_child(t_data *data)
 	if (execve(path, data->cmd_table->argv, envp) == -1)
 	{	
 		perror(data->cmd_table->argv[0]);
+		free_all(data);
 		free_envp_path(envp, path);
 		exit(127);
 	}
