@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 16:21:05 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 09:18:56 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:45:19 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ int	exec_pot_export(t_data *data)
 	while (data->args[i])
 	{
 		if (ft_strchr(data->args[i], '=') == NULL)
+		{
+			printf("pot_export\n");
 			printf("minishell: %s: command not found\n", data->args[i + 1]);
+			free_all(data);
+		}
 		else
 			put_pot_export(data, i);
 		i++;

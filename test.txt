@@ -1,0 +1,9 @@
+hello
+docs
+ignore_readline_leaks.supp
+includes
+libft
+Makefile
+README.md
+src
+test.txt

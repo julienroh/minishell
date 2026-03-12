@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:09:47 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/05 16:48:14 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_redir(t_redir **redir, t_data *data, int i, char *target)
 
 	new = malloc(sizeof(t_redir));
 	if (!new)
-		free_all(data);
+		free_all_malloc(data);
 	new->type = define_type_redir(data, i);
 	new->target = ft_strdup(target);
 	new->next = NULL;
@@ -73,13 +73,13 @@ static char	**create_cmd_argv(t_data *data, t_argv *list_argv)
 	number = count_list_argv(list_argv);
 	argv = malloc(sizeof(char *) * (number + 1));
 	if (!argv)
-		free_all(data);
+		free_all_malloc(data);
 	current = list_argv;
 	while (current != NULL)
 	{
 		argv[i] = ft_strdup(current->arg);
 		if (!argv[i])
-			free_all(data);
+			free_all_malloc(data);
 		i++;
 		current = current->next;
 	}

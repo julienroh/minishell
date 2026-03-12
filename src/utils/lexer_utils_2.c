@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:30:33 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/02 18:53:46 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	simple_operator_case(t_data *data, t_token *tok, char c, int *i)
 		tok->type = PIPE;
 		tok->value = ft_strdup("|");
 		if (!tok->value)
-			free_all(data);
+			free_all_malloc(data);
 		(*i)++;
 	}
 	else if (c == '<')
@@ -63,7 +63,7 @@ static void	simple_operator_case(t_data *data, t_token *tok, char c, int *i)
 		tok->type = T_IN;
 		tok->value = ft_strdup("<");
 		if (!tok->value)
-			free_all(data);
+			free_all_malloc(data);
 		(*i)++;
 	}
 	else if (c == '>')
@@ -71,7 +71,7 @@ static void	simple_operator_case(t_data *data, t_token *tok, char c, int *i)
 		tok->type = T_OUT;
 		tok->value = ft_strdup(">");
 		if (!tok->value)
-			free_all(data);
+			free_all_malloc(data);
 		(*i)++;
 	}
 }
@@ -87,7 +87,7 @@ void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i)
 		tok->type = T_HEREDOC;
 		tok->value = ft_strdup("<<");
 		if (!tok->value)
-			free_all(data);
+			free_all_malloc(data);
 		(*i) += 2;
 	}
 	else if (line[*i] == '>' && line[*i + 1] == '>')
@@ -95,7 +95,7 @@ void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i)
 		tok->type = T_APPEND;
 		tok->value = ft_strdup(">>");
 		if (!tok->value)
-			free_all(data);
+			free_all_malloc(data);
 		(*i) += 2;
 	}
 	simple_operator_case(data, tok, line[*i], i);

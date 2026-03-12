@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:48:42 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/02 13:49:03 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	add_new_part(t_data *data, t_token *token, int expand)
 
 	new = malloc(sizeof(t_part));
 	if (!new)
-		free_all(data);
+		free_all_malloc(data);
 	new->value = NULL;
 	new->expand = expand;
 	new->next = NULL;
@@ -77,7 +77,7 @@ void	add_char(t_data *data, t_token *token, char c)
 	{
 		part->value = malloc(2);
 		if (!part->value)
-			free_all(data);
+			free_all_malloc(data);
 		part->value[0] = c;
 		part->value[1] = '\0';
 	}
@@ -86,7 +86,7 @@ void	add_char(t_data *data, t_token *token, char c)
 		len = ft_strlen(part->value);
 		tmp = malloc(len + 2);
 		if (!tmp)
-			free_all(data);
+			free_all_malloc(data);
 		ft_memcpy(tmp, part->value, len);
 		tmp[len] = c;
 		tmp[len + 1] = '\0';

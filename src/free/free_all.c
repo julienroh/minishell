@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all.c                                         :+:      :+:    :+:   */
+/*   free_all_malloc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,6 +13,13 @@
 #include "minishell.h"
 
 void	free_all(t_data *data)
+{
+	printf("oui\n");
+	free_data_except_env(data);
+	free_env(data->env);
+}
+
+void	free_all_malloc(t_data *data)
 {
 	free_data_except_env(data);
 	free_env(data->env);

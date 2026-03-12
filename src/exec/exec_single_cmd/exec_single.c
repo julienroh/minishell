@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/10 10:47:46 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 10:20:18 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 	*path = NULL;
 	*envp = env_to_envp(data->env);
 	if (!envp)
-	{
-		perror("malloc");
-		exit(1);
-	}
+		free_all_malloc(data);
 	code = ft_findpath(path, data->cmd_table->argv[0], *envp);
 	if (code != 0)
 	{
@@ -58,6 +55,7 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 			print_error(data->cmd_table->argv[0]);
 			print_error(": command not found\n");
 			free_envp_path(*envp, *path);
+			free_all(data);
 			exit(code);
 		}
 		perror(data->cmd_table->argv[0]);

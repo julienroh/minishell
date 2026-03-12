@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 14:29:22 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:11:10 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 	else if (type_builtin == 5)
 		exec_unset(args, &data->env);
 	else if (type_builtin == EXIT)
-		free_all(data);
+		exec_exit(data);
 }
 
 int	exec_builtin_parent(t_data *data, char **exec_cmd)

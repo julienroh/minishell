@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/11 14:29:50 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:15:35 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
+void	exec_exit(t_data *data);
 
 
 //check
@@ -221,8 +222,9 @@ t_command	*initialize_command(t_data *data, t_lexer *lexer);
 
 void	free_env(t_env *env);
 void	free_data_except_env(t_data *data);
-void	free_all(t_data *data);
+void	free_all_malloc(t_data *data);
 void	free_list_argv(t_command *cmd);
+void	free_all(t_data *data);
 
 //lexer
 

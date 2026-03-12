@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/11 13:55:38 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ static char	*join_parts(t_data *data, t_token token)
 
 	to_return = ft_strdup("");
 	if (!to_return)
-		free_all(data);
+		free_all_malloc(data);
 	p = token.parts;
 	while (p)
 	{
 		tmp = ft_strjoin(to_return, p->value);
 		if (!tmp)
-			free_all(data);
+			free_all_malloc(data);
 		free(to_return);
 		to_return = tmp;
 		p = p->next;

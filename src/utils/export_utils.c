@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/03 09:55:47 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	add_end_value(t_data *data, char *id, char *value, int printable)
 			old = tmp->value;
 			tmp->value = ft_strjoin(tmp->value, value);
 			if (!tmp->value)
-				free_all(data);
+				free_all_malloc(data);
 			if (printable == 1)
 				tmp->printable = 1;
 			free(old);
@@ -117,7 +117,7 @@ void	plus_equal_condition(t_data *data, char *str, int printable)
 	value = ft_strdup(str + i + 2);
 	new = malloc(sizeof(t_env));
 	if (!id || !value || !new)
-		free_all(data);
+		free_all_malloc(data);
 	if (!already_in_struct(data->env, id, value, 1))
 	{
 		new->value = value;

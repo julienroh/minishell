@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/11 13:24:54 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_env	*new_without_equal(t_data *data, t_env *new, char *str)
 {
 	new->id = ft_strdup(str);
 	if (!new->id)
-		free_all(data);
+		free_all_malloc(data);
 	new->value = NULL;
 	if (check_identifier(new->id))
 		return (new);
@@ -46,16 +46,16 @@ static t_env	*new_with_equal(t_data *data, t_env *new, char *str, int i)
 
 	id = ft_substr(str, 0, i);
 	if (!id)
-		free_all(data);
+		free_all_malloc(data);
 	if (check_identifier(id))
 	{
 		new->id = id;
 		if (!new->id)
-			free_all(data);
+			free_all_malloc(data);
 	}
 	new->value = ft_strdup(str + i + 1);
 	if (!new->value)
-		free_all(data);
+		free_all_malloc(data);
 	new->next = NULL;
 	return (new);
 }
@@ -68,7 +68,7 @@ t_env	*env_new(t_data *data, char *str)
 	i = 0;
 	new = malloc(sizeof(t_env));
 	if (!new)
-		free_all(data);
+		free_all_malloc(data);
 	if (!ft_strchr(str, '='))
 	{
 		new = new_without_equal(data, new, str);
@@ -80,7 +80,7 @@ t_env	*env_new(t_data *data, char *str)
 		i++;
 	new = new_with_equal(data, new, str, i);
 	if (!new)
-		free_all(data);
+		free_all_malloc(data);
 	new->printable = 1;
 	return (new);
 }

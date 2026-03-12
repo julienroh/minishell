@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 10:08:36 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:58:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	set_env_value(t_data *data, char *id, char *value)
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
 			if (!tmp->value)
-				free_all(data);
+				free_all_malloc(data);
 			return ;
 		}
 		tmp = tmp->next;
@@ -71,7 +71,9 @@ int	exec_cd(t_data *data, char **args)
 		path = args[1];
 	if (!path || chdir(path) == -1)
 	{
+		printf("cd\n");
 		printf("minishell: cd: %s: No such file or directory\n", path);
+		free_data_except_env(data);
 		free(oldpwd);
 		return (1);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/11 13:55:52 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 			expand.tmp = ft_strjoin(expand.prefix, expand.val);
 			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
 			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
-				free_all(data);
+				free_all_malloc(data);
 			free(p->value);
 			p->value = expand.new_part;
 			i = ft_strlen(expand.tmp);

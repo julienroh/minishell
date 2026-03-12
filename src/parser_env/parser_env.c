@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 11:09:31 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/11 13:38:32 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env	*parser_env(t_data *data, char **env)
 	new->id = ft_strdup("?");
 	new->value = ft_strdup("0");
 	if (!new->id || !new->value || !new)
-		free_all(data);
+		free_all_malloc(data);
 	new->printable = 0;
 	new->next = NULL;
 	env_add_back(&env_struct, new);
@@ -32,7 +32,7 @@ t_env	*parser_env(t_data *data, char **env)
 	{
 		new = env_new(data, env[i]);
 		if (!new)
-			free_all(data);
+			free_all_malloc(data);
 		env_add_back(&env_struct, new);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   only_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/11 14:45:32 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	only_export(t_data *data)
 	size = define_size(data->env);
 	char_env = malloc(sizeof(char *) * (size + 1));
 	if (!char_env)
-		free_all(data);
+		free_all_malloc(data);
 	while (current != NULL)
 	{
 		char_env[i] = ft_strdup(current->id);
@@ -96,7 +96,7 @@ void	only_export(t_data *data)
 			while (i-- > 0)
 				free(char_env[i]);
 			free(char_env);
-			free_all(data);
+			free_all_malloc(data);
 		}
 		i++;
 		current = current->next;

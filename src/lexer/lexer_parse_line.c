@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_parse_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/03 11:54:49 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_lexer	*lexer_parse_line(t_data *data)
 	i = 0;
 	data->lexer = malloc(sizeof(t_lexer));
 	if (!data->lexer)
-		free_all(data);
+		free_all_malloc(data);
 	number = number_of_tokens(data->line);
 	if (number == 0)
 		return (printf("invalid syntax : quote unclosed\n"), NULL);
@@ -158,7 +158,7 @@ t_lexer	*lexer_parse_line(t_data *data)
 	data->lexer->token_i = -1;
 	data->lexer->tokens = malloc(sizeof(t_token) * number);
 	if (!data->lexer->tokens)
-		free_all(data);
+		free_all_malloc(data);
 	if (!data->lexer->tokens)
 		return (NULL);
 	while (i < number)
