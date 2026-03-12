@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 10:42:31 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 22:44:16 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	exec_export(t_data *data, char **args)
 	char	*value;
 
 	i = 0;
-	if (args[1])
+	if (args[1] == NULL)
 		only_export(data);
 	while (args[i + 1])
 	{
