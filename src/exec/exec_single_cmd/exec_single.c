@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 11:55:30 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 12:01:39 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void exec_child(t_data *data)
 	char 	**envp;
 	char	*path;
 
+	envp = NULL;
+	path = NULL;
 	if (apply_redirections(data->cmd_table->redirs) == -1)
 	{
 		free_envp_path(envp, path);
