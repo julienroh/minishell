@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/27 09:54:21 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_identifier(t_data *data, char *arg)
 	len_id = find_equal - arg;
 	to_return = malloc(sizeof(char) * (len_id + 1));
 	if (!to_return)
-		free_all(data);
+		free_all_malloc(data);
 	ft_strlcpy(to_return, arg, len_id + 1);
 	return (to_return);
 }
@@ -47,7 +47,7 @@ char	*get_value(t_data *data, char *arg)
 		return (NULL);
 	to_return = ft_strdup(find_equal + 1);
 	if (!to_return)
-		free_all(data);
+		free_all_malloc(data);
 	return (to_return);
 }
 

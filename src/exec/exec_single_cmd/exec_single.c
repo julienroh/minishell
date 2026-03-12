@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 22:31:08 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:55:30 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 			print_error(data->cmd_table->argv[0]);
 			print_error(": command not found\n");
 			free_envp_path(*envp, *path);
+			free_all(data);
 			exit(code);
 		}
 		perror(data->cmd_table->argv[0]);
+		free_all(data);
 		free_envp_path(*envp, *path);
 		exit(code);
 	}
@@ -101,6 +103,7 @@ int	exec_single_command(t_data *data)
 {
 	int	assign_count;
 
+	printf("single\n");
 	assign_count = count_prefix_assignments(data->cmd_table->argv);
 	if(data->cmd_table->argv[assign_count] == NULL)
 	{

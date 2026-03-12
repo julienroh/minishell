@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/11 16:09:44 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:56:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,12 @@ void	waiting_function(t_data *data)
 		if (is_blank_line(data->line))
 			continue ;
 		data->lexer = lexer_parse_line(data);
+		if (!data->lexer)
+		{
+			add_history(data->line);
+			free(data->line);
+			continue ;
+		}
 		if (check_syntax_tokens(data->lexer, data->lexer->token_total) == 1)
 		{
 			add_history(data->line);

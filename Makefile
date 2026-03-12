@@ -53,6 +53,7 @@ SRC =	src/main/main.c \
  		src/builtin/builtin_env.c \
  		src/builtin/builtin_cd.c \
  		src/builtin/builtin_pwd.c \
+		src/builtin/builtin_exit.c \
  		src/builtin/only_export.c \
 
 OBJS = $(SRC:.c=.o)

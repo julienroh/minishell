@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 10:32:48 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ static void	add_list_argv(t_argv **list_argv, t_data *data, char *value)
 
 	new = malloc(sizeof(t_argv));
 	if (!new)
-		free_all(data);
+		free_all_malloc(data);
 	new->arg = ft_strdup(value);
+	if (!new->arg)
+	{
+		free(new);
+		free_all_malloc(data);
+	}
 	new->next = NULL;
 	if (*list_argv == NULL)
 	{
@@ -39,7 +44,7 @@ static t_command	*create_command(t_data *data)
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
-		free_all(data);
+		free_all_malloc(data);
 	cmd->list_argv = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;

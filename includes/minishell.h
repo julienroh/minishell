@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/11 22:02:30 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 11:53:15 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ typedef struct s_pipe_ctx {
 	int n_cmd;
 }	t_pipe_ctx;
 
-//errors 
+//errors
 
 void	print_error(char *msg);
 void	print_error_identifier(char *str);
@@ -211,7 +211,7 @@ int				assign_already_in_list(t_env *env, char *id, char *value,
 int				handle_assignment_only_command(t_data *data, int assign_count);
 t_assign_type 	get_assignment_type(char *word);
 t_env 			*env_dup_list(t_env *src); //noneed ?
-char			**env_to_envp(t_env *env); 
+char			**env_to_envp(t_env *env);
 int				count_cmd_numbers(t_data *data);
 
 //builtin
@@ -219,11 +219,12 @@ int				count_cmd_numbers(t_data *data);
 int		exec_cd(t_data *data, char **args);
 void	exec_echo(t_data *data, char **args);
 void	exec_env(t_env *env);
-void	exec_export(t_data *data, char **args);
-int		exec_pot_export(t_data *data, char **args); //byebye ?
+void	exec_export(t_data *data, char **args, int i);
+int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
+void	exec_exit(t_data *data);
 
 
 //check
@@ -238,8 +239,9 @@ t_command	*initialize_command(t_data *data, t_lexer *lexer);
 
 void	free_env(t_env *env);
 void	free_data_except_env(t_data *data);
-void	free_all(t_data *data);
+void	free_all_malloc(t_data *data);
 void	free_list_argv(t_command *cmd);
+void	free_all(t_data *data);
 
 //lexer
 
