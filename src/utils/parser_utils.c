@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/02/27 15:25:34 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/11 13:24:54 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,14 @@ t_env	*new_without_equal(t_data *data, t_env *new, char *str)
 
 static t_env	*new_with_equal(t_data *data, t_env *new, char *str, int i)
 {
-	if (check_identifier(ft_substr(str, 0, i)))
+	char	*id;
+
+	id = ft_substr(str, 0, i);
+	if (!id)
+		free_all(data);
+	if (check_identifier(id))
 	{
-		new->id = ft_substr(str, 0, i);
+		new->id = id;
 		if (!new->id)
 			free_all(data);
 	}

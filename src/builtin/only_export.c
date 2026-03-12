@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/02 18:31:01 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/11 14:45:32 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static char	*find_value(char *id, t_env *env)
 	current = env;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->id, id, max(current->id, id)) == 0)
+		if (ft_strlen(current->id) == ft_strlen(id)
+			&& ft_strncmp(current->id, id, ft_strlen(id)) == 0)
 			return (current->value);
 		current = current->next;
 	}
@@ -81,7 +82,7 @@ void	only_export(t_data *data)
 	char	**char_env;
 	t_env	*current;
 
-	i = -1;
+	i = 0;
 	current = data->env;
 	size = define_size(data->env);
 	char_env = malloc(sizeof(char *) * (size + 1));
@@ -89,12 +90,15 @@ void	only_export(t_data *data)
 		free_all(data);
 	while (current != NULL)
 	{
-		char_env[++i] = ft_strdup(current->id);
+		char_env[i] = ft_strdup(current->id);
 		if (!char_env[i])
 		{
-			free_char_env(char_env);
+			while (i-- > 0)
+				free(char_env[i]);
+			free(char_env);
 			free_all(data);
 		}
+		i++;
 		current = current->next;
 	}
 	char_env[i] = NULL;

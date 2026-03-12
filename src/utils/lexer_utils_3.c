@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 11:27:55 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/11 13:55:52 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ void	expand_part(t_data *data, t_part *p, int i)
 	{
 		if (p->value[i] == '$' && p->expand)
 		{
-			printf("oui\n");
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
-			printf("expand_id = %s\n", expand.id);
 			expand.val = get_env_value(data, expand.id);
-			printf("expand_value = %s\n", expand.val);
 			if (!expand.val)
 				expand.val = "";
 			expand.suffix = ft_strdup(p->value + i);

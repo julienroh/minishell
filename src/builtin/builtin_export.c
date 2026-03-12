@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 10:42:31 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 08:08:43 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_id_value(char *id, char *value)
+{
+	free(id);
+	free(value);
+}
 
 static void	check_if_exist(t_env *env, char *arg)
 {
@@ -39,15 +45,13 @@ static void	add_in_env(t_data *data, char **args, int i)
 value by the new one. If not, we create a new space for the new id and value.
 */
 
-void	exec_export(t_data *data, char **args)
+void	exec_export(t_data *data, char **args, int i)
 {
-	int		i;
 	char	*id;
 	char	*value;
 
-	i = 0;
-	if (args[1])
-		only_export(data);
+	if (!args[1])
+		return (only_export(data));
 	while (args[i + 1])
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)
@@ -64,8 +68,7 @@ void	exec_export(t_data *data, char **args)
 			plus_equal_condition(data, args[i + 1], 1);
 		else if (!already_in_struct(data->env, id, value, 0))
 			add_in_env(data, args, i);
+		free_id_value(id, value);
 		i++;
 	}
 }
-
-//SI ON FAIT VAR=42 et ensuite export VAR, ca doit marcher

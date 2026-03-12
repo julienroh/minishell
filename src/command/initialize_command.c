@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/06 10:32:48 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/11 16:43:34 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static void	add_list_argv(t_argv **list_argv, t_data *data, char *value)
 	if (!new)
 		free_all(data);
 	new->arg = ft_strdup(value);
+	if (!new->arg)
+	{
+		free(new);
+		free_all(data);
+	}
 	new->next = NULL;
 	if (*list_argv == NULL)
 	{

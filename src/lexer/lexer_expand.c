@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 11:24:17 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/11 13:55:38 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	lexer_expand(t_data *data)
 	int		i;
 
 	i = 0;
-	printf("pouet\n");
 	while (i < data->lexer->token_total)
 	{
 		if (data->lexer->tokens[i].parts != NULL)

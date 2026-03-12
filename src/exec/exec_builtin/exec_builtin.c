@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/10 10:51:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:29:22 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 	else if (type_builtin == 1)
 		exec_pwd(data->env);
 	else if (type_builtin == 2)
-		exec_export(data, args);
+		exec_export(data, args, 0);
 	else if (type_builtin == 3)
 		exec_env(data->env);
 	else if (type_builtin == 4)
@@ -47,7 +47,7 @@ void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 	else if (type_builtin == 5)
 		exec_unset(args, &data->env);
 	else if (type_builtin == EXIT)
-		exit(0);
+		free_all(data);
 }
 
 int	exec_builtin_parent(t_data *data, char **exec_cmd)

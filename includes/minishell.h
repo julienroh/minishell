@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/10 10:46:20 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:29:50 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ typedef struct s_pipe_ctx {
 	int n_cmd;
 }	t_pipe_ctx;
 
-//errors 
+//errors
 
 void	print_error(char *msg);
 void	print_error_identifier(char *str);
@@ -191,7 +191,7 @@ int				assign_already_in_list(t_env *env, char *id, char *value,
 int				handle_assignment_only_command(t_data *data, int assign_count);
 t_assign_type 	get_assignment_type(char *word);
 t_env 			*env_dup_list(t_env *src); //noneed ?
-char			**env_to_envp(t_env *env); 
+char			**env_to_envp(t_env *env);
 int				count_cmd_numbers(t_data *data);
 
 		//debug exec, a virer
@@ -202,7 +202,7 @@ void print_list_env(t_env *list);
 int		exec_cd(t_data *data, char **args);
 void	exec_echo(t_data *data, char **args);
 void	exec_env(t_env *env);
-void	exec_export(t_data *data, char **args);
+void	exec_export(t_data *data, char **args, int i);
 int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
