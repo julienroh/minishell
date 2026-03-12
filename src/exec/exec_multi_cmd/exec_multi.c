@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 22:25:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:04:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,26 @@ static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 
 	type = is_builtin(cmd->argv[0]);
 	child_setup_pipes(v, v->i);
-	if (apply_redirections(cmd->redirs) == -1) // si 1 redir cassée dans ma cmd, print err mess, fermer ce qui doit etre fermé et go next cmd. ou pas ? 
+	if (apply_redirections(cmd->redirs) == -1)
+	{
+		free_all(data);
+		free_structv(v);
 		exit(1);
+	}
+
 	if (type != CMD)
 	{
 		exec_builtin_parent(data, cmd->argv);
+		free_all(data);
+		free_structv(v);
 		exit(data->last_status);
 	}
 	multi_init_path_envp_cmd(cmd, data, &envp, &path);
 	if (execve(path, cmd->argv, envp) == -1)
 	{	
 		perror(cmd->argv[0]);
+		free_all(data);
+		free_structv(v);
 		free_envp_path(envp, path);
 		exit(127);
 	}
@@ -54,7 +63,7 @@ static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 static void	wrapper_close_pipe_parent(t_multi *v, bool is_last)
 {
 	if (is_last == false)
-		close(v->pipefd[v->i][1]); //close cette partie pour que la prochaine commande puisse lire de pipefd[0]. //si last rien a close, pas de pipe.
+		close(v->pipefd[v->i][1]);
 	if (v->i > 0)
 		close(v->pipefd[v->i - 1][0]);
 }
