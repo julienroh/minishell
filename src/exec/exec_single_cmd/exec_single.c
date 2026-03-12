@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 12:01:39 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 12:04:51 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int	exec_single_command(t_data *data)
 {
 	int	assign_count;
 
-	printf("single\n");
 	assign_count = count_prefix_assignments(data->cmd_table->argv);
 	if(data->cmd_table->argv[assign_count] == NULL)
 	{
