@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 10:20:18 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 11:44:12 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	init_path_envp_cmd(t_data *data, char ***envp, char **path)
 			exit(code);
 		}
 		perror(data->cmd_table->argv[0]);
+		free_all(data);
 		free_envp_path(*envp, *path);
 		exit(code);
 	}
@@ -122,6 +123,7 @@ int	exec_single_command(t_data *data)
 {
 	int	assign_count;
 
+	printf("single\n");
 	assign_count = count_prefix_assignments(data->cmd_table->argv);
 	if(data->cmd_table->argv[assign_count] == NULL)
 	{

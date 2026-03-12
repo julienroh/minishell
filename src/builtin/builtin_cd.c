@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:58:03 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 11:34:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exec_cd(t_data *data, char **args)
 	if (!path || chdir(path) == -1)
 	{
 		printf("cd\n");
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		printf("minishell: cd: %s: no such file or directory\n", path);
 		free_data_except_env(data);
 		free(oldpwd);
 		return (1);
