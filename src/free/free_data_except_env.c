@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data_except_env.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:54:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 08:16:30 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/12 13:57:13 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	free_data_except_env(t_data *data)
 	if (!data)
 		return ;
 	free(data->line);
+	data->line = NULL;
 	free_lexer(data->lexer);
 	free(data->lexer);
+	data->lexer = NULL;
 	free_cmd(data->cmd_table);
+	data->cmd_table = NULL;
 }

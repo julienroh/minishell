@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/12 13:49:44 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ t_lexer	*lexer_parse_line(t_data *data)
 		free_all_malloc(data);
 	number = number_of_tokens(data->line);
 	if (number == 0)
-		return (printf("invalid syntax : quote unclosed\n"), NULL);
+		return (free(data->lexer), printf("invalid syntax : quote unclosed\n"), NULL);
 	data->lexer->token_total = number;
 	data->lexer->token_i = -1;
 	data->lexer->tokens = malloc(sizeof(t_token) * number);
