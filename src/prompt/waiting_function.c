@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 11:56:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:56:37 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,25 +114,19 @@ void	waiting_function(t_data *data)
 		if (!data->lexer)
 		{
 			add_history(data->line);
-			free(data->line);
+			free_data_except_env(data);
 			continue ;
 		}
 		if (check_syntax_tokens(data->lexer, data->lexer->token_total) == 1)
 		{
 			add_history(data->line);
-			free(data->line);
-			continue ;
-		}
-		if (!data->lexer)
-		{
-			add_history(data->line);
-			free(data->line);
+			free_data_except_env(data);
 			continue ;
 		}
 		if (lexer_expand(data) == 1)
 		{
 			add_history(data->line);
-			free(data->line);
+			free_data_except_env(data);
 			continue ;
 		}
 		data->cmd_table = initialize_command(data, data->lexer);
