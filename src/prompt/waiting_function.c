@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 13:56:37 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/13 17:22:50 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,19 @@ to execute commands*/
 
 void	waiting_function(t_data *data)
 {
-
 	while (1)
 	{
+		g_sig = 0;
 		signal_prompt();
 		data->line = readline("minishell$ ");
-		if (check_exit(data->line))
+		if (g_sig == SIGINT) //pour gérer le ctrl+c du prompting. bug actuellemment.
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			continue ;
+		}
+		if (check_exit(data->line)) // rentre dans ça et pouf ça quit si ctrl+c.
 			break ;
 		if (is_blank_line(data->line))
 			continue ;

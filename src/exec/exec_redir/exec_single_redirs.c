@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:02:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:48:54 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	redir_dup2(t_redir *redirs, int fd)
 		return (dup2(fd, STDOUT_FILENO));
 	return (-1);
 }
+
 int	apply_redirections(t_redir *redirs)
 {
     t_redir	*tmp;
@@ -53,6 +54,7 @@ int	apply_redirections(t_redir *redirs)
 	}
 	return (0);
 }
+
 int	wrapper_apply_redirs(t_data *data, t_stdio *stdio)
 {
 	if (save_stdio(stdio) == -1)

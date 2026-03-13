@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 15:41:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/07 12:49:39 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 14:29:53 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ pid_t	safe_fork(void)
 
 	pid = fork();
 	if (pid == -1)
+	{
+		ft_putstr_fd("minishell : ", 2);
 		perror("fork");
+	}
 	return (pid);
 }
 
