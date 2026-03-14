@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/13 17:48:54 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 22:26:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,15 @@ int	apply_redirections(t_redir *redirs)
 			return (-1);
 		fd = open_redir_fd(tmp);
 		if (fd == -1)
+		{
+			ft_putstr_fd("minishell : ", 2);
 			return (perror(tmp->target), -1);
+		}
 		if (redir_dup2(tmp, fd) == -1)
+		{
+			ft_putstr_fd("minishell : ", 2);
 			return (perror("dup2"), close(fd), -1);
+		}
 		close(fd);
 		tmp = tmp->next;
 	}

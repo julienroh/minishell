@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/13 17:47:58 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/14 13:24:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include "limits.h"
+# include <sys/ioctl.h>
 
 extern volatile sig_atomic_t g_sig;
 
@@ -175,7 +176,6 @@ bool		is_only_assignment_no_cmd(char **argv, int assign_count);
 int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_builtin	is_builtin(char *exec_argv);
 pid_t		safe_fork(void);
-void		init_path_envp_cmd(t_data *data, char ***envp, char **path);
 int			exec_external_cmd(t_data *data);
 int			restore_stdio(t_stdio *stdio);
 int			save_stdio(t_stdio *stdio);
@@ -200,6 +200,7 @@ void		heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data);
 void		cleanup_tmpfiles_heredocs(t_data *data);
 int			is_delim(char *line, char *delim);
 int			prepare_all_heredocs(t_data *data);
+void		single_execve_error(t_data *data, char **envp, char *path);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);

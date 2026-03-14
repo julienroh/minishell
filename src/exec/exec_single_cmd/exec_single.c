@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:27:43 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 22:50:36 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ void	single_init_envp(t_data *data,  char ***envp)
 		single_free_exit(data, 1);
 	}
 }
+// Superflu ????
+// void	single_exit_sigint(char *path, char **envp, t_data *data) 
+// {
+// 	free(path);
+// 	free_double_array(envp);
+// 	free_all(data);
+// 	g_sig = 0;
+// 	exit(130);
+// }
 
 /* dans le fork, applique les redirections, puis check path, puis init char **envp pour
 execve */
@@ -41,23 +50,17 @@ static void exec_child(t_data *data)
 	
 	envp = NULL;
 	path = NULL;
+	signal_exec();
 	if (apply_redirections(data->cmd_table->redirs) == -1)
-	{
-		free_all(data);
-		exit(1);
-	}
+		single_free_exit(data, 1);
 	single_init_envp(data, &envp);
 	code = multi_init_path(data->cmd_table, envp, &path); //considéré changer en init_path 
 	if (code != 0)
 		single_free_exit(data, code);
+	// if (g_sig == SIGINT)
+	// 	single_exit_sigint(path, envp, data); on me dis dans l'oreillette que c'est superflu.
 	if (execve(path, data->cmd_table->argv, envp) == -1)
-	{	
-		print_error("minishell : ");
-		perror(data->cmd_table->argv[0]);
-		free_all(data);
-		free_envp_path(envp, path);
-		exit(127);
-	}
+		single_execve_error(data, envp, path);
 }
 
 /*fork défensif puis exec le child.*/
