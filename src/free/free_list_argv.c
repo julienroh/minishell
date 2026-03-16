@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:42:14 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/16 11:15:52 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void	free_argv(t_argv *list_argv)
 	}
 }
 
-void	free_list_argv(t_command *cmd)
+void	free_list_argv(t_com *cmd)
 {
-	t_command	*current;
+	t_com	*current;
 
 	current = cmd;
 	while (current != NULL)

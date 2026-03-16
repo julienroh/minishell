@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:10:40 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	exec_external_cmd(t_data *data)
 
 int	exec_cmd(t_data *data)
 {
-	t_builtin	type;
+	t_btn	type;
 	t_stdio		stdio;
 
 	type = is_builtin(data->cmd_table->argv[0]);

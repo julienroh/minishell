@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:00:12 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static bool	is_valid_var_name_char(int c)
 
 //renvoie le type d'assign + Check les erreurs de nom de vars.
 
-t_assign_type	get_assignment_type(char *word)
+t_a_ty	get_assignment_type(char *word)
 {
 	int	i;
 
@@ -48,7 +48,7 @@ t_assign_type	get_assignment_type(char *word)
 }
 
 static int	split_assignment_word(char *word, char **name, char **value,
-	t_assign_type *type)
+	t_a_ty *type)
 {
 	int		len;
 
@@ -77,7 +77,7 @@ int	apply_one_assignment(t_env **env, char *word)
 	char			*name;
 	char			*value;
 	t_env			*new;
-	t_assign_type	type;
+	t_a_ty	type;
 
 	status = 0;
 	if (!word || !env)

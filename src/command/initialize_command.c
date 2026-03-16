@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static void	add_list_argv(t_argv **list_argv, t_data *data, char *value)
 	current->next = new;
 }
 
-static t_command	*create_command(t_data *data)
+static t_com	*create_command(t_data *data)
 {
-	t_command	*cmd;
+	t_com	*cmd;
 
-	cmd = malloc(sizeof(t_command));
+	cmd = malloc(sizeof(t_com));
 	if (!cmd)
 		free_all_malloc(data);
 	cmd->list_argv = NULL;
@@ -51,7 +51,7 @@ static t_command	*create_command(t_data *data)
 	return (cmd);
 }
 
-static void	process_token(t_data *data, t_lexer *lex, t_command **curr, int *i)
+static void	process_token(t_data *data, t_lexer *lex, t_com **curr, int *i)
 {
 	if (lex->tokens[*i].type == PIPE)
 	{
@@ -71,10 +71,10 @@ static void	process_token(t_data *data, t_lexer *lex, t_command **curr, int *i)
 	}
 }
 
-t_command	*initialize_command(t_data *data, t_lexer *lexer)
+t_com	*initialize_command(t_data *data, t_lexer *lexer)
 {
-	t_command	*head;
-	t_command	*current;
+	t_com	*head;
+	t_com	*current;
 	int			i;
 
 	i = 0;

@@ -9,7 +9,7 @@ Objectif global
   - prefix assignments VAR=42
   - heredoc + interruption Ctrl-C
   - codes de retour (last_status / $? )
-- Sans changer les structs de base (t_data, t_command, t_redir).
+- Sans changer les structs de base (t_data, t_com, t_redir).
 
 ======================================================================
 PHASE 0 - Contrat Parser -> Executor (a verrouiller)
@@ -18,7 +18,7 @@ But
 - Pouvoir coder l'executor sans attendre que tout le parser soit fini.
 
 Contrat minimal
-- Pour chaque t_command :
+- Pour chaque t_com :
   - argv est NULL-terminated
   - redirs est une liste chainee dans l'ordre d'apparition
   - redirs->target contient :
@@ -40,8 +40,8 @@ But
 
 A coder
 - executor_run(t_data *data) WIP
-- count_commands(t_command *cmds) DONE
-- debug_print_cmd_table(t_command *cmds) DONE
+- count_coms(t_com *cmds) DONE
+- debug_print_cmd_table(t_com *cmds) DONE
 - close_if_valid(int fd) DONE (ajout d-autres helpers tire de pipex aussi)
 
 Logique de base de executor_run
@@ -107,7 +107,7 @@ But
 - Ajouter les redirs classiques avant heredoc.
 
 A coder
-- apply_redirections(t_command *cmd)
+- apply_redirections(t_com *cmd)
 - open_redir_in()
 - open_redir_out(append)
 - save_std_fds()
@@ -142,7 +142,7 @@ Design choisi
 
 A coder
 - prepare_all_heredocs(t_data *data)
-- prepare_cmd_heredocs(t_command *cmd, t_data *data)
+- prepare_cmd_heredocs(t_com *cmd, t_data *data)
 - prepare_one_heredoc(t_redir *r, t_data *data)
 - heredoc_fill_tmpfile(delim, tmp_path)
 
@@ -188,7 +188,7 @@ But
 - Executer plusieurs commandes en pipeline.
 
 A coder
-- exec_pipeline(t_data *data, t_command *cmds)
+- exec_pipeline(t_data *data, t_com *cmds)
 - alloc_pids()
 - wait_all_and_get_last_status()
 

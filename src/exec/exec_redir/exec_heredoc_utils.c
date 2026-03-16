@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:35:05 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:14:28 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_delim(char *line, char *delim)
 void	cleanup_tmpfiles_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
-	t_command	*cur_cmd;
+	t_com	*cur_cmd;
 
 	cur_cmd = data->cmd_table;
 	while (cur_cmd)

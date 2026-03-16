@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 15:54:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 13:57:13 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ static void	free_redirs(t_redir *redirs)
 	}
 }
 
-static void	free_cmd(t_command *cmd)
+static void	free_cmd(t_com *cmd)
 {
-	t_command	*current;
-	t_command	*next;
+	t_com	*current;
+	t_com	*next;
 
 	if (!cmd)
 		return ;

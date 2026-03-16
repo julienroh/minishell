@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:21:22 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:06:46 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 
 /* check les erreurs de path.*/
 
-int	multi_init_path(t_command *cmd, char **envp, char **path)
+int	multi_init_path(t_com *cmd, char **envp, char **path)
 {
 	int	code;
 

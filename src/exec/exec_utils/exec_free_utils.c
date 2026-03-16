@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:11:50 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	free_list_redirs(t_redir *headptr)
 
 void	free_cmdtable(t_data *data)
 {
-	t_command	*cmd_table;
-	t_command	*next_cmd;
+	t_com	*cmd_table;
+	t_com	*next_cmd;
 
 	if (!data)
 		return ;

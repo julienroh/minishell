@@ -6,13 +6,13 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 14:59:54 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_builtin	is_builtin(char *exec_argv)
+t_btn	is_builtin(char *exec_argv)
 {
 	if (!exec_argv || !exec_argv[0])
 		return (CMD);
@@ -33,7 +33,7 @@ t_builtin	is_builtin(char *exec_argv)
 	return (CMD);
 }
 
-void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
+void	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
 {
 	if (type_builtin == 0)
 		exec_cd(data, args);
@@ -53,7 +53,7 @@ void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 
 int	exec_builtin_parent(t_data *data, char **exec_cmd)
 {
-	t_builtin	type_builtin;
+	t_btn	type_builtin;
 
 	type_builtin = is_builtin(exec_cmd[0]);
 	find_builtin_and_exec(data, exec_cmd, type_builtin);

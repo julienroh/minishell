@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:06:02 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
 	exit(exit_int);
 }
 
-static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
+static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 {
 	char		**envp;
 	char		*path;
-	t_builtin	type;
+	t_btn	type;
 	int			code;
 
 	type = is_builtin(cmd->argv[0]);
@@ -91,7 +91,7 @@ int	exec_multi_command(t_data *data, int n_cmd)
 {
 	t_multi		v;
 	bool		is_last;
-	t_command	*cmd;
+	t_com	*cmd;
 
 	cmd = data->cmd_table;
 	if (init_v(data, &v, n_cmd) == -1)

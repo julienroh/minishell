@@ -6,13 +6,13 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 10:58:14 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_assignment_name_len(char *word, t_assign_type type)
+int	get_assignment_name_len(char *word, t_a_ty type)
 {
 	int	i;
 
@@ -49,7 +49,7 @@ static int	append_logic(t_env *tmp, char *value)
 }
 
 int	assign_already_in_list(t_env *env, char *id, char *value,
-	t_assign_type type)
+	t_a_ty type)
 {
 	size_t	len;
 	t_env	*tmp;

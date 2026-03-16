@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:14:40 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:13:57 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	heredoc_waitpid(t_data *data, char *name, int status)
 int	prepare_all_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
-	t_command	*cur_cmd;
+	t_com	*cur_cmd;
 	int			counter;
 
 	counter = 0;

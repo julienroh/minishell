@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 14:59:42 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 15:24:03 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <limits.h>
 # include <sys/ioctl.h>
 
-extern volatile sig_atomic_t g_sig;
+extern volatile sig_atomic_t	g_sig;
 
 typedef struct s_multi
 {
@@ -57,14 +57,14 @@ typedef enum e_builtin
 	UNSET,
 	EXIT,
 	CMD,
-}	t_builtin;
+}	t_btn;
 
 typedef enum e_assign_type
 {
 	NONE,
 	SET,
 	APPEND,
-}	t_assign_type;
+}	t_a_ty;
 
 typedef struct s_env
 {
@@ -99,7 +99,7 @@ typedef enum e_toktype
 
 typedef struct s_token
 {
-	t_part	*parts;
+	t_part			*parts;
 	t_toktype		type;
 	char			*value;
 }				t_token;
@@ -121,11 +121,11 @@ typedef enum e_redir_type
 
 typedef struct s_argv
 {
-	char 	*arg;
+	char			*arg;
 	struct s_argv	*next;
 }	t_argv;
 
-typedef struct s_redir /*liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.*/
+typedef struct s_redir
 {
 	t_redir_type	type;
 	char			*target;
@@ -139,30 +139,30 @@ typedef struct s_command
 	t_argv				*list_argv;
 	t_redir				*redirs;
 	struct s_command	*next;
-}	t_command;
+}	t_com;
 
 typedef struct s_data
 {
-	char		*line;
-	char		**args;
-	t_lexer		*lexer;
-	t_env		*env;
-	t_command	*cmd_table;
-	int			last_status;
+	char	*line;
+	char	**args;
+	t_lexer	*lexer;
+	t_env	*env;
+	t_com	*cmd_table;
+	int		last_status;
 }	t_data;
 
 typedef struct s_stdio
 {
-	int saved_stdin;
-	int saved_stdout;
+	int	saved_stdin;
+	int	saved_stdout;
 }	t_stdio;
 
 typedef struct s_pipe_ctx
 {
-	int prev_read;
-	int pipefd[2];
-	pid_t *pids;
-	int n_cmd;
+	int		prev_read;
+	int		pipefd[2];
+	pid_t	*pids;
+	int		n_cmd;
 }	t_pipe_ctx;
 
 //errors
@@ -172,61 +172,59 @@ void	print_error_identifier(char *str);
 
 //exec
 
-void		executor_run(t_data *data);
-bool		is_only_assignment_no_cmd(char **argv, int assign_count);
-int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
-t_builtin	is_builtin(char *exec_argv);
-pid_t		safe_fork(void);
-int			exec_external_cmd(t_data *data);
-int			restore_stdio(t_stdio *stdio);
-int			save_stdio(t_stdio *stdio);
-int			apply_redirections(t_redir *redirs);
-int			wrapper_apply_redirs(t_data *data, t_stdio *stdio);
-int			ft_findpath(char **out_path, char *cmd, char **envp);
-int			exec_single_command(t_data *data);
-int			exec_builtin_parent(t_data *data, char **exec_cmd);
-int			heredoc_cleanup(t_data *data);
-int			heredoc_cleanup_str(t_data *data, int fd, char *str);
-int 		init_v(t_data *data, t_multi *v, int n_cmd);
-void		child_setup_pipes(t_multi *v, int i, t_data *data);
-int			spawn_child(t_multi *v);
-bool		is_last_cmd(int cmdnumber, int i);
-int			exec_multi_command(t_data *data, int n_cmd);
-void		multi_init_envp(t_data *data, t_multi *v, char ***envp);
-int			multi_init_path(t_command *cmd, char **envp, char **path);
-int			handle_heredoc(t_data *data, t_redir *r, int counter);
-int			heredoc_success_change_redirtype(t_redir *r, t_data *data, char *name);
-void		heredoc_sigint_cleanup(int fd, char *name, t_data *data);
-void		heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data);
-void		cleanup_tmpfiles_heredocs(t_data *data);
-int			is_delim(char *line, char *delim);
-int			prepare_all_heredocs(t_data *data);
-void		single_execve_error(t_data *data, char **envp, char *path);
+void	executor_run(t_data *data);
+bool	is_only_assignment_no_cmd(char **argv, int assign_count);
+int		apply_prefix_assignments(t_env **env, char **argv, int assign_count);
+t_btn	is_builtin(char *exec_argv);
+pid_t	safe_fork(void);
+int		exec_external_cmd(t_data *data);
+int		restore_stdio(t_stdio *stdio);
+int		save_stdio(t_stdio *stdio);
+int		apply_redirections(t_redir *redirs);
+int		wrapper_apply_redirs(t_data *data, t_stdio *stdio);
+int		ft_findpath(char **out_path, char *cmd, char **envp);
+int		exec_single_command(t_data *data);
+int		exec_builtin_parent(t_data *data, char **exec_cmd);
+int		heredoc_cleanup(t_data *data);
+int		heredoc_cleanup_str(t_data *data, int fd, char *str);
+int		init_v(t_data *data, t_multi *v, int n_cmd);
+void	child_setup_pipes(t_multi *v, int i, t_data *data);
+int		spawn_child(t_multi *v);
+bool	is_last_cmd(int cmdnumber, int i);
+int		exec_multi_command(t_data *data, int n_cmd);
+void	multi_init_envp(t_data *data, t_multi *v, char ***envp);
+int		multi_init_path(t_com *cmd, char **envp, char **path);
+int		handle_heredoc(t_data *data, t_redir *r, int counter);
+int		heredoc_success_change_redirtype(t_redir *r, t_data *data, char *name);
+void	heredoc_sigint_cleanup(int fd, char *name, t_data *data);
+void	heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data);
+void	cleanup_tmpfiles_heredocs(t_data *data);
+int		is_delim(char *line, char *delim);
+int		prepare_all_heredocs(t_data *data);
+void	single_execve_error(t_data *data, char **envp, char *path);
 
 	//free utilisé dans exec
-	
+
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
 void	free_envp_path(char **envp, char *path);
 void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int);
 
-
 	//assignments
 
-int				get_assignment_name_len(char *word, t_assign_type type);
-int				count_prefix_assignments(char **argv);
-int				check_malloc_ok(char *str);
-int				apply_one_assignment(t_env **env, char *word);
-void			lst_add_back(t_env **env, t_env *new);
-int				assign_already_in_list(t_env *env, char *id, char *value,
-				t_assign_type type);
-int				handle_assignment_only_command(t_data *data, int assign_count);
-t_assign_type 	get_assignment_type(char *word);
-t_env 			*env_dup_list(t_env *src);
-t_env 			*lst_env_new(char *name, char *value);
-char			**env_to_envp(t_env *env);
-int				count_cmd_numbers(t_data *data);
+int		get_assignment_name_len(char *word, t_a_ty type);
+int		count_prefix_assignments(char **argv);
+int		check_malloc_ok(char *str);
+int		apply_one_assignment(t_env **env, char *word);
+void	lst_add_back(t_env **env, t_env *new);
+int		assign_already_in_list(t_env *env, char *id, char *value, t_a_ty type);
+int		handle_assignment_only_command(t_data *data, int assign_count);
+t_a_ty	get_assignment_type(char *word);
+t_env	*env_dup_list(t_env *src);
+t_env	*lst_env_new(char *name, char *value);
+char	**env_to_envp(t_env *env);
+int		count_cmd_numbers(t_data *data);
 
 //builtin
 
@@ -246,14 +244,14 @@ int		check_syntax_tokens(t_lexer *lexer, int number);
 
 //command
 
-t_command	*initialize_command(t_data *data, t_lexer *lexer);
+t_com	*initialize_command(t_data *data, t_lexer *lexer);
 
 //free
 
 void	free_env(t_env *env);
 void	free_data_except_env(t_data *data);
 void	free_all_malloc(t_data *data);
-void	free_list_argv(t_command *cmd);
+void	free_list_argv(t_com *cmd);
 void	free_all(t_data *data);
 
 //lexer
@@ -280,7 +278,7 @@ void	signal_prompt(void);
 //comand_utils.c
 
 void	add_redir(t_redir **redir, t_data *data, int i, char *target);
-void	from_list_to_array(t_data *data, t_command *head);
+void	from_list_to_array(t_data *data, t_com *head);
 
 //export_utils.c
 

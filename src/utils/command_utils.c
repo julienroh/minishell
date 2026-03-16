@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 16:09:47 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 11:56:53 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static char	**create_cmd_argv(t_data *data, t_argv *list_argv)
 	return (argv);
 }
 
-void	from_list_to_array(t_data *data, t_command *head)
+void	from_list_to_array(t_data *data, t_com *head)
 {
-	t_command	*current;
+	t_com	*current;
 
 	current = head;
 	while (current != NULL)
