@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/14 13:46:00 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 10:52:36 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void	waiting_function(t_data *data)
 		g_sig = 0;
 		signal_prompt();
 		data->line = readline("minishell$ ");
-	if (g_sig == SIGINT)
+		add_history(data->line);
+		if (g_sig == SIGINT)
 		{
 			data->last_status = 130;
 			free(data->line);
@@ -122,7 +123,7 @@ void	waiting_function(t_data *data)
 			continue ;
 		}
 		if (check_exit(data->line))
-		 	break ;
+			 break ;
 		if (is_blank_line(data->line))
 			continue ;
 		data->lexer = lexer_parse_line(data);
@@ -148,7 +149,6 @@ void	waiting_function(t_data *data)
 		executor_run(data);
 		//print_env(data->env);
 		//print_command(data);
-		add_history(data->line);
 		free_data_except_env(data);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/16 10:03:45 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 10:50:47 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	exec_cd(t_data *data, char **args)
 		path = args[1];
 	if (!path || chdir(path) == -1)
 	{
-		printf("cd\n");
 		printf("minishell: cd: %s: no such file or directory\n", path);
 		free_data_except_env(data);
 		free(oldpwd);

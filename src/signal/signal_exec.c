@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:26:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/13 23:05:08 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 10:36:49 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ void	signal_exec(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
+	// sa.sa_handler = SIG_DFL;
 	sigaction(SIGQUIT, &sa, NULL);
 }
