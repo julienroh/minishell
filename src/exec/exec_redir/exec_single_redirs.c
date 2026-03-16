@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/08 13:54:45 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 22:26:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	redir_dup2(t_redir *redirs, int fd)
 		return (dup2(fd, STDOUT_FILENO));
 	return (-1);
 }
+
 int	apply_redirections(t_redir *redirs)
 {
     t_redir	*tmp;
@@ -42,17 +43,24 @@ int	apply_redirections(t_redir *redirs)
 		if (!tmp->target)
 			return (-1);
 		if (tmp->type == R_HEREDOC)
-			return (-1); //A gérer plus tard. (ouvrir une file et traité ça en <)
+			return (-1);
 		fd = open_redir_fd(tmp);
 		if (fd == -1)
+		{
+			ft_putstr_fd("minishell : ", 2);
 			return (perror(tmp->target), -1);
+		}
 		if (redir_dup2(tmp, fd) == -1)
+		{
+			ft_putstr_fd("minishell : ", 2);
 			return (perror("dup2"), close(fd), -1);
+		}
 		close(fd);
 		tmp = tmp->next;
 	}
 	return (0);
 }
+
 int	wrapper_apply_redirs(t_data *data, t_stdio *stdio)
 {
 	if (save_stdio(stdio) == -1)

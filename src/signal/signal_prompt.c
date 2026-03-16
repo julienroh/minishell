@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:25:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/11 16:09:34 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/14 13:47:16 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	sigint_prompt(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	g_sig = SIGINT;
+	write(1, "^C", 2);
+	close(STDIN_FILENO);
 }
+
 
 void	signal_prompt(void)
 {
@@ -27,9 +27,8 @@ void	signal_prompt(void)
 
 	sa.sa_handler = sigint_prompt;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
+	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }

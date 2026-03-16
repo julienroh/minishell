@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes -I libft -I libft/get_next_line
+CFLAGS = -Wall -Wextra -Werror -I includes -I libft -I libft/get_next_line -g
 LDFLAGS = -lreadline
 
 RM = rm -rf
@@ -34,6 +34,8 @@ SRC =	src/main/main.c \
 		src/exec/exec_utils/exec_free_utils.c \
 		src/exec/exec_utils/exec_utils.c \
 		src/exec/exec_redir/exec_single_redirs.c \
+		src/exec/exec_redir/exec_heredoc.c \
+		src/exec/exec_redir/exec_heredoc_utils.c \
 		src/exec/exec_single_cmd/exec_single.c \
 		src/exec/exec_single_cmd/exec_stdio_handling.c \
 		src/exec/exec_multi_cmd/exec_multi_utils1.c \

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 22:25:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:30:04 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ static void	free_structv(t_multi *v)
 		i++;
 	}
 	free(v->pipefd);
-	
+}
+
+void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
+{
+		free_all(data);
+		free_structv(v);
+		exit(exit_int);
 }
 
 static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
@@ -32,29 +38,34 @@ static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 	char 		**envp;
 	char		*path;
 	t_builtin	type;
+	int			code;
 
 	type = is_builtin(cmd->argv[0]);
-	child_setup_pipes(v, v->i);
-	if (apply_redirections(cmd->redirs) == -1) // si 1 redir cassée dans ma cmd, print err mess, fermer ce qui doit etre fermé et go next cmd. ou pas ? 
-		exit(1);
+	child_setup_pipes(v, v->i, data);
+	if (apply_redirections(cmd->redirs) == -1)
+		free_exit_wrapper_child(data, v, 1);
 	if (type != CMD)
 	{
 		exec_builtin_parent(data, cmd->argv);
-		exit(data->last_status);
+		free_exit_wrapper_child(data, v, data->last_status);
 	}
-	multi_init_path_envp_cmd(cmd, data, &envp, &path);
+	multi_init_envp(data, v, &envp);
+	code = multi_init_path(cmd, envp, &path);
+	if (code != 0)
+		free_exit_wrapper_child(data, v, code);
 	if (execve(path, cmd->argv, envp) == -1)
 	{	
+		print_error("minishell : ");
 		perror(cmd->argv[0]);
 		free_envp_path(envp, path);
-		exit(127);
+		free_exit_wrapper_child(data, v, 127); // si t'a plus de places pour les signaux... fais unwrapper ici.
 	}
 }
 
 static void	wrapper_close_pipe_parent(t_multi *v, bool is_last)
 {
 	if (is_last == false)
-		close(v->pipefd[v->i][1]); //close cette partie pour que la prochaine commande puisse lire de pipefd[0]. //si last rien a close, pas de pipe.
+		close(v->pipefd[v->i][1]);
 	if (v->i > 0)
 		close(v->pipefd[v->i - 1][0]);
 }
@@ -95,7 +106,6 @@ int   exec_multi_command(t_data *data, int n_cmd)
 		wrapper_close_pipe_parent(&v, is_last);
 		cmd = cmd->next;
 		v.i++;
-		//sigaction.
 	}
 	wait_multi_pids(&v, data);
 	return (free_structv(&v), 0);

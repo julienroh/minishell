@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 13:56:37 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/14 13:46:00 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,28 @@ to execute commands*/
 
 void	waiting_function(t_data *data)
 {
+	int	stdin_backup;
 
+	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
+	stdin_backup = dup(STDIN_FILENO);
 	while (1)
 	{
+		g_sig = 0;
 		signal_prompt();
 		data->line = readline("minishell$ ");
+	if (g_sig == SIGINT)
+		{
+			data->last_status = 130;
+			free(data->line);
+			data->line = NULL;
+			dup2(stdin_backup, STDIN_FILENO);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			continue ;
+		}
 		if (check_exit(data->line))
-			break ;
+		 	break ;
 		if (is_blank_line(data->line))
 			continue ;
 		data->lexer = lexer_parse_line(data);

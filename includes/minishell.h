@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/12 11:53:15 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/14 13:24:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include "limits.h"
+# include <sys/ioctl.h>
 
 extern volatile sig_atomic_t g_sig;
 
@@ -175,7 +176,6 @@ bool		is_only_assignment_no_cmd(char **argv, int assign_count);
 int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_builtin	is_builtin(char *exec_argv);
 pid_t		safe_fork(void);
-void		init_path_envp_cmd(t_data *data, char ***envp, char **path);
 int			exec_external_cmd(t_data *data);
 int			restore_stdio(t_stdio *stdio);
 int			save_stdio(t_stdio *stdio);
@@ -184,20 +184,31 @@ int			wrapper_apply_redirs(t_data *data, t_stdio *stdio);
 int			ft_findpath(char **out_path, char *cmd, char **envp);
 int			exec_single_command(t_data *data);
 int			exec_builtin_parent(t_data *data, char **exec_cmd);
-int			heredoc_cleanup(t_data *data, char **str);
+int			heredoc_cleanup(t_data *data);
+int			heredoc_cleanup_str(t_data *data, int fd, char *str);
 int 		init_v(t_data *data, t_multi *v, int n_cmd);
-void		child_setup_pipes(t_multi *v, int i);
-void		multi_init_path_envp_cmd(t_command *cmd, t_data *data, char ***envp, char **path);
+void		child_setup_pipes(t_multi *v, int i, t_data *data);
 int			spawn_child(t_multi *v);
 bool		is_last_cmd(int cmdnumber, int i);
-void		child_setup_pipes(t_multi *v, int i);
-int   		exec_multi_command(t_data *data, int n_cmd);
+int			exec_multi_command(t_data *data, int n_cmd);
+void		multi_init_envp(t_data *data, t_multi *v, char ***envp);
+int			multi_init_path(t_command *cmd, char **envp, char **path);
+int			handle_heredoc(t_data *data, t_redir *r, int counter);
+int			heredoc_success_change_redirtype(t_redir *r, t_data *data, char *name);
+void		heredoc_sigint_cleanup(int fd, char *name, t_data *data);
+void		heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data);
+void		cleanup_tmpfiles_heredocs(t_data *data);
+int			is_delim(char *line, char *delim);
+int			prepare_all_heredocs(t_data *data);
+void		single_execve_error(t_data *data, char **envp, char *path);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
 void	free_envp_path(char **envp, char *path);
+void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int);
+
 
 	//assignments
 int				get_assignment_name_len(char *word, t_assign_type type);
