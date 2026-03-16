@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 11:54:29 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:03:53 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_builtin is_builtin(char *exec_argv)
+t_builtin	is_builtin(char *exec_argv)
 {
 	if (!exec_argv || !exec_argv[0])
 		return (CMD);
@@ -32,6 +32,7 @@ t_builtin is_builtin(char *exec_argv)
 		return (EXIT);
 	return (CMD);
 }
+
 void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 {
 	if (type_builtin == 0)

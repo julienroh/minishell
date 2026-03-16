@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_dup_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:06:47 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:03:30 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 Duplique un seul node (id, value, printable).
 Retourne NULL si erreur malloc.
 */
+
 static t_env	*dup_env_node(t_env *src)
 {
 	t_env	*new_node;
@@ -33,6 +34,7 @@ static t_env	*dup_env_node(t_env *src)
 Duplique toute la liste d'environnement.
 Retourne NULL si erreur malloc (et libère ce qui a déjà été créé).
 */
+
 t_env	*env_dup_list(t_env *src)
 {
 	t_env	*new_list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_free_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 18:34:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:11:50 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ void	free_double_array(char **array)
 	int	i;
 
 	i = 0;
-
 	if (!array)
 		return ;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		array[i] = NULL;
@@ -51,15 +50,13 @@ void	free_cmdtable(t_data *data)
 	t_command	*next_cmd;
 
 	if (!data)
-		return;
+		return ;
 	cmd_table = data->cmd_table;
-	while(cmd_table)
+	while (cmd_table)
 	{
 		next_cmd = cmd_table->next;
-		// free de argv
 		free_double_array(cmd_table->argv);
 		cmd_table->argv = NULL;
-		//free des redirs
 		free_list_redirs(cmd_table->redirs);
 		cmd_table->redirs = NULL;
 		free(cmd_table);
@@ -67,15 +64,16 @@ void	free_cmdtable(t_data *data)
 	}
 	data->cmd_table = NULL;
 }
+
 void	free_env_list(t_env *env)
 {
-	t_env *tmp;
-	t_env *cur;
+	t_env	*tmp;
+	t_env	*cur;
 
 	if (!env)
 		return ;
 	cur = env;
-	while(cur)
+	while (cur)
 	{
 		tmp = cur;
 		free(tmp->id);

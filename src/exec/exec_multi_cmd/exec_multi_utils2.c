@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:21:22 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:29:41 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:06:46 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* close all pipes ! we redirected them already when needed.*/
+
 static void	close_all_pipes(t_multi *v)
 {
 	int	i;
@@ -27,6 +28,7 @@ static void	close_all_pipes(t_multi *v)
 }
 
 /*alloue env en format char **. en cas d'erreur, free data, v, exit. */
+
 void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 {
 	*envp = NULL;
@@ -40,9 +42,10 @@ void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 }
 
 /* check les erreurs de path.*/
+
 int	multi_init_path(t_command *cmd, char **envp, char **path)
 {
-	int code;
+	int	code;
 
 	*path = NULL;
 	code = ft_findpath(path, cmd->argv[0], envp);
@@ -50,13 +53,13 @@ int	multi_init_path(t_command *cmd, char **envp, char **path)
 	{
 		if (!ft_strchr(cmd->argv[0], '/'))
 		{
-			print_error("minishell : "); // pas sure.
+			print_error("minishell : ");
 			print_error(cmd->argv[0]);
 			print_error(" : command not found\n");
 			free_envp_path(envp, *path);
 			return (code);
 		}
-		print_error("minishell : "); // pas sure.
+		print_error("minishell : ");
 		perror(cmd->argv[0]);
 		free_envp_path(envp, *path);
 		return (code);
@@ -66,6 +69,7 @@ int	multi_init_path(t_command *cmd, char **envp, char **path)
 
 /* redirige l'output sur la pipe + close la partie lecture de la pipe. 
 free et exit si err */
+
 static void	redir_pipe_stdout(int pipefd[2], t_multi *v, t_data *data)
 {
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
@@ -77,6 +81,7 @@ static void	redir_pipe_stdout(int pipefd[2], t_multi *v, t_data *data)
 }
 
 /* redirige l'input sur la pipe d'avant, free et exit si err */
+
 static void	redir_pipe_stdin(int pipefd[2], t_multi *v, t_data *data)
 {
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
@@ -89,6 +94,7 @@ static void	redir_pipe_stdin(int pipefd[2], t_multi *v, t_data *data)
 
 /* s'occupe de rediriger les sorties en fonction des pipes et d'ou 
 on est dans l'exec des cmds. si erreur, free tout et exit */
+
 void	child_setup_pipes(t_multi *v, int i, t_data *data)
 {
 	if (i == 0)

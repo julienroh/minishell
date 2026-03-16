@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:27:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/13 17:44:49 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:43:29 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void sigint_heredoc(int sig)
+static void	sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_sig = SIGINT;
@@ -50,6 +50,6 @@ int	heredoc_cleanup_str(t_data *data, int fd, char *str)
 		exit(1);
 	}
 	ft_putstr_fd("minishell: warning: here-document", 2);
-	ft_putstr_fd(" delimited by end-of-file\n",2);
+	ft_putstr_fd(" delimited by end-of-file\n", 2);
 	exit(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/13 11:16:50 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:21:52 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ volatile sig_atomic_t	g_sig;
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
+	int		stdin_backup;
 
+	rl_catch_signals = 0;
+	rl_catch_sigwinch = 0;
+	stdin_backup = dup(STDIN_FILENO);
 	if (argc != 1)
 		return (ft_putstr_fd("Wrong number of arguments.", 2), 1);
 	(void)argv;
@@ -31,7 +35,7 @@ int	main(int argc, char **argv, char **env)
 		perror("malloc");
 		exit(1);
 	}
-	waiting_function(&data);
+	waiting_function(&data, stdin_backup);
 	free_env(data.env);
 	return (0);
 }

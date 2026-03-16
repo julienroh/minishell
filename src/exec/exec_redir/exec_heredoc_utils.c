@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:35:05 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/13 17:49:48 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:14:28 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int heredoc_success_change_redirtype(t_redir *r, t_data *data, char *name)
+int	heredoc_success_change_redirtype(t_redir *r, t_data *data, char *name)
 {
 	free(r->target);
 	r->target = ft_strdup(name);
@@ -38,11 +38,11 @@ void	heredoc_sigint_cleanup(int fd, char *name, t_data *data)
 
 void	heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data)
 {
-		close (fd);
-		free(line);
-		free(name);
-		free_all(data);
-		exit(0);
+	close (fd);
+	free(line);
+	free(name);
+	free_all(data);
+	exit(0);
 }
 
 int	is_delim(char *line, char *delim)
@@ -57,7 +57,7 @@ void	cleanup_tmpfiles_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
 	t_command	*cur_cmd;
-	
+
 	cur_cmd = data->cmd_table;
 	while (cur_cmd)
 	{
@@ -75,4 +75,3 @@ void	cleanup_tmpfiles_heredocs(t_data *data)
 	}
 	return ;
 }
-

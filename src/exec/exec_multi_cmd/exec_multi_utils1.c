@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_utils1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:38:51 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 21:59:25 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:04:49 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	free_filled_int_array(int **array, int filled)
 	free(array);
 }
 
-static int  init_pipes(t_multi *v, int n_cmd)
+static int	init_pipes(t_multi *v, int n_cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_cmd - 1)
@@ -39,7 +39,7 @@ static int  init_pipes(t_multi *v, int n_cmd)
 	return (0);
 }
 
-int init_v(t_data *data, t_multi *v, int n_cmd)
+int	init_v(t_data *data, t_multi *v, int n_cmd)
 {
 	int	i;
 
@@ -52,18 +52,18 @@ int init_v(t_data *data, t_multi *v, int n_cmd)
 	v->pipefd = malloc(sizeof(int *) * (n_cmd - 1));
 	if (!v->pipefd)
 		return (perror("malloc"), free(v->pids), data->last_status = 1, -1);
-	while(i < n_cmd - 1)
+	while (i < n_cmd - 1)
 	{
 		v->pipefd[i] = malloc(sizeof(int) * 2);
 		if (!v->pipefd[i])
-			return (perror("malloc"), free_filled_int_array(v->pipefd, i), 
-					free(v->pids), data->last_status = 1, -1);
+			return (perror("malloc"), free_filled_int_array(v->pipefd, i),
+				free(v->pids), data->last_status = 1, -1);
 		i++;
 	}
 	if (init_pipes(v, n_cmd) == -1)
 	{
 		free_filled_int_array(v->pipefd, i);
-		return (perror("pipe"),  free(v->pids), data->last_status = 1, -1);
+		return (perror("pipe"), free(v->pids), data->last_status = 1, -1);
 	}
 	return (0);
 }

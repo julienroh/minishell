@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:07:32 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 10:58:14 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	get_assignment_name_len(char *word, t_assign_type type)
 
 static int	set_logic(t_env *tmp, char *value)
 {
-	char *str_tmp;
-	
+	char	*str_tmp;
+
 	str_tmp = NULL;
 	str_tmp = ft_strdup(value);
 	if (check_malloc_ok(str_tmp))
@@ -39,8 +39,8 @@ static int	set_logic(t_env *tmp, char *value)
 
 static int	append_logic(t_env *tmp, char *value)
 {
-	char *str_tmp;
-	
+	char	*str_tmp;
+
 	str_tmp = NULL;
 	str_tmp = ft_strjoin(tmp->value, value);
 	if (check_malloc_ok(str_tmp))
@@ -81,7 +81,6 @@ int	assign_already_in_list(t_env *env, char *id, char *value,
 
 int	count_prefix_assignments(char **argv)
 {
-	//nombre de VAR=machin, VAR+=machin...
 	int	i;
 
 	i = 0;

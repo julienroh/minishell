@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/13 22:50:36 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:10:40 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void single_free_exit(t_data *data, int code)
+static void	single_free_exit(t_data *data, int code)
 {
 	free_all(data);
 	exit(code);
 }
 
 /*alloue env en format char **. en cas d'erreur, free data, exit. */
-void	single_init_envp(t_data *data,  char ***envp)
+
+void	single_init_envp(t_data *data, char ***envp)
 {
 	*envp = NULL;
 	*envp = env_to_envp(data->env);
@@ -30,40 +31,31 @@ void	single_init_envp(t_data *data,  char ***envp)
 		single_free_exit(data, 1);
 	}
 }
-// Superflu ????
-// void	single_exit_sigint(char *path, char **envp, t_data *data) 
-// {
-// 	free(path);
-// 	free_double_array(envp);
-// 	free_all(data);
-// 	g_sig = 0;
-// 	exit(130);
-// }
 
-/* dans le fork, applique les redirections, puis check path, puis init char **envp pour
-execve */
-static void exec_child(t_data *data)
+/* dans le fork, applique les redirections, puis check path, 
+puis init char **envp pour execve */
+
+static void	exec_child(t_data *data)
 {
-	char 	**envp;
+	char	**envp;
 	char	*path;
 	int		code;
-	
+
 	envp = NULL;
 	path = NULL;
 	signal_exec();
 	if (apply_redirections(data->cmd_table->redirs) == -1)
 		single_free_exit(data, 1);
 	single_init_envp(data, &envp);
-	code = multi_init_path(data->cmd_table, envp, &path); //considéré changer en init_path 
+	code = multi_init_path(data->cmd_table, envp, &path);
 	if (code != 0)
 		single_free_exit(data, code);
-	// if (g_sig == SIGINT)
-	// 	single_exit_sigint(path, envp, data); on me dis dans l'oreillette que c'est superflu.
 	if (execve(path, data->cmd_table->argv, envp) == -1)
 		single_execve_error(data, envp, path);
 }
 
 /*fork défensif puis exec le child.*/
+
 int	exec_external_cmd(t_data *data)
 {
 	pid_t	pid;
@@ -80,9 +72,10 @@ int	exec_external_cmd(t_data *data)
 	if (WIFSIGNALED(wstatus))
 		data->last_status = (128 + WTERMSIG(wstatus));
 	return (0);
-} 
+}
 
 /* si builtin, exec builtin en redirigeant stdio. si command -> fork.*/
+
 int	exec_cmd(t_data *data)
 {
 	t_builtin	type;
@@ -95,21 +88,23 @@ int	exec_cmd(t_data *data)
 			return (-1);
 		data->last_status = exec_builtin_parent(data, data->cmd_table->argv);
 		restore_stdio(&stdio);
-		return(0);
+		return (0);
 	}
 	return (exec_external_cmd(data));
 }
 
-/* check et handle assign (p.e arg=42) (hors scope de minishell), puis exec cmd.*/
+/* check et handle assign (p.e arg=42) (hors scope de minishell), 
+puis exec cmd.*/
+
 int	exec_single_command(t_data *data)
 {
 	int	assign_count;
 
 	assign_count = count_prefix_assignments(data->cmd_table->argv);
-	if(data->cmd_table->argv[assign_count] == NULL)
+	if (data->cmd_table->argv[assign_count] == NULL)
 	{
 		if (handle_assignment_only_command(data, assign_count) == -1)
-			return(data->last_status = 1, -1);
+			return (data->last_status = 1, -1);
 		return (data->last_status = 0);
 	}
 	exec_cmd(data);

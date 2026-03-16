@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:30:04 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:06:02 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static void	free_structv(t_multi *v)
 
 void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
 {
-		free_all(data);
-		free_structv(v);
-		exit(exit_int);
+	free_all(data);
+	free_structv(v);
+	exit(exit_int);
 }
 
 static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 {
-	char 		**envp;
+	char		**envp;
 	char		*path;
 	t_builtin	type;
 	int			code;
@@ -54,11 +54,11 @@ static void	exec_multi_child(t_data *data, t_command *cmd, t_multi *v)
 	if (code != 0)
 		free_exit_wrapper_child(data, v, code);
 	if (execve(path, cmd->argv, envp) == -1)
-	{	
+	{
 		print_error("minishell : ");
 		perror(cmd->argv[0]);
 		free_envp_path(envp, path);
-		free_exit_wrapper_child(data, v, 127); // si t'a plus de places pour les signaux... fais unwrapper ici.
+		free_exit_wrapper_child(data, v, 127);
 	}
 }
 
@@ -74,9 +74,9 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 {
 	int	i;
 	int	wstatus;
-	
+
 	i = 0;
-	while(i < v->n_cmd)
+	while (i < v->n_cmd)
 	{
 		waitpid(v->pids[i], &wstatus, 0);
 		if (WIFEXITED(wstatus))
@@ -87,7 +87,7 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 	}
 }
 
-int   exec_multi_command(t_data *data, int n_cmd)
+int	exec_multi_command(t_data *data, int n_cmd)
 {
 	t_multi		v;
 	bool		is_last;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_redirs.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/13 22:26:52 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:15:19 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static int	redir_dup2(t_redir *redirs, int fd)
 
 int	apply_redirections(t_redir *redirs)
 {
-    t_redir	*tmp;
-	int 	fd;
-	
+	t_redir	*tmp;
+	int		fd;
+
 	tmp = redirs;
-	while(tmp)
+	while (tmp)
 	{
 		if (!tmp->target)
 			return (-1);

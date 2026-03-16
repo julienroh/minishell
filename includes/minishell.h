@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/14 13:24:17 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:49:22 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-# include "libft.h"
-# include "stdbool.h"
+# include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <errno.h>
-# include "limits.h"
+# include <limits.h>
 # include <sys/ioctl.h>
 
 extern volatile sig_atomic_t g_sig;
@@ -37,7 +37,7 @@ typedef struct s_multi
 	int		i;
 }	t_multi;
 
-typedef	struct s_expand
+typedef struct s_expand
 {
 	char	*prefix;
 	char	*suffix;
@@ -87,21 +87,21 @@ typedef struct s_part
 	struct s_part	*next;
 }				t_part;
 
-typedef enum e_toktype //le type du token
+typedef enum e_toktype
 {
-	WORD, //grep, ls, -l, "lorem $VAR", 'lorem'
-	PIPE, // |
-	T_IN, // <
-	T_OUT, // >
-	T_APPEND, // >>
-	T_HEREDOC, // <<
+	WORD,
+	PIPE,
+	T_IN,
+	T_OUT,
+	T_APPEND,
+	T_HEREDOC,
 }	t_toktype;
 
 typedef struct s_token
 {
 	t_part	*parts;
-	t_toktype		type; //word, pipe...
-	char			*value; //grep, <, <<, ls, -n, etc..
+	t_toktype		type;
+	char			*value;
 }				t_token;
 
 typedef struct s_lexer
@@ -111,14 +111,12 @@ typedef struct s_lexer
 	int		token_i;
 }				t_lexer;
 
-// pour la cmd table :
-
 typedef enum e_redir_type
 {
-	R_IN, // <
-	R_OUT, // >
-	R_APPEND, // >>
-	R_HEREDOC // <<
+	R_IN,
+	R_OUT,
+	R_APPEND,
+	R_HEREDOC
 }	t_redir_type;
 
 typedef struct s_argv
@@ -127,23 +125,23 @@ typedef struct s_argv
 	struct s_argv	*next;
 }	t_argv;
 
-typedef struct s_redir //liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.
+typedef struct s_redir /*liste chainee de redirs. 1ere redir rencontree va a la fin (add la node a la fin de la liste). --> conserve l'ordre dentree des inputs.*/
 {
-	t_redir_type	type; //cf t_redir_type
-	char			*target; //in.txt, out.txt, etc... check l'arg apres le type de redir. (ex : < in.txt)
-	struct s_redir	*next; //prochaine redirection rencontree, pour la CMD. 1 CMD peut avoir plusieurs redir. (ex : cat < in.txt > out.txt)
-	int				was_heredoc; //si c'était un heredoc ou non avant, utile pour unlink après.
+	t_redir_type	type;
+	char			*target;
+	struct s_redir	*next;
+	int				was_heredoc;
 }	t_redir;
 
-typedef struct s_command //une node de la liste chainee de la cmd table.
+typedef struct s_command
 {
 	char				**argv;
-	t_argv				*list_argv; //juste changer le s pour un v ici (plus facile a capter pour execve)
-	t_redir				*redirs; //liste chainee des redirs pour 1 cmd.
-	struct s_command	*next; //next cmd.
+	t_argv				*list_argv;
+	t_redir				*redirs;
+	struct s_command	*next;
 }	t_command;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	char		*line;
 	char		**args;
@@ -153,12 +151,14 @@ typedef struct	s_data
 	int			last_status;
 }	t_data;
 
-typedef struct s_stdio {
+typedef struct s_stdio
+{
 	int saved_stdin;
 	int saved_stdout;
 }	t_stdio;
 
-typedef struct s_pipe_ctx {
+typedef struct s_pipe_ctx
+{
 	int prev_read;
 	int pipefd[2];
 	pid_t *pids;
@@ -171,8 +171,9 @@ void	print_error(char *msg);
 void	print_error_identifier(char *str);
 
 //exec
+
 void		executor_run(t_data *data);
-bool		is_only_assignment_no_cmd(char **argv, int assign_count);
+int			is_only_assignment_no_cmd(char **argv, int assign_count);
 int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_builtin	is_builtin(char *exec_argv);
 pid_t		safe_fork(void);
@@ -189,7 +190,7 @@ int			heredoc_cleanup_str(t_data *data, int fd, char *str);
 int 		init_v(t_data *data, t_multi *v, int n_cmd);
 void		child_setup_pipes(t_multi *v, int i, t_data *data);
 int			spawn_child(t_multi *v);
-bool		is_last_cmd(int cmdnumber, int i);
+int			is_last_cmd(int cmdnumber, int i);
 int			exec_multi_command(t_data *data, int n_cmd);
 void		multi_init_envp(t_data *data, t_multi *v, char ***envp);
 int			multi_init_path(t_command *cmd, char **envp, char **path);
@@ -203,6 +204,7 @@ int			prepare_all_heredocs(t_data *data);
 void		single_execve_error(t_data *data, char **envp, char *path);
 
 	//free utilisé dans exec
+	
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);
@@ -211,17 +213,18 @@ void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int);
 
 
 	//assignments
+
 int				get_assignment_name_len(char *word, t_assign_type type);
 int				count_prefix_assignments(char **argv);
 int				check_malloc_ok(char *str);
 int				apply_one_assignment(t_env **env, char *word);
-t_env			*lst_env_new(char *name, char *value);
 void			lst_add_back(t_env **env, t_env *new);
 int				assign_already_in_list(t_env *env, char *id, char *value,
 				t_assign_type type);
 int				handle_assignment_only_command(t_data *data, int assign_count);
 t_assign_type 	get_assignment_type(char *word);
-t_env 			*env_dup_list(t_env *src); //noneed ?
+t_env 			*env_dup_list(t_env *src);
+t_env 			*lst_env_new(char *name, char *value);
 char			**env_to_envp(t_env *env);
 int				count_cmd_numbers(t_data *data);
 
@@ -236,7 +239,6 @@ int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
 void	exec_exit(t_data *data);
-
 
 //check
 
@@ -265,7 +267,7 @@ t_env	*parser_env(t_data *data, char **env);
 
 //prompt
 
-void	waiting_function(t_data *data);
+void	waiting_function(t_data *data, int stdin_backup);
 
 //signal
 

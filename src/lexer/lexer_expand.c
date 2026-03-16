@@ -6,38 +6,11 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 11:16:16 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	print_tokens(t_lexer *lexer, int number)
-// {
-// 	int		i;
-// 	int		j;
-// 	t_part	*current;
-
-// 	i = 0;
-// 	while (i < number)
-// 	{
-// 		printf("TOKEN %d\n", i);
-// 		if (lexer->tokens[i].type == WORD)
-// 		{
-// 			j = 0;
-// 			current = lexer->tokens[i].parts;
-// 			while (current != NULL)
-// 			{
-// 				printf("token %d part %d = %s\n", i, j, current->value);
-// 				current = current->next;
-// 				j++;
-// 			}
-// 		}
-// 		printf("value = %s\n", lexer->tokens[i].value);
-// 		printf("toktype = %d\n", lexer->tokens[i].type);
-// 		i++;
-// 	}
-// }
 
 /*Expand the token part if needed.
 */
@@ -97,7 +70,6 @@ int	lexer_expand(t_data *data)
 			parts_expand(data, &data->lexer->tokens[i]);
 			data->lexer->tokens[i].value = join_parts(data,
 					data->lexer->tokens[i]);
-			//free_parts(data->lexer->tokens[i]);
 		}
 		i++;
 	}

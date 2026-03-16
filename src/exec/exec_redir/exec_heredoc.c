@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:14:40 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/13 17:49:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:13:57 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_tmpname(char **foldername, int counter)
 
 	if (counter == INT_MAX)
 	{
-		ft_putstr_fd("error : too much heredocs" , 2);
+		ft_putstr_fd("error : too much heredocs", 2);
 		return ;
 	}
 	num = ft_itoa(counter);
@@ -49,27 +49,27 @@ static void	heredoc_child_getinput(t_data *data, t_redir *r, int fd, char *name)
 		write(fd, "\n", 1);
 		free(line);
 	}
-		free(name);
-		name = NULL;
+	free(name);
+	name = NULL;
 }
 
-static int heredoc_waitpid(t_data *data, char *name, int status)
+static int	heredoc_waitpid(t_data *data, char *name, int status)
 {
-    if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		data->last_status = 130;
-		unlink(name); 
+		unlink(name);
 		free(name);
 		return (-1);
 	}
 	return (0);
 }
 
-int		prepare_all_heredocs(t_data *data)
+int	prepare_all_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
 	t_command	*cur_cmd;
-	int	counter;
+	int			counter;
 
 	counter = 0;
 	cur_cmd = data->cmd_table;
@@ -104,14 +104,14 @@ int	handle_heredoc(t_data *data, t_redir *r, int counter)
 	ft_tmpname(&name, counter);
 	if (name == NULL)
 		return (data->last_status = 1, -1);
-	fd = open(name, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600); // loop si o_excl est vrai ?
+	fd = open(name, O_WRONLY | O_CREAT | O_EXCL | O_TRUNC, 0600);
 	if (fd < 0)
-		return (data->last_status = 1, free(name), perror("open"), -1); //fontion d'erreur ?
+		return (data->last_status = 1, free(name), perror("open"), -1);
 	pid = safe_fork();
 	if (pid < 0)
-		return (data->last_status = 1, close(fd), unlink(name), free(name), -1); //fonction d'erreur ? print qqch ?
+		return (data->last_status = 1, close(fd), unlink(name), free(name), -1);
 	if (pid == 0)
-		heredoc_child_getinput(data , r, fd, name);
+		heredoc_child_getinput(data, r, fd, name);
 	close(fd);
 	waitpid(pid, &status, 0);
 	if (heredoc_waitpid(data, name, status) == -1)

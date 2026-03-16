@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 16:18:01 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/10 10:49:00 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:13:09 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,15 @@ bool	is_only_assignment_no_cmd(char **argv, int assign_count)
 int	apply_prefix_assignments(t_env **env, char **argv, int assign_count)
 {
 	int	i;
-	
+
 	if (!env || !argv)
 		return (-1);
 	i = 0;
-	while(i < assign_count)
+	while (i < assign_count)
 	{
 		if (apply_one_assignment(env, argv[i++]) == -1)
 			return (-1);
 	}
-	//print_list_env(*env); //debug list.
 	return (0);
 }
 	//pour chaque prefix dans ma cmd, les appliques dans env ou fakenv.

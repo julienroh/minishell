@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/05 12:06:53 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:00:12 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,22 @@
 
 static bool	is_valid_var_name_start(int c)
 {
-	//premier char est correct.
-	if ((c >= 'A' && c <= 'Z')|| (c >= 'a' && c <= 'z') || c == '_')
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
 		return (true);
 	return (false);
 }
 
 static bool	is_valid_var_name_char(int c)
 {
-	//suite de la var est correct.
 	if (is_valid_var_name_start(c) || (c >= '0' && c <= '9'))
 		return (true);
 	return (false);
 }
 
-t_assign_type get_assignment_type(char *word)
+//renvoie le type d'assign + Check les erreurs de nom de vars.
+
+t_assign_type	get_assignment_type(char *word)
 {
-	//renvoie le type d'assign + Check les erreurs de nom de vars.
 	int	i;
 
 	i = 0;
@@ -43,7 +42,7 @@ t_assign_type get_assignment_type(char *word)
 		i++;
 	if (word[i] == '=')
 		return (SET);
-	if (word[i] == '+' && word[i+1] == '=')
+	if (word[i] == '+' && word[i + 1] == '=')
 		return (APPEND);
 	return (NONE);
 }
