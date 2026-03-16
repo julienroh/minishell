@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:03:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 14:59:54 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	find_builtin_and_exec(t_data *data, char **args, t_builtin type_builtin)
 	else if (type_builtin == 5)
 		exec_unset(args, &data->env);
 	else if (type_builtin == EXIT)
-		exec_exit(data);
+		exec_exit(data, args);
 }
 
 int	exec_builtin_parent(t_data *data, char **exec_cmd)
