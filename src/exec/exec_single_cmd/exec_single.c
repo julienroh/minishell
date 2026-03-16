@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:27:43 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 12:31:54 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void exec_child(t_data *data)
 	char 	**envp;
 	char	*path;
 	int		code;
-	
+
 	envp = NULL;
 	path = NULL;
 	if (apply_redirections(data->cmd_table->redirs) == -1)
@@ -47,11 +47,11 @@ static void exec_child(t_data *data)
 		exit(1);
 	}
 	single_init_envp(data, &envp);
-	code = multi_init_path(data->cmd_table, envp, &path); //considéré changer en init_path 
+	code = multi_init_path(data->cmd_table, envp, &path); //considéré changer en init_path
 	if (code != 0)
 		single_free_exit(data, code);
 	if (execve(path, data->cmd_table->argv, envp) == -1)
-	{	
+	{
 		print_error("minishell : ");
 		perror(data->cmd_table->argv[0]);
 		free_all(data);
@@ -77,7 +77,7 @@ int	exec_external_cmd(t_data *data)
 	if (WIFSIGNALED(wstatus))
 		data->last_status = (128 + WTERMSIG(wstatus));
 	return (0);
-} 
+}
 
 /* si builtin, exec builtin en redirigeant stdio. si command -> fork.*/
 int	exec_cmd(t_data *data)

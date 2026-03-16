@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_redirs.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:32:46 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/12 18:02:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 12:32:04 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	apply_redirections(t_redir *redirs)
 {
     t_redir	*tmp;
 	int 	fd;
-	
+
 	tmp = redirs;
 	while(tmp)
 	{

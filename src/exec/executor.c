@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/11 16:44:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/13 12:32:11 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	handle_heredoc(t_data *data, t_redir *r, int counter)
 {
 	int		fd;
 	char	*name;
-	
+
 	g_sig = 0;
 	name = NULL;
 	ft_tmpname(&name, counter);
@@ -114,7 +114,7 @@ void	cleanup_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
 	t_command	*cur_cmd;
-	
+
 	cur_cmd = data->cmd_table;
 	while (cur_cmd)
 	{
@@ -136,9 +136,9 @@ void	cleanup_heredocs(t_data *data)
 void	executor_run(t_data *data)
 {
 	int	cmd_numbers;
-	
+
 	if (!data || !data->cmd_table || !data->cmd_table->argv)
-		return ; 
+		return ;
 	cmd_numbers = count_cmd_numbers(data);
 	if (prepare_all_heredocs(data) == -1)
 	{
@@ -151,7 +151,7 @@ void	executor_run(t_data *data)
 	else if (cmd_numbers > 1)
 	  	exec_multi_command(data, cmd_numbers);
 	cleanup_heredocs(data);
-	//Check ici : je dois free des trucs ? 
+	//Check ici : je dois free des trucs ?
 }
 
 //DEBUG PRINT :
@@ -180,7 +180,7 @@ void	executor_run(t_data *data)
 // 	int	i;
 // 	t_command	*cur;
 // 	t_redir	*redirs;
-	
+
 // 	cur = data->cmd_table;
 // 	if (!data || !data->cmd_table || !data->cmd_table->argv)
 // 	{
@@ -207,4 +207,3 @@ void	executor_run(t_data *data)
 // 	}
 // 		printf("///CMDTABLEOVER\\\\\\");
 // }
-

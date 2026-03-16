@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/14 15:32:07 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ static char	*get_env_value(t_data *data, char *id)
 	return (NULL);
 }
 
+static void	apply_expansion(t_data *data, t_part *p, t_expand *expand, int *i)
+{
+	expand->prefix = ft_substr(p->value, 0, *i);
+	expand->id = extract_id(p->value, i);
+	if (ft_strncmp(expand->id, "?", 2) == 0)
+		expand->val = ft_itoa(data->last_status);
+	else
+		expand->val = get_env_value(data, expand->id);
+	if (!expand->val)
+		expand->val = "";
+	expand->suffix = ft_strdup(p->value + *i);
+	expand->tmp = ft_strjoin(expand->prefix, expand->val);
+	expand->new_part = ft_strjoin(expand->tmp, expand->suffix);
+	if (!expand->tmp || !expand->suffix || !expand->id || !expand->prefix)
+		free_all_malloc(data);
+	free(p->value);
+	p->value = expand->new_part;
+	*i = ft_strlen(expand->tmp);
+}
+
 void	expand_part(t_data *data, t_part *p, int i)
 {
 	t_expand	expand;
@@ -56,19 +76,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 	{
 		if (p->value[i] == '$' && p->expand)
 		{
-			expand.prefix = ft_substr(p->value, 0, i);
-			expand.id = extract_id(p->value, &i);
-			expand.val = get_env_value(data, expand.id);
-			if (!expand.val)
-				expand.val = "";
-			expand.suffix = ft_strdup(p->value + i);
-			expand.tmp = ft_strjoin(expand.prefix, expand.val);
-			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
-			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
-				free_all_malloc(data);
-			free(p->value);
-			p->value = expand.new_part;
-			i = ft_strlen(expand.tmp);
+			apply_expansion(data, p, &expand, &i);
 			free_expand(&expand);
 		}
 		else

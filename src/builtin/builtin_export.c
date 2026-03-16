@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 11:54:19 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/14 15:37:09 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_export(t_data *data, char **args, int i)
 	char	*value;
 
 	if (!args[1])
-		return (only_export(data));
+		return (only_export(data, i));
 	while (args[i + 1])
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   only_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 09:04:11 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,13 @@ static void	sort_char_env(char **args)
 	}
 }
 
-void	only_export(t_data *data)
+void	only_export(t_data *data, int i)
 {
-	int		i;
-	int		size;
 	char	**char_env;
 	t_env	*current;
 
-	i = 0;
 	current = data->env;
-	size = define_size(data->env);
-	char_env = malloc(sizeof(char *) * (size + 1));
+	char_env = malloc(sizeof(char *) * (define_size(data->env) + 1));
 	if (!char_env)
 		free_all_malloc(data);
 	while (current != NULL)
