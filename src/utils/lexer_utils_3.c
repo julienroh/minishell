@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 09:52:35 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 
 	while (p->value[i])
 	{
-		if (p->value[i] == '$' && p->expand)
+		if (p->value[i] == '$' && p->expand && p->value[i + 1] != '\0')
 		{
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);

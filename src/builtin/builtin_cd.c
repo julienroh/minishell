@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 11:34:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 09:39:58 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	exec_cd(t_data *data, char **args)
 	if (!args[1]
 		|| !ft_strncmp(args[1], "~", ft_strlen(args[1])))
 		path = get_env_value(data, "HOME");
-	else if (ft_strncmp(args[1], "-", ft_strlen(args[1])))
+	else if (!ft_strncmp(args[1], "-", ft_strlen(args[1])))
 		path = get_env_value(data, "OLDPWD");
 	else
 		path = args[1];
