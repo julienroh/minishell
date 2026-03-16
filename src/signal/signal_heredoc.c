@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:27:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 11:43:29 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 22:01:26 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ static void	sigint_heredoc(int sig)
 	g_sig = SIGINT;
 	write(1, "\n", 1);
 	close(STDIN_FILENO);
+}
+
+void	signal_mute_parent(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	signal_heredoc(void)

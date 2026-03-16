@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 15:24:03 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 22:03:35 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,9 @@ void	cleanup_tmpfiles_heredocs(t_data *data);
 int		is_delim(char *line, char *delim);
 int		prepare_all_heredocs(t_data *data);
 void	single_execve_error(t_data *data, char **envp, char *path);
+void	signal_mute_parent(void);
 
 	//free utilisé dans exec
-
 void	free_cmdtable(t_data *data);
 void	free_env_list(t_env *env);
 void	free_double_array(char **array);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:14:40 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 22:14:23 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static void	heredoc_child_getinput(t_data *data, t_redir *r, int fd, char *name)
 
 static int	heredoc_waitpid(t_data *data, char *name, int status)
 {
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT) ||
+		(WIFEXITED(status) && WEXITSTATUS(status) == 130))
 	{
 		data->last_status = 130;
 		unlink(name);
@@ -68,11 +69,12 @@ static int	heredoc_waitpid(t_data *data, char *name, int status)
 int	prepare_all_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
-	t_com	*cur_cmd;
+	t_com		*cur_cmd;
 	int			counter;
 
 	counter = 0;
 	cur_cmd = data->cmd_table;
+	signal_mute_parent();
 	while (cur_cmd)
 	{
 		cur_redir = cur_cmd->redirs;
@@ -89,6 +91,7 @@ int	prepare_all_heredocs(t_data *data)
 		}
 		cur_cmd = cur_cmd->next;
 	}
+	signal_prompt();
 	return (0);
 }
 
