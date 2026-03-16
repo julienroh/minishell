@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 12:49:22 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 14:59:42 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void	print_error_identifier(char *str);
 //exec
 
 void		executor_run(t_data *data);
-int			is_only_assignment_no_cmd(char **argv, int assign_count);
+bool		is_only_assignment_no_cmd(char **argv, int assign_count);
 int			apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_builtin	is_builtin(char *exec_argv);
 pid_t		safe_fork(void);
@@ -190,7 +190,7 @@ int			heredoc_cleanup_str(t_data *data, int fd, char *str);
 int 		init_v(t_data *data, t_multi *v, int n_cmd);
 void		child_setup_pipes(t_multi *v, int i, t_data *data);
 int			spawn_child(t_multi *v);
-int			is_last_cmd(int cmdnumber, int i);
+bool		is_last_cmd(int cmdnumber, int i);
 int			exec_multi_command(t_data *data, int n_cmd);
 void		multi_init_envp(t_data *data, t_multi *v, char ***envp);
 int			multi_init_path(t_command *cmd, char **envp, char **path);
@@ -238,7 +238,7 @@ int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
 void	exec_unset(char **args, t_env **env);
 void	only_export(t_data *data);
-void	exec_exit(t_data *data);
+void	exec_exit(t_data *data, char **args);
 
 //check
 
