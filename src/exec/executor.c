@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 09:48:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 10:57:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 00:16:26 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	executor_run(t_data *data)
 	cmd_numbers = count_cmd_numbers(data);
 	if (prepare_all_heredocs(data) == -1)
 		return ;
+	signal_mute_parent();
 	if (cmd_numbers == 1)
 		exec_single_command(data);
 	else if (cmd_numbers > 1)

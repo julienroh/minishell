@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 00:32:04 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 {
 	char		**envp;
 	char		*path;
-	t_btn	type;
+	t_btn		type;
 	int			code;
 
 	type = is_builtin(cmd->argv[0]);
@@ -74,7 +74,11 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 {
 	int	i;
 	int	wstatus;
+	int	sigint_printed;
+	int	sigquit_printed;
 
+	sigint_printed = 0;
+	sigquit_printed = 0;
 	i = 0;
 	while (i < v->n_cmd)
 	{
@@ -82,7 +86,19 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 		if (WIFEXITED(wstatus))
 			data->last_status = (WEXITSTATUS(wstatus));
 		if (WIFSIGNALED(wstatus))
+		{
 			data->last_status = (128 + WTERMSIG(wstatus));
+			if (WTERMSIG(wstatus) == SIGINT && sigint_printed == 0)
+			{
+				write(1, "\n", 1);
+				sigint_printed = 1;
+			}
+			else if (WTERMSIG(wstatus) == SIGQUIT && sigquit_printed == 0)
+			{
+				ft_putstr_fd("Quit (core dumped)\n", 2);
+				sigquit_printed = 1;
+			}
+		}
 		i++;
 	}
 }
@@ -102,7 +118,10 @@ int	exec_multi_command(t_data *data, int n_cmd)
 		if (spawn_child(&v) == -1)
 			return (free_structv(&v), -1);
 		if (v.pids[v.i] == 0)
+		{
+			signal_exec();
 			exec_multi_child(data, cmd, &v);
+		}
 		wrapper_close_pipe_parent(&v, is_last);
 		cmd = cmd->next;
 		v.i++;

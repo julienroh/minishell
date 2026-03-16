@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 22:03:35 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 23:38:57 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <errno.h>
 # include <limits.h>
 # include <sys/ioctl.h>
+# include <termios.h>
 
 extern volatile sig_atomic_t	g_sig;
 
@@ -53,7 +54,7 @@ typedef enum e_builtin
 	PWD,
 	EXPORT,
 	ENV,
-	ECHO,
+	B_ECHO,
 	UNSET,
 	EXIT,
 	CMD,
@@ -149,6 +150,7 @@ typedef struct s_data
 	t_env	*env;
 	t_com	*cmd_table;
 	int		last_status;
+	struct termios original_term;
 }	t_data;
 
 typedef struct s_stdio
@@ -265,7 +267,7 @@ t_env	*parser_env(t_data *data, char **env);
 
 //prompt
 
-void	waiting_function(t_data *data, int stdin_backup);
+void	waiting_function(t_data *data);
 
 //signal
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 08:37:06 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 11:40:59 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 23:53:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,10 @@ static int	is_blank_line(char *line)
 	return (1);
 }
 
-static void	ctrl_c_case(t_data *data, int stdin_backup)
+static void	ctrl_c_case(t_data *data)
 {
 	data->last_status = 130;
-	free(data->line);
-	data->line = NULL;
-	dup2(stdin_backup, STDIN_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
+	g_sig = 0;
 }
 
 static void	wraper_end_of_function(t_data *data)
@@ -58,7 +54,7 @@ static void	wraper_end_of_function(t_data *data)
 and parse the line to split it in args that will be analyse
 to execute commands*/
 
-void	waiting_function(t_data *data, int stdin_backup)
+void	waiting_function(t_data *data)
 {
 	while (1)
 	{
@@ -68,10 +64,7 @@ void	waiting_function(t_data *data, int stdin_backup)
 		if (data->line)
 			add_history(data->line);
 		if (g_sig == SIGINT)
-		{
-			ctrl_c_case(data, stdin_backup);
-			continue ;
-		}
+			ctrl_c_case(data);
 		if (check_exit(data->line))
 			break ;
 		if (is_blank_line(data->line))

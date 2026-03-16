@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:14:40 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 22:14:23 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/16 23:19:00 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	heredoc_waitpid(t_data *data, char *name, int status)
 		data->last_status = 130;
 		unlink(name);
 		free(name);
+		tcsetattr(STDIN_FILENO, TCSANOW, &data->original_term);
 		return (-1);
 	}
 	return (0);

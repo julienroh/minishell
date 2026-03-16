@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 23:15:36 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_btn	is_builtin(char *exec_argv)
 	if (ft_strncmp(exec_argv, "env", 4) == 0)
 		return (ENV);
 	if (ft_strncmp(exec_argv, "echo", 5) == 0)
-		return (ECHO);
+		return (B_ECHO);
 	if (ft_strncmp(exec_argv, "unset", 6) == 0)
 		return (UNSET);
 	if (ft_strncmp(exec_argv, "exit", 6) == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_prompt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:25:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 11:44:11 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 23:47:35 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	sigint_prompt(int sig)
 {
 	(void)sig;
 	g_sig = SIGINT;
-	write(1, "^C", 2);
-	close(STDIN_FILENO);
+	write(1, "^C\n", 3);        // 1. Fait un vrai retour à la ligne visuel
+	rl_on_new_line();           // 2. Dit à readline qu'on a bougé le curseur sur une nouvelle ligne
+	rl_replace_line("", 0);     // 3. Efface le contenu du buffer interne de readline (vide la ligne)
+	rl_redisplay();				// 4. Merci gemini omfg.
 }
 
 void	signal_prompt(void)

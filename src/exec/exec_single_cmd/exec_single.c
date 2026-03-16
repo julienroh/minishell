@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:20:27 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 00:21:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,13 @@ int	exec_external_cmd(t_data *data)
 	if (WIFEXITED(wstatus))
 		data->last_status = (WEXITSTATUS(wstatus));
 	if (WIFSIGNALED(wstatus))
+	{
 		data->last_status = (128 + WTERMSIG(wstatus));
+		if (WTERMSIG(wstatus) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(wstatus) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+	}
 	return (0);
 }
 
