@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/16 09:39:58 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/16 10:03:45 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	exec_cd(t_data *data, char **args)
 	char	*newpwd;
 
 	oldpwd = getcwd(NULL, 0);
-	if (!args[1]
-		|| !ft_strncmp(args[1], "~", ft_strlen(args[1])))
+	if (!args[1] || !ft_strncmp(args[1], "~", ft_strlen(args[1])))
 		path = get_env_value(data, "HOME");
 	else if (!ft_strncmp(args[1], "-", ft_strlen(args[1])))
 		path = get_env_value(data, "OLDPWD");
