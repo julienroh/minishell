@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:52:58 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 15:45:44 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 16:18:38 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	free_expand(t_expand *expand)
 	free(expand->prefix);
 	free(expand->suffix);
 	free(expand->tmp);
+	free(expand->val);
 	if (expand->id)
 		free(expand->id);
 }
@@ -77,7 +78,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 			if (!expand.val)
 				expand.val = "";
 			initialize_expand(&expand, p, i);
-			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
+			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix || !expand.val)
 				free_all_malloc(data);
 			free(p->value);
 			p->value = expand.new_part;
