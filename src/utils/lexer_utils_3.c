@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:00:09 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 00:10:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:47:52 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 			is_allocated = 0;
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
-			
+
 			// NOUVEAU : Interception du $?
 			if (expand.id && expand.id[0] == '?')
 			{
@@ -120,17 +120,17 @@ void	expand_part(t_data *data, t_part *p, int i)
 				if (!expand.val)
 					expand.val = "";
 			}
-			
+
 			expand.suffix = ft_strdup(p->value + i);
 			expand.tmp = ft_strjoin(expand.prefix, expand.val);
 			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
-			
+
 			// ... (gestion des erreurs malloc) ...
-			
+
 			free(p->value);
 			p->value = expand.new_part;
 			i = ft_strlen(expand.tmp);
-			
+
 			if (is_allocated)
 				free(expand.val);
 			free_expand(&expand);
