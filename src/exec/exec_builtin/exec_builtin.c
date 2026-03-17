@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:17 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 15:20:50 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
 {
 	int	result;
 
+	result = 0;
 	if (type_builtin == 0)
 		result = exec_cd(data, args);
 	else if (type_builtin == 1)

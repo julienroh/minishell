@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 14:13:07 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 15:21:19 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int	exec_exit(t_data *data, char **args)
 	free_data_except_env(data);
 	free_env(data->env);
 	if (args[1])
-	{
-		return (data->last_status);
-	}
-	return (0);
+		exit(ft_atoi(args[1]));
+	exit(0);
 }
