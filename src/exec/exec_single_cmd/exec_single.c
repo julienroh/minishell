@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 13:44:15 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 15:31:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	single_free_exit(t_data *data, int code)
 	exit(code);
 }
 
-/* dans le fork, applique les redirections, puis check path, 
+/* dans le fork, applique les redirections, puis check path,
 puis init char **envp pour execve */
 
 static void	exec_child(t_data *data)
@@ -70,8 +70,8 @@ int	exec_external_cmd(t_data *data)
 
 int	exec_cmd(t_data *data)
 {
-	t_btn		type;
-	t_stdio		stdio;
+	t_btn	type;
+	t_stdio	stdio;
 
 	type = is_builtin(data->cmd_table->argv[0]);
 	if (type != CMD)
@@ -85,7 +85,7 @@ int	exec_cmd(t_data *data)
 	return (exec_external_cmd(data));
 }
 
-/* check et handle assign (p.e arg=42) (hors scope de minishell), 
+/* check et handle assign (p.e arg=42) (hors scope de minishell),
 puis exec cmd.*/
 
 int	exec_single_command(t_data *data)

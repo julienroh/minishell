@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   only_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 14:20:55 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	sort_char_env(char **args)
 	}
 }
 
-void	only_export(t_data *data)
+int	only_export(t_data *data)
 {
 	int		i;
 	int		size;
@@ -105,4 +105,5 @@ void	only_export(t_data *data)
 	sort_char_env(char_env);
 	print_export(char_env, data->env);
 	free_char_env(char_env);
+	return (0);
 }

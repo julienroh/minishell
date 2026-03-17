@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:30:33 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 11:52:39 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	set_operator_token(t_data *data, char *line, t_lexer *lexer, int *i)
 			free_all_malloc(data);
 		(*i) += 2;
 	}
-	simple_operator_case(data, tok, line[*i], i);
+	else
+		simple_operator_case(data, tok, line[*i], i);
 	lexer->token_i++;
 }

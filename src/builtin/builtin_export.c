@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 11:54:19 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:20:40 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	add_in_env(t_data *data, char **args, int i)
 value by the new one. If not, we create a new space for the new id and value.
 */
 
-void	exec_export(t_data *data, char **args, int i)
+int	exec_export(t_data *data, char **args, int i)
 {
 	char	*id;
 	char	*value;
@@ -71,4 +71,5 @@ void	exec_export(t_data *data, char **args, int i)
 		free_id_value(id, value);
 		i++;
 	}
+	return (0);
 }
