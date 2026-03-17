@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 16:14:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 22:44:34 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ static int	is_valid_numeric(char *arg)
 	int	i;
 
 	i = 0;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
+	if (!arg[i])
+		return (0);
 	while (arg[i])
 	{
 		if (ft_isdigit(arg[i]) == 0)
@@ -67,6 +71,6 @@ int	exec_exit(t_data *data, char **args)
 	free_data_except_env(data);
 	free_env(data->env);
 	if (code > 255)
-		exit(255);
+		exit(code % 256);
 	exit(code);
 }
