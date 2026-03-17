@@ -6,30 +6,16 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 00:21:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:44:15 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	single_free_exit(t_data *data, int code)
+void	single_free_exit(t_data *data, int code)
 {
 	free_all(data);
 	exit(code);
-}
-
-/*alloue env en format char **. en cas d'erreur, free data, exit. */
-
-void	single_init_envp(t_data *data, char ***envp)
-{
-	*envp = NULL;
-	*envp = env_to_envp(data->env);
-	if (!*envp)
-	{
-		print_error("minishell : ");
-		perror("malloc");
-		single_free_exit(data, 1);
-	}
 }
 
 /* dans le fork, applique les redirections, puis check path, 
@@ -84,7 +70,7 @@ int	exec_external_cmd(t_data *data)
 
 int	exec_cmd(t_data *data)
 {
-	t_btn	type;
+	t_btn		type;
 	t_stdio		stdio;
 
 	type = is_builtin(data->cmd_table->argv[0]);

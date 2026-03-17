@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:35:05 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:03:32 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_delim(char *line, char *delim)
 void	cleanup_tmpfiles_heredocs(t_data *data)
 {
 	t_redir		*cur_redir;
-	t_com	*cur_cmd;
+	t_com		*cur_cmd;
 
 	cur_cmd = data->cmd_table;
 	while (cur_cmd)

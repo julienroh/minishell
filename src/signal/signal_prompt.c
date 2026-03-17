@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:25:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 23:47:35 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 12:52:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	sigint_prompt(int sig)
 {
 	(void)sig;
 	g_sig = SIGINT;
-	write(1, "^C\n", 3);        // 1. Fait un vrai retour à la ligne visuel
-	rl_on_new_line();           // 2. Dit à readline qu'on a bougé le curseur sur une nouvelle ligne
-	rl_replace_line("", 0);     // 3. Efface le contenu du buffer interne de readline (vide la ligne)
-	rl_redisplay();				// 4. Merci gemini omfg.
+	write(1, "^C\n", 3);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	signal_prompt(void)

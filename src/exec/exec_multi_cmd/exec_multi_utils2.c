@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_utils2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:21:22 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:25:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,6 @@ void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 		perror("malloc");
 		free_exit_wrapper_child(data, v, 1);
 	}
-}
-
-/* check les erreurs de path.*/
-
-int	multi_init_path(t_com *cmd, char **envp, char **path)
-{
-	int	code;
-
-	*path = NULL;
-	code = ft_findpath(path, cmd->argv[0], envp);
-	if (code != 0)
-	{
-		if (!ft_strchr(cmd->argv[0], '/'))
-		{
-			print_error("minishell : ");
-			print_error(cmd->argv[0]);
-			print_error(" : command not found\n");
-			free_envp_path(envp, *path);
-			return (code);
-		}
-		print_error("minishell : ");
-		perror(cmd->argv[0]);
-		free_envp_path(envp, *path);
-		return (code);
-	}
-	return (code);
 }
 
 /* redirige l'output sur la pipe + close la partie lecture de la pipe. 

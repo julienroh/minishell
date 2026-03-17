@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:08:16 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 11:08:10 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:23:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@ static char	*get_path_value(char **envp)
 		i++;
 	}
 	return (NULL);
-}
-
-/*test si c'est un dossier. stat remplis la struct, 
-si dossier return 1, sinon return 0. */
-
-static int	is_directory(const char *path)
-{
-	struct stat	st;
-
-	if (stat(path, &st) == -1)
-		return (0);
-	return (S_ISDIR(st.st_mode));
 }
 
 //construit une string qui joint la cmd (ls mettons) au path. 

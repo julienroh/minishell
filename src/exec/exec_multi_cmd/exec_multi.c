@@ -6,13 +6,13 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 00:32:04 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:46:06 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_structv(t_multi *v)
+void	free_structv(t_multi *v)
 {
 	int	i;
 
@@ -24,13 +24,6 @@ static void	free_structv(t_multi *v)
 		i++;
 	}
 	free(v->pipefd);
-}
-
-void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
-{
-	free_all(data);
-	free_structv(v);
-	exit(exit_int);
 }
 
 static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
@@ -84,21 +77,9 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 	{
 		waitpid(v->pids[i], &wstatus, 0);
 		if (WIFEXITED(wstatus))
-			data->last_status = (WEXITSTATUS(wstatus));
+			data->last_status = WEXITSTATUS(wstatus);
 		if (WIFSIGNALED(wstatus))
-		{
-			data->last_status = (128 + WTERMSIG(wstatus));
-			if (WTERMSIG(wstatus) == SIGINT && sigint_printed == 0)
-			{
-				write(1, "\n", 1);
-				sigint_printed = 1;
-			}
-			else if (WTERMSIG(wstatus) == SIGQUIT && sigquit_printed == 0)
-			{
-				ft_putstr_fd("Quit (core dumped)\n", 2);
-				sigquit_printed = 1;
-			}
-		}
+			wait_pid_signaled(data, wstatus, &sigint_printed, &sigquit_printed);
 		i++;
 	}
 }
@@ -107,7 +88,7 @@ int	exec_multi_command(t_data *data, int n_cmd)
 {
 	t_multi		v;
 	bool		is_last;
-	t_com	*cmd;
+	t_com		*cmd;
 
 	cmd = data->cmd_table;
 	if (init_v(data, &v, n_cmd) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_command.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:18:37 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_com	*initialize_command(t_data *data, t_lexer *lexer)
 {
 	t_com	*head;
 	t_com	*current;
-	int			i;
+	int		i;
 
 	i = 0;
 	head = create_command(data);

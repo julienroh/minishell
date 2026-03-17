@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 23:38:57 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:46:10 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,13 @@ typedef struct s_command
 
 typedef struct s_data
 {
-	char	*line;
-	char	**args;
-	t_lexer	*lexer;
-	t_env	*env;
-	t_com	*cmd_table;
-	int		last_status;
-	struct termios original_term;
+	char			*line;
+	char			**args;
+	t_lexer			*lexer;
+	t_env			*env;
+	t_com			*cmd_table;
+	int				last_status;
+	struct termios	original_term;
 }	t_data;
 
 typedef struct s_stdio
@@ -202,9 +202,15 @@ void	heredoc_sigint_cleanup(int fd, char *name, t_data *data);
 void	heredoc_delim_cleanup(int fd, char *line, char *name, t_data *data);
 void	cleanup_tmpfiles_heredocs(t_data *data);
 int		is_delim(char *line, char *delim);
+int		is_directory(const char *path);
 int		prepare_all_heredocs(t_data *data);
 void	single_execve_error(t_data *data, char **envp, char *path);
 void	signal_mute_parent(void);
+void	wait_pid_signaled(t_data *data, int wstatus,
+			int *sigint_printed, int *sigquit_printed);
+void	single_init_envp(t_data *data, char ***envp);
+void	single_free_exit(t_data *data, int code);
+void	free_structv(t_multi *v);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
