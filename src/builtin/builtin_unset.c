@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 16:15:19 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 14:21:43 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 15:42:29 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ static void	free_cur(t_env *cur)
 	free(cur);
 }
 
-int	exec_unset(char **args, t_env **env)
+int	exec_unset(char **args, t_env **env, int i)
 {
-	int		i;
 	t_env	*cur;
 	t_env	*prev;
 
-	i = -1;
-	while (args[++i + 1])
+	while (args[i + 1])
 	{
 		cur = *env;
 		prev = NULL;
@@ -48,6 +46,7 @@ int	exec_unset(char **args, t_env **env)
 			prev = cur;
 			cur = cur->next;
 		}
+		i++;
 	}
 	return (0);
 }

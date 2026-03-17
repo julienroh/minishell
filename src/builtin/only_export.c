@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   only_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:28:15 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 14:20:55 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 15:41:09 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	define_size(t_env *env)
-{
-	int		i;
-	t_env	*current;
-
-	i = 0;
-	current = env;
-	while (current != NULL)
-	{
-		current = current->next;
-		i++;
-	}
-	return (i);
-}
 
 static char	*find_value(char *id, t_env *env)
 {
@@ -75,14 +60,19 @@ static void	sort_char_env(char **args)
 	}
 }
 
-int	only_export(t_data *data)
+static void	wrapper_only_export(t_data *data, char **char_env)
 {
-	int		i;
+	sort_char_env(char_env);
+	print_export(char_env, data->env);
+	free_char_env(char_env);
+}
+
+int	only_export(t_data *data, int i)
+{
 	int		size;
 	char	**char_env;
 	t_env	*current;
 
-	i = 0;
 	current = data->env;
 	size = define_size(data->env);
 	char_env = malloc(sizeof(char *) * (size + 1));
@@ -102,8 +92,6 @@ int	only_export(t_data *data)
 		current = current->next;
 	}
 	char_env[i] = NULL;
-	sort_char_env(char_env);
-	print_export(char_env, data->env);
-	free_char_env(char_env);
+	wrapper_only_export(data, char_env);
 	return (0);
 }

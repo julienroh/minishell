@@ -6,11 +6,26 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:32:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/04 12:04:22 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 15:38:49 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	define_size(t_env *env)
+{
+	int		i;
+	t_env	*current;
+
+	i = 0;
+	current = env;
+	while (current != NULL)
+	{
+		current = current->next;
+		i++;
+	}
+	return (i);
+}
 
 int	is_redir(t_token *tok)
 {

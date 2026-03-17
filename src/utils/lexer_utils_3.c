@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:52:58 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 14:25:18 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 15:45:44 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ static char	*get_env_value(t_data *data, char *id)
 	return (NULL);
 }
 
+static void	initialize_expand(t_expand *expand, t_part *p, int i)
+{
+	expand->suffix = ft_strdup(p->value + i);
+	expand->tmp = ft_strjoin(expand->prefix, expand->val);
+	expand->new_part = ft_strjoin(expand->tmp, expand->suffix);
+}
+
 void	expand_part(t_data *data, t_part *p, int i)
 {
 	t_expand	expand;
@@ -69,9 +76,7 @@ void	expand_part(t_data *data, t_part *p, int i)
 				expand.val = get_env_value(data, expand.id);
 			if (!expand.val)
 				expand.val = "";
-			expand.suffix = ft_strdup(p->value + i);
-			expand.tmp = ft_strjoin(expand.prefix, expand.val);
-			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
+			initialize_expand(&expand, p, i);
 			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
 				free_all_malloc(data);
 			free(p->value);

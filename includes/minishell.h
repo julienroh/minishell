@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/17 15:28:42 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 15:42:12 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,8 +242,8 @@ int		exec_env(t_env *env);
 int		exec_export(t_data *data, char **args, int i);
 int		exec_pot_export(t_data *data, char **args);
 int		exec_pwd(t_env *env);
-int		exec_unset(char **args, t_env **env);
-int		only_export(t_data *data);
+int		exec_unset(char **args, t_env **env, int i);
+int		only_export(t_data *data, int i);
 int		exec_exit(t_data *data, char **args);
 
 //check
@@ -333,5 +333,6 @@ int		is_redir(t_token *tok);
 int		is_space(char c);
 int		size_env(t_env *env);
 void	invalid_export(char *id, char *value, char *arg);
+int		define_size(t_env *env);
 
 #endif
