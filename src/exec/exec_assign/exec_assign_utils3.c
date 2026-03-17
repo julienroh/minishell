@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:56:48 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ static int	split_assignment_word(char *word, char **name, char **value,
 
 int	apply_one_assignment(t_env **env, char *word)
 {
-	int				status;
-	char			*name;
-	char			*value;
-	t_env			*new;
+	int		status;
+	char	*name;
+	char	*value;
+	t_env	*new;
 	t_a_ty	type;
 
 	status = 0;

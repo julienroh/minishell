@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2026/03/17 13:49:58 by haoky            ###   ########.fr       */
+/*   Created: 2026/03/17 13:52:58 by haoky             #+#    #+#             */
+/*   Updated: 2026/03/17 14:25:18 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -22,26 +21,12 @@ static void	free_expand(t_expand *expand)
 		free(expand->id);
 }
 
-// static char	*extract_id(char *str, int *i)
-// {
-// 	int	start;
-
-// 	(*i)++;
-// 	start = *i;
-// 	if (!ft_isalnum(str[*i]) && str[*i] != '_' && str[*i] != '?')
-// 		return (NULL);
-// 	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '?')
-// 		(*i)++;
-// 	return (ft_substr(str, start, *i - start));
-// }
-
 static char	*extract_id(char *str, int *i)
 {
 	int	start;
 
 	(*i)++;
 	start = *i;
-	// Si c'est un '?', on l'extrait tout seul et on s'arrête
 	if (str[*i] == '?')
 	{
 		(*i)++;
@@ -78,83 +63,23 @@ void	expand_part(t_data *data, t_part *p, int i)
 		{
 			expand.prefix = ft_substr(p->value, 0, i);
 			expand.id = extract_id(p->value, &i);
-
-			// NOUVEAU : Interception du $?
 			if (expand.id && expand.id[0] == '?')
-			{
-				printf("last status = %d\n", data->last_status);
 				expand.val = ft_itoa(data->last_status);
-			}
 			else
 				expand.val = get_env_value(data, expand.id);
-				if (!expand.val)
-					expand.val = "";
-			}
-
 			if (!expand.val)
 				expand.val = "";
 			expand.suffix = ft_strdup(p->value + i);
 			expand.tmp = ft_strjoin(expand.prefix, expand.val);
 			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
-
-			// ... (gestion des erreurs malloc) ...
-
 			if (!expand.tmp || !expand.suffix || !expand.id || !expand.prefix)
 				free_all_malloc(data);
 			free(p->value);
 			p->value = expand.new_part;
 			i = ft_strlen(expand.tmp);
-
-			if (is_allocated)
-				free(expand.val);
 			free_expand(&expand);
 		}
 		else
 			i++;
 	}
 }
-
-// void	expand_part(t_data *data, t_part *p, int i)
-// {
-// 	t_expand	expand;
-// 	int			is_allocated; // Pour savoir s'il faut free(expand.val)
-
-// 	while (p->value[i])
-// 	{
-// 		if (p->value[i] == '$' && p->expand && p->value[i + 1] != '\0')
-// 		{
-// 			is_allocated = 0;
-// 			expand.prefix = ft_substr(p->value, 0, i);
-// 			expand.id = extract_id(p->value, &i);
-
-// 			// NOUVEAU : Interception du $?
-// 			if (expand.id && expand.id[0] == '?')
-// 			{
-// 				expand.val = ft_itoa(data->last_status);
-// 				is_allocated = 1;
-// 			}
-// 			else
-// 			{
-// 				expand.val = get_env_value(data, expand.id);
-// 				if (!expand.val)
-// 					expand.val = "";
-// 			}
-
-// 			expand.suffix = ft_strdup(p->value + i);
-// 			expand.tmp = ft_strjoin(expand.prefix, expand.val);
-// 			expand.new_part = ft_strjoin(expand.tmp, expand.suffix);
-
-// 			// ... (gestion des erreurs malloc) ...
-
-// 			free(p->value);
-// 			p->value = expand.new_part;
-// 			i = ft_strlen(expand.tmp);
-
-// 			if (is_allocated)
-// 				free(expand.val);
-// 			free_expand(&expand);
-// 		}
-// 		else
-// 			i++;
-// 	}
-// }

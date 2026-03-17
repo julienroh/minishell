@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 23:15:36 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:28:17 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,25 @@ t_btn	is_builtin(char *exec_argv)
 	return (CMD);
 }
 
-void	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
+static int	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
 {
+	int	result;
+
 	if (type_builtin == 0)
-		exec_cd(data, args);
+		result = exec_cd(data, args);
 	else if (type_builtin == 1)
-		exec_pwd(data->env);
+		result = exec_pwd(data->env);
 	else if (type_builtin == 2)
-		exec_export(data, args, 0);
+		result = exec_export(data, args, 0);
 	else if (type_builtin == 3)
-		exec_env(data->env);
+		result = exec_env(data->env);
 	else if (type_builtin == 4)
-		exec_echo(data, args);
+		result = exec_echo(data, args);
 	else if (type_builtin == 5)
-		exec_unset(args, &data->env);
+		result = exec_unset(args, &data->env);
 	else if (type_builtin == EXIT)
-		exec_exit(data, args);
+		result = exec_exit(data, args);
+	return (result);
 }
 
 int	exec_builtin_parent(t_data *data, char **exec_cmd)
@@ -56,6 +59,5 @@ int	exec_builtin_parent(t_data *data, char **exec_cmd)
 	t_btn	type_builtin;
 
 	type_builtin = is_builtin(exec_cmd[0]);
-	find_builtin_and_exec(data, exec_cmd, type_builtin);
-	return (0);
+	return (find_builtin_and_exec(data, exec_cmd, type_builtin));
 }

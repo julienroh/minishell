@@ -6,7 +6,7 @@
 /*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 13:31:14 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/17 14:19:48 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int	exec_cd(t_data *data, char **args)
 	if (!path || chdir(path) == -1)
 	{
 		printf("minishell: cd: %s: no such file or directory\n", path);
-		data->last_status = 1;
-		printf("last_status cd = %d\n", data->last_status);
 		free_data_except_env(data);
 		free(oldpwd);
 		return (1);

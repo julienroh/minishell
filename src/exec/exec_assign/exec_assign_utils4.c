@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils4.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 23:19:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:53 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 13:57:23 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	count_cmd_numbers(t_data *data)
 {
-	int			i;
+	int		i;
 	t_com	*cur;
 
 	i = 0;

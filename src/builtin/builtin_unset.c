@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_unset.c                                       :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 16:15:19 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 14:21:43 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	free_cur(t_env *cur)
 	free(cur);
 }
 
-void	exec_unset(char **args, t_env **env)
+int	exec_unset(char **args, t_env **env)
 {
 	int		i;
 	t_env	*cur;
@@ -49,4 +49,5 @@ void	exec_unset(char **args, t_env **env)
 			cur = cur->next;
 		}
 	}
+	return (0);
 }

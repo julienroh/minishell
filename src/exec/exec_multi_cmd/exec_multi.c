@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 00:32:04 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:31:12 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 		free_exit_wrapper_child(data, v, 1);
 	if (type != CMD)
 	{
-		exec_builtin_parent(data, cmd->argv);
+		data->last_status = exec_builtin_parent(data, cmd->argv);
 		free_exit_wrapper_child(data, v, data->last_status);
 	}
 	multi_init_envp(data, v, &envp);
@@ -105,8 +105,8 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 
 int	exec_multi_command(t_data *data, int n_cmd)
 {
-	t_multi		v;
-	bool		is_last;
+	t_multi	v;
+	bool	is_last;
 	t_com	*cmd;
 
 	cmd = data->cmd_table;

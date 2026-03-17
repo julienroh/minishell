@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/10 10:38:53 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:21:23 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ static void	print_echo(char **args, int i, int n)
 the execution of echo.
 */
 
-void	exec_echo(t_data *data, char **args)
+int	exec_echo(t_data *data, char **args)
 {
+	(void)data;
 	if (!args[1])
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	if (ft_strncmp(args[1], "-n", ft_strlen(args[1])) != 0)
 	{
@@ -42,5 +43,5 @@ void	exec_echo(t_data *data, char **args)
 	}
 	else
 		print_echo(args, 2, 1);
-	data->last_status = 0;
+	return (0);
 }

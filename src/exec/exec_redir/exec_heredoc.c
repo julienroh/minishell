@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:14:40 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 23:19:00 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 13:55:57 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	heredoc_child_getinput(t_data *data, t_redir *r, int fd, char *name)
 
 static int	heredoc_waitpid(t_data *data, char *name, int status)
 {
-	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT) ||
-		(WIFEXITED(status) && WEXITSTATUS(status) == 130))
+	if ((WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		|| (WIFEXITED(status) && WEXITSTATUS(status) == 130))
 	{
 		data->last_status = 130;
 		unlink(name);
