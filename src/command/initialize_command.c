@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 10:12:05 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 15:29:16 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 15:33:33 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ t_com	*initialize_command(t_data *data, t_lexer *lexer)
 {
 	t_com	*head;
 	t_com	*current;
-	int		i;
 	int		i;
 
 	i = 0;
