@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/16 11:16:16 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 17:45:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	lexer_expand(t_data *data)
 		if (data->lexer->tokens[i].parts != NULL)
 		{
 			parts_expand(data, &data->lexer->tokens[i]);
+			free(data->lexer->tokens[i].value);
 			data->lexer->tokens[i].value = join_parts(data,
 					data->lexer->tokens[i]);
 		}

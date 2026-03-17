@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/07 12:10:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:29:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,26 @@ Retourne NULL en cas d'erreur malloc.
 char	**env_to_envp(t_env *env)
 {
 	char	**envp;
-	int		size;
 	int		i;
+	char	*line;
 
-	size = env_list_size(env);
-	envp = malloc(sizeof(char *) * (size + 1));
+	envp = malloc(sizeof(char *) * (env_list_size(env) + 1));
 	if (!envp)
-		return (perror("malloc"), NULL);
+		return (NULL);
 	i = 0;
 	while (env)
 	{
-		envp[i] = env_node_to_line(env);
-		if (!envp[i])
-			return (perror("malloc"), free_envp_partial(envp, i), NULL);
-		i++;
+		if (env->printable == 1 && env->value != NULL)
+		{
+			line = env_node_to_line(env);
+			if (!line) 
+			{
+				free_envp_partial(envp, i);
+				return (NULL);
+			}
+			envp[i] = line;
+			i++;
+		}
 		env = env->next;
 	}
 	envp[i] = NULL;

@@ -6,38 +6,11 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 12:38:44 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/16 11:17:05 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/17 17:35:15 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	print_tokens(t_lexer *lexer, int number)
-// {
-// 	int		i;
-// 	int		j;
-// 	t_part	*current;
-
-// 	i = 0;
-// 	while (i < number)
-// 	{
-// 		printf("TOKEN %d\n", i);
-// 		if (lexer->tokens[i].type == WORD)
-// 		{
-// 			j = 0;
-// 			current = lexer->tokens[i].parts;
-// 			while (current != NULL)
-// 			{
-// 				printf("token %d part %d = %s\n", i, j, current->value);
-// 				current = current->next;
-// 				j++;
-// 			}
-// 		}
-// 		printf("value = %s\n", lexer->tokens[i].value);
-// 		printf("toktype = %d\n", lexer->tokens[i].type);
-// 		i++;
-// 	}
-// }
 
 static int	number_of_tokens(char *line)
 {
@@ -90,7 +63,7 @@ static int	handle_word(t_data *data, t_state state, char *line, int i)
 	new_part_needed = 1;
 	tok = &data->lexer->tokens[data->lexer->token_i];
 	tok->type = WORD;
-	tok->value = NULL;
+	tok->value = ft_strdup("");
 	while (line[i] && (!is_space(line[i]) || state.s_quote || state.d_quote)
 		&& (!is_operator(line[i]) || state.d_quote || state.s_quote))
 	{
