@@ -7,6 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -I get_next_line
 RM = rm -rf
 
 SRCS =	ft_atoi.c \
+		ft_atoll.c \
 		ft_bzero.c \
 		ft_calloc.c \
 		ft_isalnum.c \
