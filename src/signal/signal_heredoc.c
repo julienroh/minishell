@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:27:41 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/16 23:19:48 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:23:34 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_sig = SIGINT;
-	write(1, "^C\n", 3);
+	write(1, "^C", 3);
 	close(STDIN_FILENO);
 }
 
