@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/18 12:44:30 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:45:16 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int		exec_cd(t_data *data, char **args);
 int		exec_echo(t_data *data, char **args);
 int		exec_env(t_env *env);
 int		exec_export(t_data *data, char **args, int i);
-int		exec_pwd(t_env *env);
+int		exec_pwd(void);
 int		exec_unset(char **args, t_env **env, int i);
 int		only_export(t_data *data, int i);
 int		exec_exit(t_data *data, char **args);

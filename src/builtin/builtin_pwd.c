@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pwd.c                                         :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:52:08 by haoky             #+#    #+#             */
-/*   Updated: 2026/02/26 14:00:08 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 17:56:25 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*We look through the env struct if we see the id called PWD and display the
-value.
-*/
+/*search pwd with getcwd. Print error if getcwd failed.*/
 
-int	exec_pwd(t_env *env)
+int	exec_pwd(void)
 {
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
+	char	*result;
+	
+	result = NULL;
+	result = getcwd(NULL, 0);
+	if (!result)
 	{
-		if (!ft_strncmp(tmp->id, "PWD", ft_strlen(tmp->id)))
-		{
-			printf("%s\n", tmp->value);
-			return (0);
-		}
-		tmp = tmp->next;
+		ft_putstr_fd("pwd: error retrieving current directory: getcwd: ", 2);
+		ft_putstr_fd("cannot access parent directories: No such file or directory\n", 2);
+		return (1);
 	}
-	return (1);
+	ft_putstr_fd(result, 2);
+	write(1, "\n", 1);
+	free(result);
+	result = NULL;
+	return (0);
 }

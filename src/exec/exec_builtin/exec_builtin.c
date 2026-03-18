@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 15:42:09 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 17:45:36 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
 	if (type_builtin == 0)
 		result = exec_cd(data, args);
 	else if (type_builtin == 1)
-		result = exec_pwd(data->env);
+		result = exec_pwd();
 	else if (type_builtin == 2)
 		result = exec_export(data, args, 0);
 	else if (type_builtin == 3)

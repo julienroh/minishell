@@ -6,13 +6,42 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/16 23:38:34 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:44:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_sig;
+
+// static int	create_fake_env(t_data *data)
+// {
+// 	t_env	*new;
+
+// 	new = malloc(sizeof(t_env));
+// 	if (!new)
+// 	{
+// 		ft_putstr_fd("minishell : ");
+// 		perror("malloc");
+// 	}
+// 	new->id = ft_strdup("?");
+// 	new->value = ft_strdup("0");
+// 	if (!new->id || !new->value || !new)
+// 		free_all_malloc(data);
+// 	new->printable = 0;
+// 	new->next = NULL;
+// 	env_add_back(&data->env, new);
+// 	while (env[i])
+// 	{
+// 		new = env_new(data, env[i]);
+// 		if (!new)
+// 			free_all_malloc(data);
+// 		env_add_back(&env_struct, new);
+// 		i++;
+// 	}
+// 	env_add_back(&env_struct, NULL);
+// 	return (env_struct);
+// }
 
 int	main(int argc, char **argv, char **env)
 {
@@ -26,6 +55,8 @@ int	main(int argc, char **argv, char **env)
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
 	data.env = parser_env(&data, env);
+	// if (!data.env)
+	// 	create_fake_env();
 	data.line = NULL;
 	data.lexer = NULL;
 	data.cmd_table = NULL;
