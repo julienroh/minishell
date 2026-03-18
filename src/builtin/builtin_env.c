@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:15:50 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 14:20:23 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/18 12:14:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	exec_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->printable == 1)
-			printf("%s=%s\n", tmp->id, tmp->value);
+		// if (tmp->printable == 1)
+		// 	printf("%s=%s\n", tmp->id, tmp->value);
+		printf("id = %s, value = %s, printable = %d\n", tmp->id, tmp->value, tmp->printable);
 		tmp = tmp->next;
 	}
 	return (0);

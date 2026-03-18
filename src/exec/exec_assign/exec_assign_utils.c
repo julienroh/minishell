@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/16 15:19:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:18:36 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	set_logic(t_env *tmp, char *value)
 	str_tmp = ft_strdup(value);
 	if (check_malloc_ok(str_tmp))
 		return (-1);
-	return (free(tmp->value), tmp->value = str_tmp, 1);
+	return (free(tmp->value), tmp->value = str_tmp, tmp->printable = 1, 1);
 }
 
 static int	append_logic(t_env *tmp, char *value)

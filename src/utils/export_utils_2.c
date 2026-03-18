@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 11:31:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_identifier(t_data *data, char *arg)
 	int		i;
 
 	i = 0;
+	if (arg[0] == '=')
+		return (ft_strdup(arg));
 	find_equal = ft_strchr(arg, '=');
 	while (arg[i])
 	{

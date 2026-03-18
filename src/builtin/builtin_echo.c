@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 00:11:51 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:21:14 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int	exec_echo(t_data *data, char **args)
 	}
 	i = check_option(args);
 	if (i == 1)
-		print_echo(args, i, 1);
-	else
 		print_echo(args, i, 0);
+	else
+		print_echo(args, i, 1);
 	return (0);
 }
