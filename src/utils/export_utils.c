@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 11:05:25 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_identifier(char *id)
 	int	i;
 
 	i = 0;
-	if (!id || ft_isdigit(id[0]))
+	if (!id || id[0] == '\0' || ft_isdigit(id[0]))
 		return (0);
 	while (id[i])
 	{

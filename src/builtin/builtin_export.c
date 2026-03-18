@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 15:35:34 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 11:01:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ int	exec_export(t_data *data, char **args, int i)
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)
 		{
-			check_if_exist(data->env, args[i + 1]);
+			if (!check_identifier(args[i + 1]))
+				printf("minishell: export: '%s': not a valid identifier\n", args[i + 1]);
+			else
+				check_if_exist(data->env, args[i + 1]);
 			i++;
 			continue ;
 		}
 		id = get_identifier(data, args[i + 1]);
 		value = get_value(data, args[i + 1]);
 		if (!check_identifier(id))
-			invalid_export(id, value, args[i + 1]);
+			printf("minishell: export: '%s': not a valid identifier\n", id);
 		else if (check_identifier(id) == 2)
 			plus_equal_condition(data, args[i + 1], 1);
 		else if (!already_in_struct(data->env, id, value, 0))
