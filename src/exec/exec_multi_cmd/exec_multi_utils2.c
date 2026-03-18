@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:21:22 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 16:43:11 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:10:47 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	close_all_pipes(t_multi *v)
 	}
 }
 
-/*alloue env en format char **. en cas d'erreur, free data, v, exit. */
+/*allocate env (list) in char ** format. if error, free data, v, exit. */
 
 void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 {
@@ -41,8 +41,8 @@ void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 	}
 }
 
-/* redirige l'output sur la pipe + close la partie lecture de la pipe. 
-free et exit si err */
+/* redirect output on the pipe and close the
+read part of it. free and exit if error. */
 
 static void	redir_pipe_stdout(int pipefd[2], t_multi *v, t_data *data)
 {
@@ -54,7 +54,7 @@ static void	redir_pipe_stdout(int pipefd[2], t_multi *v, t_data *data)
 	}
 }
 
-/* redirige l'input sur la pipe d'avant, free et exit si err */
+/* redrect input on the previous pipe, free and exit si err */
 
 static void	redir_pipe_stdin(int pipefd[2], t_multi *v, t_data *data)
 {
@@ -66,8 +66,10 @@ static void	redir_pipe_stdin(int pipefd[2], t_multi *v, t_data *data)
 	}
 }
 
-/* s'occupe de rediriger les sorties en fonction des pipes et d'ou 
-on est dans l'exec des cmds. si erreur, free tout et exit */
+/* redirect outputs into pipes if needed,
+or stdin /stdout. This depends of where we
+we are in the cmd pipeline.
+*/
 
 void	child_setup_pipes(t_multi *v, int i, t_data *data)
 {

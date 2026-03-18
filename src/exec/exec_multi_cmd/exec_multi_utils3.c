@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_utils3.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:11:26 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 17:39:59 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:58:32 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
 	exit(exit_int);
 }
 
-/* Checks for errors in path. Either  */
+/* Checks for errors in path. */
 
 int	multi_init_path(t_com *cmd, char **envp, char **path)
 {

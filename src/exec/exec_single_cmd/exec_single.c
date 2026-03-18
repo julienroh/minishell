@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 15:31:15 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 13:09:26 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	single_free_exit(t_data *data, int code)
 	exit(code);
 }
 
-/* dans le fork, applique les redirections, puis check path,
-puis init char **envp pour execve */
-
+/*inside the fork, applies redirections,
+ then check path, then init char **envp for execve*/
 static void	exec_child(t_data *data)
 {
 	char	**envp;
@@ -40,7 +39,7 @@ static void	exec_child(t_data *data)
 		single_execve_error(data, envp, path);
 }
 
-/*fork défensif puis exec le child.*/
+//defensive fork, then exec child, then waitpid.
 
 int	exec_external_cmd(t_data *data)
 {
@@ -66,8 +65,8 @@ int	exec_external_cmd(t_data *data)
 	return (0);
 }
 
-/* si builtin, exec builtin en redirigeant stdio. si command -> fork.*/
-
+/*if it's a builtin, exec in parent not child,
+ with a redirected of stdio if needed.*/
 int	exec_cmd(t_data *data)
 {
 	t_btn	type;
@@ -85,8 +84,8 @@ int	exec_cmd(t_data *data)
 	return (exec_external_cmd(data));
 }
 
-/* check et handle assign (p.e arg=42) (hors scope de minishell),
-puis exec cmd.*/
+/* check for assign then exec command.
+The assign is outside of minishell scope*/
 
 int	exec_single_command(t_data *data)
 {

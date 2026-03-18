@@ -6,14 +6,13 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:22:09 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 12:32:07 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:06:56 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*alloue env en format char **. en cas d'erreur, free data, exit. */
-
+//allocate env in char**. if error, free data, exit.
 void	single_init_envp(t_data *data, char ***envp)
 {
 	*envp = NULL;

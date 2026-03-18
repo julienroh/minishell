@@ -6,14 +6,14 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:23:19 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 13:24:23 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:00:01 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*test si c'est un dossier. stat remplis la struct, 
-si dossier return 1, sinon return 0. */
+/* test if it's a directory. stat fill the struct.
+if it's a dir, return 1, if not, return 0*/
 
 int	is_directory(const char *path)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 12:10:41 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 15:30:13 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:48:06 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	is_valid_var_name_char(int c)
 	return (false);
 }
 
-//renvoie le type d'assign + Check les erreurs de nom de vars.
+//return assign type + check errors in var names. 
 
 t_a_ty	get_assignment_type(char *word)
 {

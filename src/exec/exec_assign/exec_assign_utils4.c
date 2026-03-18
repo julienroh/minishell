@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_assign_utils4.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 23:19:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 15:30:34 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/18 12:48:15 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//compte le nombre de cmd.s.
+//count nbr of cmds.
 
 int	count_cmd_numbers(t_data *data)
 {

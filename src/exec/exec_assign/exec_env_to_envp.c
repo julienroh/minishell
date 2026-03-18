@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 12:32:22 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:54:29 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static int	env_list_size(t_env *env)
 }
 
 /*
-Construit la string "KEY=VALUE" pour un node.
-Si value == NULL, construit "KEY=" (au lieu de planter).
+make the string "key=value" for a node. if value == NULL, it make "KEY="
 */
 
 static char	*env_node_to_line(t_env *node)
@@ -48,7 +47,7 @@ static char	*env_node_to_line(t_env *node)
 }
 
 /*
-Libère partiellement un envp[] si une allocation échoue pendant sa construction.
+free what was allocated in envp
 */
 
 static void	free_envp_partial(char **envp, int filled)
@@ -62,8 +61,7 @@ static void	free_envp_partial(char **envp, int filled)
 }
 
 /*
-Convertit une liste t_env en char **envp pour execve.
-Retourne NULL en cas d'erreur malloc.
+convert a list into char** for execve. return NULL if malloc error.
 */
 char	**env_to_envp(t_env *env)
 {

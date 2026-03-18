@@ -6,14 +6,13 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:08:16 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 13:23:52 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:06:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//renvoie un pointeur débutant juste après PATH= de l'envp.
-
+//return a pointer beginning right after PATH= of envp.
 static char	*get_path_value(char **envp)
 {
 	int	i;
@@ -30,8 +29,8 @@ static char	*get_path_value(char **envp)
 	return (NULL);
 }
 
-//construit une string qui joint la cmd (ls mettons) au path. 
-// (/home/bin/ls p.e.)
+/* makes a string which joins cmd (ls for example) to the path
+For example > /home/bin/ls  */
 
 static char	*join_path(const char *dir, const char *cmd)
 {
@@ -50,8 +49,7 @@ static char	*join_path(const char *dir, const char *cmd)
 	return (full);
 }
 
-//Si slash trouvé, test les accès au path. 
-
+//if slash found, test path accesses. return correct code if error.
 static int	tests_path_slash(char **out_path, char *cmd)
 {
 	if (access(cmd, F_OK) != 0)
@@ -66,12 +64,9 @@ static int	tests_path_slash(char **out_path, char *cmd)
 	return (0);
 }
 
-/*	si 0, cmd trouvée. outpath set, dirs free.
-	 si 1 err de malloc dans joinpath, outpath = NULL;
-	si 127 si impossible de trouver la cmd dans path.
-	Dans tous les cas, free dirs.
-*/
-
+/* if return = 0, the cmd is found, outpath is set and dirs is freed.
+if return == 1, it's a malloc error. outpath is NULL
+if return == 127, it's impossible to find the cmd in path.*/
 static int	find_command_in_path(char **dirs, char **out_path, char *cmd)
 {
 	char	*candidate;
@@ -97,11 +92,9 @@ static int	find_command_in_path(char **dirs, char **out_path, char *cmd)
 	return (free_double_array(dirs), errno = ENOENT, code);
 }
 
-/* Résout path absolute et relatif. Teste aussi si accès à la commande ok. 
-/!\ out_path est toujours malloc, car il y a un free qui vient derrière si fail.
-return value is error code or 0 if no errors.
+/* solve if path is absolute or relative. test the access of the commands. 
+return correct error if needed.
 */
-
 int	ft_findpath(char **out_path, char *cmd, char **envp)
 {
 	char	*path_value;

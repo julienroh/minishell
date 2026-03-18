@@ -49,7 +49,6 @@ SRC =	src/main/main.c \
 		src/exec/exec_assign/exec_assign_utils2.c \
 		src/exec/exec_assign/exec_assign_utils3.c \
 		src/exec/exec_assign/exec_assign_utils4.c \
-		src/exec/exec_assign/exec_dup_env.c \
 		src/exec/exec_assign/exec_env_to_envp.c \
 		src/exec/exec_builtin/exec_builtin.c \
  		src/builtin/builtin_echo.c \
@@ -66,12 +65,12 @@ OBJS = $(SRC:.c=.o)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-all: $(LIBFT) $(PRINTF) $(MLX) $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c

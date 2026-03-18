@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:08:52 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 12:18:36 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:45:44 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	append_logic(t_env *tmp, char *value)
 	return (free(tmp->value), tmp->value = str_tmp, 1);
 }
 
+//return -1 if error, 1 if already in struct, 0 if we need to create it.
 int	assign_already_in_list(t_env *env, char *id, char *value,
 	t_a_ty type)
 {
@@ -77,7 +78,6 @@ int	assign_already_in_list(t_env *env, char *id, char *value,
 	}
 	return (0);
 }
-	//renvoie -1 erreur, 1 deja dans struct, 0 a créer.
 
 int	count_prefix_assignments(char **argv)
 {
