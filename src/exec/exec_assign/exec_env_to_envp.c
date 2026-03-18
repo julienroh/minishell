@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:12:44 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 17:29:17 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:32:22 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**env_to_envp(t_env *env)
 		if (env->printable == 1 && env->value != NULL)
 		{
 			line = env_node_to_line(env);
-			if (!line) 
+			if (!line)
 			{
 				free_envp_partial(envp, i);
 				return (NULL);

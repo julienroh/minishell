@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 12:13:51 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:32:39 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ static void	check_if_exist(t_data *data, t_env *env, char **args, int i)
 	add_in_env(data, args, i, 0);
 }
 
+static void	wrapper_check_if_no_egal(char **args, t_data *data, int i)
+{
+	if (!check_identifier(args[i + 1]))
+		printf("minishell: export: '%s': not a valid identifier\n",
+			args[i + 1]);
+	else
+		check_if_exist(data, data->env, args, i);
+}
 
 /*Check if the id already exist, if that's the case, we only replace the old
 value by the new one. If not, we create a new space for the new id and value.
@@ -61,10 +69,7 @@ int	exec_export(t_data *data, char **args, int i)
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)
 		{
-			if (!check_identifier(args[i + 1]))
-				printf("minishell: export: '%s': not a valid identifier\n", args[i + 1]);
-			else
-				check_if_exist(data, data->env, args, i);
+			wrapper_check_if_no_egal(args, data, i);
 			i++;
 			continue ;
 		}
@@ -75,9 +80,7 @@ int	exec_export(t_data *data, char **args, int i)
 		else if (check_identifier(id) == 2)
 			plus_equal_condition(data, args[i + 1], 1);
 		else if (!already_in_struct(data->env, id, value, 0))
-		{
 			add_in_env(data, args, i, 1);
-		}
 		free_id_value(id, value);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/20 13:14:39 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 11:21:14 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:32:51 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	check_option(char **args)
 	int	j;
 
 	i = 1;
-
 	while (args[i])
 	{
 		j = 0;
