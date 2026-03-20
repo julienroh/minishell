@@ -80,7 +80,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 valtest:
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all  --suppressions=ignore_readline_leaks.supp ./minishell
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=ignore_readline_leaks.supp ./minishell
 
 clean:
 	$(RM) $(OBJS)
@@ -92,6 +92,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valtest
 
 .SILENT:

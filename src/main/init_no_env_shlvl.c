@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:09:33 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/20 14:01:27 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:28:32 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	incr_shlvl(t_env *env)
 			old_value++;
 			free(cur->value);
 			cur->value = NULL;
-			cur->value = ft_strdup(ft_itoa(old_value));
+			cur->value = ft_itoa(old_value);
 			if (!cur->value)
 				return (print_error_shlvl());
 			return ;

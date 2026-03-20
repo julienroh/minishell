@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/20 13:36:09 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:27:35 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void main_error(void)
 		perror("malloc");
 		exit(1);
 }
-
 
 static int	create_fake_env(t_data *data, char **argv)
 {
