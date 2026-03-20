@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:52:08 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 17:56:25 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 12:07:53 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	exec_pwd(void)
 	if (!result)
 	{
 		ft_putstr_fd("pwd: error retrieving current directory: getcwd: ", 2);
-		ft_putstr_fd("cannot access parent directories: No such file or directory\n", 2);
+		ft_putstr_fd("cannot access parent directories: ", 2);
+		ft_putstr_fd("No such file or directory\n", 2);
 		return (1);
 	}
 	ft_putstr_fd(result, 2);

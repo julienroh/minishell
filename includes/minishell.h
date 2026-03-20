@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/18 17:45:16 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 13:45:16 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,14 @@ typedef struct s_pipe_ctx
 	pid_t	*pids;
 	int		n_cmd;
 }	t_pipe_ctx;
+
+// env -i
+
+int		create_pwd(t_data *data);
+int		create_path(t_data *data, char **argv);
+int		create_shlvl(t_data *data);
+void	incr_shlvl(t_env *env);
+
 
 //errors
 
