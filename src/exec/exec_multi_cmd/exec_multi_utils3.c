@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:11:26 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 12:58:32 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/21 19:11:44 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	wait_pid_signaled(t_data *data, int wstatus,
 void	free_exit_wrapper_child(t_data *data, t_multi *v, int exit_int)
 {
 	free_all(data);
-	free_structv(v);
+	free(v->pids);
 	exit(exit_int);
 }
 

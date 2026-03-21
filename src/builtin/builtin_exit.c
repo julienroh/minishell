@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 22:44:34 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/21 20:50:18 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	exec_exit(t_data *data, char **args)
 {
 	long long	code;
 
-	printf("exit\n");
+	if (data->cmd_table->next == NULL)
+		printf("exit\n");
 	if (!args[1])
 	{
 		code = data->last_status;
