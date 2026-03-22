@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/22 18:05:49 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:38:09 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ typedef struct s_multi
 // env -i
 
 int		create_pwd(t_data *data);
-int 	create_path_underscore(t_data *data, char **argv);
+int		create_path_underscore(t_data *data, char **argv);
 int		create_path(t_data *data);
 int		create_shlvl(t_data *data);
 void	incr_shlvl(t_env *env);
@@ -215,6 +215,12 @@ void	wait_pid_signaled(t_data *data, int wstatus,
 			int *sigint_printed, int *sigquit_printed);
 void	single_init_envp(t_data *data, char ***envp);
 void	single_free_exit(t_data *data, int code);
+int		create_pipe(int *pipefd);
+void	close_pipes(t_multi *v);
+int		abort_pipe_failed(t_multi *v, t_data *data);
+int		abort_fork_failed(t_multi *v, t_data *data);
+void	wait_multi_pids(t_multi *v, t_data *data);
+void	builtin_in_multi_exec(t_data *data, t_multi *v, t_btn type, t_com *cmd);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);

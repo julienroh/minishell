@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/22 16:39:19 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:37:12 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 	if (apply_redirections(cmd->redirs) == -1)
 		free_exit_wrapper_child(data, v, 1);
 	if (type != CMD)
-	{
-		data->last_status = exec_builtin_parent(data, cmd->argv);
-		free_exit_wrapper_child(data, v, data->last_status);
-	}
+		builtin_in_multi_exec(data, v, type, cmd);
 	multi_init_envp(data, v, &envp);
 	code = multi_init_path(cmd, envp, &path);
 	if (code != 0)
@@ -56,7 +53,7 @@ static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 	}
 }
 
-static void	wait_multi_pids(t_multi *v, t_data *data)
+void	wait_multi_pids(t_multi *v, t_data *data)
 {
 	int	i;
 	int	wstatus;
@@ -77,55 +74,15 @@ static void	wait_multi_pids(t_multi *v, t_data *data)
 	}
 }
 
-int	create_pipe(int *pipefd)
+static void	close_pipes_after_child(t_multi *v)
 {
-	if (pipe(pipefd) == -1)
-	{
-		ft_putstr_fd("minishell : ", 2);
-		perror("pipe");
-		return (-1);
-	}
-	return (0);
-}
-void	close_pipes(t_multi *v)
-{
+	if (v->prev_fd != -1)
+		close(v->prev_fd);
 	if (v->is_last == false)
 	{
-		close(v->pipefd[0]);
+		v->prev_fd = v->pipefd[0];
 		close(v->pipefd[1]);
 	}
-	if (v->prev_fd != -1)
-		close(v->prev_fd);
-}
-
-int	safe_fork_multi(t_multi *v)
-{
-	v->pids[v->i] = fork();
-	if (v->pids[v->i] == -1)
-	{
-		ft_putstr_fd("minishell : ", 2);
-		perror("fork");
-		return (-1);
-	}
-	return (0);
-}
-int	abort_pipe_failed(t_multi *v, t_data *data)
-{
-	if (v->prev_fd != -1)
-		close(v->prev_fd);
-	v->n_cmd = v->i;
-	wait_multi_pids(v, data);
-	free(v->pids);
-	return (-1);
-}
-
-int	abort_fork_failed(t_multi *v, t_data *data)
-{
-	close_pipes(v);
-	v->n_cmd = v->i;
-	wait_multi_pids(v, data);
-	free(v->pids);
-	return (-1);
 }
 
 int	exec_multi_command(t_data *data, int n_cmd)
@@ -140,23 +97,16 @@ int	exec_multi_command(t_data *data, int n_cmd)
 		if (v.is_last == false && create_pipe(v.pipefd) == -1)
 			return (abort_pipe_failed(&v, data));
 		if (safe_fork_multi(&v) == -1)
-			return (abort_fork_failed(&v, data)); //free struct qqch ? 	
+			return (abort_fork_failed(&v, data));
 		if (v.pids[v.i] == 0)
 		{
 			signal_exec();
 			exec_multi_child(data, v.cmd, &v);
 		}
-		if (v.prev_fd != -1)
-			close(v.prev_fd);
-		if (v.is_last == false)
-		{
-			v.prev_fd = v.pipefd[0];
-			close(v.pipefd[1]);
-		}
+		close_pipes_after_child(&v);
 		v.cmd = v.cmd->next;
 		v.i++;
 	}
 	wait_multi_pids(&v, data);
-	return (free(v.pids), 0); //a faire encore FREE QUOI = avant c'était free structv.
+	return (free(v.pids), 0);
 }
-

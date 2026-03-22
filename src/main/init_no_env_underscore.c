@@ -6,15 +6,15 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:30:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/22 18:26:23 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:09:21 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int create_path_underscore(t_data *data, char **argv)
+int	create_path_underscore(t_data *data, char **argv)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)

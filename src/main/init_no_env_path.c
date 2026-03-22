@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 17:27:49 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/22 18:05:43 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:07:17 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	free_single_env_node(t_env *node)
 	free(node);
 }
 
-int create_path(t_data *data)
+int	create_path(t_data *data)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)

@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 13:15:50 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/21 21:13:52 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:06:40 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_env(t_env *env, char **args)
 	t_env	*tmp;
 
 	tmp = env;
-if (args[1] != NULL)
+	if (args[1] != NULL)
 	{
 		ft_putstr_fd("minishell : ", 2);
 		ft_putstr_fd("env: too many arguments\n", 2);

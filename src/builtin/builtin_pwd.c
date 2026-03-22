@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 12:52:08 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/20 12:07:53 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:48:16 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	exec_pwd(void)
 {
 	char	*result;
-	
+
 	result = NULL;
 	result = getcwd(NULL, 0);
 	if (!result)
@@ -27,8 +27,7 @@ int	exec_pwd(void)
 		ft_putstr_fd("No such file or directory\n", 2);
 		return (1);
 	}
-	ft_putstr_fd(result, 2);
-	write(1, "\n", 1);
+	printf("%s\n", result);
 	free(result);
 	result = NULL;
 	return (0);

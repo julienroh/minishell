@@ -6,13 +6,13 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:14:04 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/22 18:10:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:07:33 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_error_init_pwd(void)
+static void	print_error_init_pwd(void)
 {
 	ft_putstr_fd("pwd: error retrieving current directory: getcwd: ", 2);
 	ft_putstr_fd("cannot access parent directories: ", 2);
@@ -21,7 +21,7 @@ static void print_error_init_pwd(void)
 
 int	create_pwd(t_data *data)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
