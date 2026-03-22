@@ -1,45 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_no_env_bin.c                                  :+:      :+:    :+:   */
+/*   init_no_env_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/20 12:30:08 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/20 12:50:48 by mfumeaux         ###   ########.fr       */
+/*   Created: 2026/03/22 17:27:49 by mfumeaux          #+#    #+#             */
+/*   Updated: 2026/03/22 18:05:43 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_error_path(void)
+void	print_error_path(void)
 {
 	ft_putstr_fd("minishell : ", 2);
 	perror("malloc");
 }
 
-int create_path(t_data *data, char **argv)
+void	init_env_new_null(t_env *new)
+{
+	new->id = NULL;
+	new->next = NULL;
+	new->value = NULL;
+}
+
+void	free_single_env_node(t_env *node)
+{
+	if (!node)
+		return ;
+	if (node->id)
+		free(node->id);
+	if (node->value)
+		free(node->value);
+	free(node);
+}
+
+int create_path(t_data *data)
 {
 	t_env *new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-	{
-		print_error_path();
-		return (1);
-	}
-	new->id = ft_strdup("_");
+		return (print_error_path(), 1);
+	init_env_new_null(new);
+	new->id = ft_strdup("PATH");
 	if (!new->id)
-	{
-		print_error_path();
-		return (1);
-	}
-	new->value = ft_strdup(argv[0]);
+		return (print_error_path(), free_single_env_node(new), 1);
+	new->value = ft_strjoin("/usr/local/sbin:/usr/local/bin:",
+			"/usr/sbin:/usr/bin:/sbin:/bin:");
 	if (!new->value)
-	{
-		print_error_path();
-		return (1);
-	}
+		return (print_error_path(), free_single_env_node(new), 1);
 	new->printable = 1;
 	env_add_back(&data->env, new);
 	return (0);

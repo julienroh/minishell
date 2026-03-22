@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:11:26 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/21 19:11:44 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 16:45:26 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ int	multi_init_path(t_com *cmd, char **envp, char **path)
 	{
 		if (!ft_strchr(cmd->argv[0], '/'))
 		{
+			if (errno == ENOMEM)
+			{
+				ft_putstr_fd("minishell: ", 2);
+				return (perror("malloc"), 1);
+			}
 			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->argv[0], 2);
-			if (*cmd->argv[0] == '\0')
-				ft_putstr_fd(": command not found\n", 2);
-			else
-				ft_putstr_fd(" :command not found\n", 2);
+            ft_putstr_fd(cmd->argv[0], 2);
+            ft_putstr_fd(" : command not found\n", 2);
 			free_envp_path(envp, *path);
 			return (code);
 		}

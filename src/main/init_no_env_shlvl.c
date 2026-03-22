@@ -6,17 +6,11 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 12:09:33 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/20 14:28:32 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:25:02 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	print_error_shlvl(void)
-{
-	ft_putstr_fd("minishell : ", 2);
-	perror("malloc");
-}
 
 int	create_shlvl(t_data *data)
 {
@@ -24,22 +18,14 @@ int	create_shlvl(t_data *data)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-	{
-		print_error_shlvl();
-		return (1);
-	}
+		return (print_error_path(), 1);
+	init_env_new_null(new);
 	new->id = ft_strdup("SHLVL");
 	if (!new->id)
-	{
-		print_error_shlvl();
-		return (1);
-	}
+		return (print_error_path(), free_single_env_node(new), 1);
 	new->value = ft_strdup("1");
 	if (!new->value)
-	{
-		print_error_shlvl();
-		return (1);
-	}
+		return (print_error_path(), free_single_env_node(new), 1);
 	new->printable = 1;
 	env_add_back(&data->env, new);
 	return (0);
@@ -49,7 +35,9 @@ void	incr_shlvl(t_env *env)
 {
 	t_env	*cur;
 	int		old_value;
+	char	*new_value;
 
+	new_value = NULL;
 	cur = env;
 	while(cur)
 	{
@@ -57,11 +45,11 @@ void	incr_shlvl(t_env *env)
 		{
 			old_value = ft_atoi(cur->value);
 			old_value++;
+			new_value = ft_itoa(old_value);
+			if (!new_value)
+				return (ft_putstr_fd("minishell : malloc error while incremented SHLVL\n", 2));
 			free(cur->value);
-			cur->value = NULL;
-			cur->value = ft_itoa(old_value);
-			if (!cur->value)
-				return (print_error_shlvl());
+			cur->value = new_value;
 			return ;
 		}
 		cur = cur->next;

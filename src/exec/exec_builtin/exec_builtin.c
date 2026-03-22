@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 10:31:11 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 17:45:36 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/21 21:13:18 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	find_builtin_and_exec(t_data *data, char **args, t_btn type_builtin)
 	else if (type_builtin == 2)
 		result = exec_export(data, args, 0);
 	else if (type_builtin == 3)
-		result = exec_env(data->env);
+		result = exec_env(data->env, args);
 	else if (type_builtin == 4)
 		result = exec_echo(data, args);
 	else if (type_builtin == 5)

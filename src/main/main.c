@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:14 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/20 14:27:35 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:13:23 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ static void main_error(void)
 
 static int	create_fake_env(t_data *data, char **argv)
 {
-	if (create_pwd(data) == -1)
+	if (create_pwd(data) == 1)
 		return (1);
-	if (create_shlvl(data) == -1)
+	if (create_shlvl(data) == 1)
 		return (1);
-	if (create_path(data, argv) == -1)
+	if (create_path_underscore(data, argv) == 1)
+		return (1);
+	if (create_path(data) == 1)
 		return (1);
 	return (0);
 }
@@ -45,8 +47,8 @@ int	main(int argc, char **argv, char **env)
 	data.env = parser_env(&data, env);
 	incr_shlvl(data.env);
 	if (!env || !*env)
-		 if (create_fake_env(&data, argv) == -1)
-			return (1);
+		 if (create_fake_env(&data, argv) == 1)
+			return (free_env(data.env), 1);
 	data.line = NULL;
 	data.lexer = NULL;
 	data.cmd_table = NULL;

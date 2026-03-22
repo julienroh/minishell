@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 15:08:16 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 13:06:09 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 17:25:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static int	find_command_in_path(char **dirs, char **out_path, char *cmd)
 /* solve if path is absolute or relative. test the access of the commands. 
 return correct error if needed.
 */
+
 int	ft_findpath(char **out_path, char *cmd, char **envp)
 {
 	char	*path_value;

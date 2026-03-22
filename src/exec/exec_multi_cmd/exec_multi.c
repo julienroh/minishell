@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 11:12:45 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/21 20:24:22 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 16:39:19 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	exec_multi_child(t_data *data, t_com *cmd, t_multi *v)
 		free_exit_wrapper_child(data, v, data->last_status);
 	}
 	multi_init_envp(data, v, &envp);
-	code = multi_init_path(cmd, envp, &path); //check pathing.
+	code = multi_init_path(cmd, envp, &path);
 	if (code != 0)
 		free_exit_wrapper_child(data, v, code);
 	if (execve(path, cmd->argv, envp) == -1)

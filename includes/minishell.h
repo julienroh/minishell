@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/21 20:25:09 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:05:49 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,13 @@ typedef struct s_multi
 // env -i
 
 int		create_pwd(t_data *data);
-int		create_path(t_data *data, char **argv);
+int 	create_path_underscore(t_data *data, char **argv);
+int		create_path(t_data *data);
 int		create_shlvl(t_data *data);
 void	incr_shlvl(t_env *env);
+void	init_env_new_null(t_env *new);
+void	free_single_env_node(t_env *node);
+void	print_error_path(void);
 
 //errors
 
@@ -238,7 +242,7 @@ int		count_cmd_numbers(t_data *data);
 
 int		exec_cd(t_data *data, char **args);
 int		exec_echo(t_data *data, char **args);
-int		exec_env(t_env *env);
+int		exec_env(t_env *env, char **args);
 int		exec_export(t_data *data, char **args, int i);
 int		exec_pwd(void);
 int		exec_unset(char **args, t_env **env, int i);

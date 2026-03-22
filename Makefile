@@ -11,6 +11,7 @@ SRC =	src/main/main.c \
 		src/main/init_no_env_path.c \
 		src/main/init_no_env_pwd.c \
 		src/main/init_no_env_shlvl.c \
+		src/main/init_no_env_underscore.c \
 		src/errors/errors.c \
 		src/free/free_all.c \
 		src/free/free_data_except_env.c \
@@ -81,6 +82,9 @@ $(NAME): $(OBJS) $(LIBFT)
 
 valtest:
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=ignore_readline_leaks.supp ./minishell
+
+valenv:
+	env -i valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --suppressions=ignore_readline_leaks.supp ./minishell
 
 clean:
 	$(RM) $(OBJS)
