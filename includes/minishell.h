@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/22 11:49:01 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/23 09:37:09 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@
 # include <termios.h>
 
 extern volatile sig_atomic_t	g_sig;
-
-typedef struct s_multi
-{
-	pid_t	*pids;
-	int		**pipefd;
-	int		n_cmd;
-	int		i;
-}	t_multi;
 
 typedef struct s_expand
 {
@@ -159,13 +151,27 @@ typedef struct s_stdio
 	int	saved_stdout;
 }	t_stdio;
 
-typedef struct s_pipe_ctx
+typedef struct s_multi
 {
-	int		prev_read;
-	int		pipefd[2];
 	pid_t	*pids;
+	t_com	*cmd;
+	int		pipefd[2];
+	int		prev_fd;
+	bool	is_last;
 	int		n_cmd;
-}	t_pipe_ctx;
+	int		i;
+}	t_multi;
+
+// env -i
+
+int		create_pwd(t_data *data);
+int		create_path_underscore(t_data *data, char **argv);
+int		create_path(t_data *data);
+int		create_shlvl(t_data *data);
+void	incr_shlvl(t_env *env);
+void	init_env_new_null(t_env *new);
+void	free_single_env_node(t_env *node);
+void	print_error_path(void);
 
 //errors
 
@@ -178,6 +184,7 @@ void	executor_run(t_data *data);
 bool	is_only_assignment_no_cmd(char **argv, int assign_count);
 int		apply_prefix_assignments(t_env **env, char **argv, int assign_count);
 t_btn	is_builtin(char *exec_argv);
+int		safe_fork_multi(t_multi *v);
 pid_t	safe_fork(void);
 int		exec_external_cmd(t_data *data);
 int		restore_stdio(t_stdio *stdio);
@@ -190,8 +197,6 @@ int		exec_builtin_parent(t_data *data, char **exec_cmd);
 int		heredoc_cleanup(t_data *data);
 int		heredoc_cleanup_str(t_data *data, int fd, char *str);
 int		init_v(t_data *data, t_multi *v, int n_cmd);
-void	child_setup_pipes(t_multi *v, int i, t_data *data);
-int		spawn_child(t_multi *v);
 bool	is_last_cmd(int cmdnumber, int i);
 int		exec_multi_command(t_data *data, int n_cmd);
 void	multi_init_envp(t_data *data, t_multi *v, char ***envp);
@@ -210,7 +215,12 @@ void	wait_pid_signaled(t_data *data, int wstatus,
 			int *sigint_printed, int *sigquit_printed);
 void	single_init_envp(t_data *data, char ***envp);
 void	single_free_exit(t_data *data, int code);
-void	free_structv(t_multi *v);
+int		create_pipe(int *pipefd);
+void	close_pipes(t_multi *v);
+int		abort_pipe_failed(t_multi *v, t_data *data);
+int		abort_fork_failed(t_multi *v, t_data *data);
+void	wait_multi_pids(t_multi *v, t_data *data);
+void	builtin_in_multi_exec(t_data *data, t_multi *v, t_btn type, t_com *cmd);
 
 	//free utilisé dans exec
 void	free_cmdtable(t_data *data);
@@ -238,9 +248,9 @@ int		count_cmd_numbers(t_data *data);
 
 int		exec_cd(t_data *data, char **args);
 int		exec_echo(t_data *data, char **args);
-int		exec_env(t_env *env);
+int		exec_env(t_env *env, char **args);
 int		exec_export(t_data *data, char **args, int i);
-int		exec_pwd(t_env *env);
+int		exec_pwd(void);
 int		exec_unset(char **args, t_env **env, int i);
 int		only_export(t_data *data, int i);
 int		exec_exit(t_data *data, char **args);

@@ -6,76 +6,23 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:38:51 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/17 13:16:16 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:37:55 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_filled_int_array(int **array, int filled)
-{
-	int	i;
-
-	i = 0;
-	while (i < filled)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-static int	init_pipes(t_multi *v, int n_cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < n_cmd - 1)
-	{
-		if (pipe(v->pipefd[i]) == -1)
-			return (-1);
-		i++;
-	}
-	return (0);
-}
-
 int	init_v(t_data *data, t_multi *v, int n_cmd)
 {
-	int	i;
-
-	i = 0;
 	v->i = 0;
 	v->n_cmd = n_cmd;
+	v->prev_fd = -1;
+	v->cmd = data->cmd_table;
+	v->is_last = false;
 	v->pids = malloc(sizeof(pid_t) * n_cmd);
 	if (!v->pids)
-		return (perror("malloc"), data->last_status = 1, -1);
-	v->pipefd = malloc(sizeof(int *) * (n_cmd - 1));
-	if (!v->pipefd)
-		return (perror("malloc"), free(v->pids), data->last_status = 1, -1);
-	while (i < n_cmd - 1)
-	{
-		v->pipefd[i] = malloc(sizeof(int) * 2);
-		if (!v->pipefd[i])
-			return (perror("malloc"), free_filled_int_array(v->pipefd, i),
-				free(v->pids), data->last_status = 1, -1);
-		i++;
-	}
-	if (init_pipes(v, n_cmd) == -1)
-	{
-		free_filled_int_array(v->pipefd, i);
-		return (perror("pipe"), free(v->pids), data->last_status = 1, -1);
-	}
-	return (0);
-}
-
-int	spawn_child(t_multi *v)
-{
-	v->pids[v->i] = fork();
-	if (v->pids[v->i] == -1)
-	{
-		perror("fork");
-		return (-1);
-	}
+		return (ft_putstr_fd("minishell : ", 2),
+			("malloc"), data->last_status = 1, -1);
 	return (0);
 }
 
@@ -85,4 +32,25 @@ bool	is_last_cmd(int cmdnumber, int i)
 		return (true);
 	else
 		return (false);
+}
+
+int	abort_fork_failed(t_multi *v, t_data *data)
+{
+	close_pipes(v);
+	v->n_cmd = v->i;
+	wait_multi_pids(v, data);
+	free(v->pids);
+	return (-1);
+}
+
+/*Exec builtins in multi cmds scenarios*/
+void	builtin_in_multi_exec(t_data *data, t_multi *v, t_btn type, t_com *cmd)
+{
+	if (type == EXIT)
+	{
+		free(v->pids);
+		v->pids = NULL;
+	}
+	data->last_status = exec_builtin_parent(data, cmd->argv);
+	free_exit_wrapper_child(data, v, data->last_status);
 }

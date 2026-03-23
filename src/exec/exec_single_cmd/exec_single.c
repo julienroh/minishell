@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 13:09:26 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/21 20:41:50 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,20 @@ int	exec_cmd(t_data *data)
 	t_stdio	stdio;
 
 	type = is_builtin(data->cmd_table->argv[0]);
-	if (type != CMD)
+	if (type != CMD && type != EXIT)
 	{
 		if (wrapper_apply_redirs(data, &stdio) == -1)
 			return (-1);
 		data->last_status = exec_builtin_parent(data, data->cmd_table->argv);
 		restore_stdio(&stdio);
 		return (0);
+	}
+	else if (type == EXIT)
+	{
+		if (wrapper_apply_redirs(data, &stdio) == -1)
+			return (-1);
+		restore_stdio(&stdio);
+		data->last_status = exec_builtin_parent(data, data->cmd_table->argv);
 	}
 	return (exec_external_cmd(data));
 }

@@ -6,26 +6,11 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:21:22 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/18 13:10:47 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 19:12:27 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* close all pipes ! we redirected them already when needed.*/
-
-static void	close_all_pipes(t_multi *v)
-{
-	int	i;
-
-	i = 0;
-	while (i < v->n_cmd - 1)
-	{
-		close(v->pipefd[i][0]);
-		close(v->pipefd[i][1]);
-		i++;
-	}
-}
 
 /*allocate env (list) in char ** format. if error, free data, v, exit. */
 
@@ -41,50 +26,46 @@ void	multi_init_envp(t_data *data, t_multi *v, char ***envp)
 	}
 }
 
-/* redirect output on the pipe and close the
-read part of it. free and exit if error. */
-
-static void	redir_pipe_stdout(int pipefd[2], t_multi *v, t_data *data)
+int	create_pipe(int *pipefd)
 {
-	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+	if (pipe(pipefd) == -1)
 	{
-		perror("dup2");
-		close_all_pipes(v);
-		free_exit_wrapper_child(data, v, 1);
+		ft_putstr_fd("minishell : ", 2);
+		perror("pipe");
+		return (-1);
 	}
+	return (0);
 }
 
-/* redrect input on the previous pipe, free and exit si err */
-
-static void	redir_pipe_stdin(int pipefd[2], t_multi *v, t_data *data)
+void	close_pipes(t_multi *v)
 {
-	if (dup2(pipefd[0], STDIN_FILENO) == -1)
+	if (v->is_last == false)
 	{
-		perror("dup2");
-		close_all_pipes(v);
-		free_exit_wrapper_child(data, v, 1);
+		close(v->pipefd[0]);
+		close(v->pipefd[1]);
 	}
+	if (v->prev_fd != -1)
+		close(v->prev_fd);
 }
 
-/* redirect outputs into pipes if needed,
-or stdin /stdout. This depends of where we
-we are in the cmd pipeline.
-*/
-
-void	child_setup_pipes(t_multi *v, int i, t_data *data)
+int	safe_fork_multi(t_multi *v)
 {
-	if (i == 0)
+	v->pids[v->i] = fork();
+	if (v->pids[v->i] == -1)
 	{
-		redir_pipe_stdout(v->pipefd[i], v, data);
+		ft_putstr_fd("minishell : ", 2);
+		perror("fork");
+		return (-1);
 	}
-	else if (i > 0 && i != v->n_cmd - 1)
-	{
-		redir_pipe_stdin(v->pipefd[i - 1], v, data);
-		redir_pipe_stdout(v->pipefd[i], v, data);
-	}
-	else if (i == v->n_cmd - 1)
-	{
-		redir_pipe_stdin(v->pipefd[i - 1], v, data);
-	}
-	close_all_pipes(v);
+	return (0);
+}
+
+int	abort_pipe_failed(t_multi *v, t_data *data)
+{
+	if (v->prev_fd != -1)
+		close(v->prev_fd);
+	v->n_cmd = v->i;
+	wait_multi_pids(v, data);
+	free(v->pids);
+	return (-1);
 }
