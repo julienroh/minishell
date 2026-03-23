@@ -29,6 +29,7 @@ SRC =	src/main/main.c \
 		src/utils/command_utils.c \
 		src/utils/export_utils.c \
 		src/utils/export_utils_2.c \
+		src/utils/export_utils_3.c \
 		src/utils/lexer_utils.c \
 		src/utils/lexer_utils_2.c \
 		src/utils/lexer_utils_3.c \

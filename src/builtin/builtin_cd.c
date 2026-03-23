@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/22 19:57:10 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/23 11:48:25 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ void	set_env_value(t_data *data, char *id, char *value)
 	}
 }
 
+static int    cd_too_many_args(char **args)
+{
+	if (args[2] != NULL)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("cd: too many arguments\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 /*chdir is the function that make the computer change of directory. The rest of
 our mission is to change (in the env struct) the value of PWD and OLDPWD.
 */
@@ -61,6 +72,8 @@ int	exec_cd(t_data *data, char **args)
 	char	*oldpwd;
 	char	*newpwd;
 
+	if (cd_too_many_args(args) == 1)
+		return (1);
 	oldpwd = getcwd(NULL, 0);
 	if (!args[1] || !ft_strncmp(args[1], "~", ft_strlen(args[1])))
 		path = get_env_value(data, "HOME");

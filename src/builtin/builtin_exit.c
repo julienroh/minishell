@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/23 09:53:41 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 11:48:13 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	exec_exit(t_data *data, char **args)
 
 	max = "9223372036854775807";
 	min = "9223372036854775808";
-	printf("exit\n");
+	if (data->cmd_table->next == NULL)
+		printf("exit\n");
 	if (!args[1])
 	exit_with_code(data, data->last_status);
 	if (!is_valid_numeric(args[1]) || is_overflow(args[1], min, max) == 1)

@@ -6,15 +6,14 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:06:56 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/12 10:14:32 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 11:16:37 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	free_new(t_env *new, char *str)
+static int	free_new(t_env *new)
 {
-	print_error_identifier(str);
 	free(new->id);
 	free(new);
 	return (0);
@@ -32,7 +31,7 @@ t_env	*new_without_equal(t_data *data, t_env *new, char *str)
 	if (check_identifier(new->id))
 		return (new);
 	else
-		free_new(new, str);
+		free_new(new);
 	new->value = NULL;
 	return (new);
 }

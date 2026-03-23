@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/23 10:09:46 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 11:46:36 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,26 @@ static void	check_if_exist(t_data *data, t_env *env, char **args, int i)
 	add_in_env(data, args, i, 0);
 }
 
-static void	wrapper_check_if_no_egal(char **args, t_data *data, int i)
+static int	wrapper_check_if_no_egal(char **args, t_data *data, int i)
 {
 	if (!check_identifier(args[i + 1]))
+	{
 		printf("minishell: export: '%s': not a valid identifier\n",
 			args[i + 1]);
+		return (1);
+	}
 	else
+	{
 		check_if_exist(data, data->env, args, i);
+		return (0);
+	}
 }
 
 /*Check if the id already exist, if that's the case, we only replace the old
 value by the new one. If not, we create a new space for the new id and value.
 */
 
-int	exec_export(t_data *data, char **args, int i)
+int	exec_export(t_data *data, char **args, int i, int to_return)
 {
 	char	*id;
 	char	*value;
@@ -69,22 +75,23 @@ int	exec_export(t_data *data, char **args, int i)
 	{
 		if (ft_strchr(args[i + 1], '=') == NULL)
 		{
-			wrapper_check_if_no_egal(args, data, i);
+			to_return = wrapper_check_if_no_egal(args, data, i);
 			i++;
 			continue ;
 		}
 		id = get_identifier(data, args[i + 1]);
 		value = get_value(data, args[i + 1]);
-		if (!check_identifier(id))
-			printf("minishell: export: '%s': not a valid identifier\n", id);
-		else if (check_identifier(args[i + 1]) == 2)
+		if (!check_identifier(args[i + 1]))
 		{
-			plus_equal_condition(data, args[i + 1], id, 1);
+			printf("minishell: export: '%s': not a valid identifier\n", args[i + 1]);
+			to_return = 1;
 		}
+		else if (check_identifier(args[i + 1]) == 2)
+			plus_equal_condition(data, args[i + 1], id, 1);
 		else if (!already_in_struct(data, id, value))
 			add_in_env(data, args, i, 1);
 		free_id_value(id, value);
 		i++;
 	}
-	return (0);
+	return (to_return);
 }

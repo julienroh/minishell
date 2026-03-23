@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 15:32:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 15:38:49 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 10:56:45 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,3 @@ int	size_env(t_env *env)
 	return (count);
 }
 
-void	invalid_export(char *id, char *value, char *arg)
-{
-	printf("bash: export: '%s': not a valid identifier\n", arg);
-	free(id);
-	free(value);
-}

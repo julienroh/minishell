@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 11:10:24 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/06 17:45:42 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/23 10:56:28 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,3 @@ void	print_error(char *msg)
 	}
 }
 
-void	print_error_identifier(char *str)
-{
-	printf("export: '%s': not a valid identifier\n", str);
-}
