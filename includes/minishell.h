@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/23 11:16:04 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 12:44:42 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +315,10 @@ void	free_char_env(char **char_env);
 //export_utils_3.c
 
 t_env	*find_env(t_data *data, char *id);
+void	print_error_export(char *str);
+void	print_error_cd(char *str);
+void	print_error_exit(char *str_1, char *str_2);
+void	wraper_check_id(char *str, int *to_return);
 
 //lexer_utils.c
 

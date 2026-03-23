@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:08:03 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/23 11:45:10 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 12:41:50 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_identifier(char *str)
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
 			if (str[i] == '=')
-			break ;
+				break ;
 			return (0);
 		}
 		i++;
@@ -82,9 +82,9 @@ value register for VAR. If VAR doesn't exist, we have to create a new env for
 the id VAR that will have the value "oui".
 */
 
-void plus_equal_condition(t_data *data, char *str, char *id, int printable)
+void	plus_equal_condition(t_data *data, char *str, char *id, int printable)
 {
-	int	i;
+	int		i;
 	char	*value;
 	char	*new_val;
 	t_env	*var;

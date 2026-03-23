@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 15:43:04 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/17 17:45:09 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/23 12:12:25 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,27 @@ static char	*join_parts(t_data *data, t_token token)
 	return (to_return);
 }
 
+static void	clean_empty_tokens(t_lexer *lexer)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < lexer->token_total)
+	{
+		if (lexer->tokens[i].value[0] == '\0')
+			free(lexer->tokens[i].value);
+		else
+		{
+			lexer->tokens[j] = lexer->tokens[i];
+			j++;
+		}
+		i++;
+	}
+	lexer->token_total = j;
+}
+
 /*Fontion that converts the struct lexer into a (char *) array. We detect if a
 value needs to be expand by searching for the char "$"*/
 
@@ -74,5 +95,6 @@ int	lexer_expand(t_data *data)
 		}
 		i++;
 	}
+	clean_empty_tokens(data->lexer);
 	return (0);
 }

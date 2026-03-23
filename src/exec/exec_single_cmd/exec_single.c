@@ -6,7 +6,7 @@
 /*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:06:27 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/21 20:41:50 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/23 11:57:52 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	exec_cmd(t_data *data)
 			return (-1);
 		restore_stdio(&stdio);
 		data->last_status = exec_builtin_parent(data, data->cmd_table->argv);
+		return (0);
 	}
 	return (exec_external_cmd(data));
 }

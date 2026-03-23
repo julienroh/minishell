@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:23:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/23 11:48:25 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 12:42:37 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	set_env_value(t_data *data, char *id, char *value)
 	}
 }
 
-static int    cd_too_many_args(char **args)
+static int	cd_too_many_args(char **args)
 {
 	if (args[2] != NULL)
 	{
@@ -60,6 +60,12 @@ static int    cd_too_many_args(char **args)
 		return (1);
 	}
 	return (0);
+}
+
+static void	free_pwd(char *newpwd, char *oldpwd)
+{
+	free(oldpwd);
+	free(newpwd);
 }
 
 /*chdir is the function that make the computer change of directory. The rest of
@@ -83,7 +89,7 @@ int	exec_cd(t_data *data, char **args)
 		path = args[1];
 	if (!path || chdir(path) == -1)
 	{
-		printf("minishell: cd: %s: no such file or directory\n", path);
+		print_error_cd(args[1]);
 		free_data_except_env(data);
 		free(oldpwd);
 		return (1);
@@ -91,7 +97,6 @@ int	exec_cd(t_data *data, char **args)
 	newpwd = getcwd(NULL, 0);
 	set_env_value(data, "OLDPWD", oldpwd);
 	set_env_value(data, "PWD", newpwd);
-	free(oldpwd);
-	free(newpwd);
+	free_pwd(oldpwd, newpwd);
 	return (0);
 }

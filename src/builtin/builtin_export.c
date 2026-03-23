@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/23 11:46:36 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 12:43:57 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ static int	wrapper_check_if_no_egal(char **args, t_data *data, int i)
 {
 	if (!check_identifier(args[i + 1]))
 	{
-		printf("minishell: export: '%s': not a valid identifier\n",
-			args[i + 1]);
+		print_error_export(args[i + 1]);
 		return (1);
 	}
 	else
@@ -82,10 +81,7 @@ int	exec_export(t_data *data, char **args, int i, int to_return)
 		id = get_identifier(data, args[i + 1]);
 		value = get_value(data, args[i + 1]);
 		if (!check_identifier(args[i + 1]))
-		{
-			printf("minishell: export: '%s': not a valid identifier\n", args[i + 1]);
-			to_return = 1;
-		}
+			wraper_check_id(args[i + 1], &to_return);
 		else if (check_identifier(args[i + 1]) == 2)
 			plus_equal_condition(data, args[i + 1], id, 1);
 		else if (!already_in_struct(data, id, value))

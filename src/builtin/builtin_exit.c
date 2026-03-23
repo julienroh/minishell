@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/23 11:48:13 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 12:36:13 by mfumeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,15 @@ int	exec_exit(t_data *data, char **args)
 	if (data->cmd_table->next == NULL)
 		printf("exit\n");
 	if (!args[1])
-	exit_with_code(data, data->last_status);
+		exit_with_code(data, data->last_status);
 	if (!is_valid_numeric(args[1]) || is_overflow(args[1], min, max) == 1)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", args[1]);
+		print_error_exit(args[1], "numeric argument required\n");
 		exit_with_code(data, 2);
 	}
 	if (count_args(args) > 2)
 	{
-		printf("minishell: exit: too many arguments\n");
+		print_error_exit(args[1], "too many arguments\n");
 		return (1);
 	}
 	code = ft_atoll(args[1]);
