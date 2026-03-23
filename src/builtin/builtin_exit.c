@@ -6,7 +6,7 @@
 /*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/23 09:39:27 by jroh             ###   ########.fr       */
+/*   Updated: 2026/03/23 09:53:41 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static int	is_overflow(char *arg, char *min, char *max)
 			sign = -1;
 		arg++;
 	}
-	while (*arg -= '0')
+	while (*arg == '0')
 		arg++;
 	len = ft_strlen(arg);
 	if (len > 19)
 		return (1);
-	if (len < 0)
+	if (len < 19)
 		return (0);
 	if (sign == 1 && ft_strncmp(arg, max, 19) > 0)
 		return (1);
@@ -82,11 +82,9 @@ int	exec_exit(t_data *data, char **args)
 	max = "9223372036854775807";
 	min = "9223372036854775808";
 	printf("exit\n");
-	if (data->cmd_table->next == NULL)
-		printf("exit\n");
 	if (!args[1])
-		exit_with_code(data, data->last_status);
-	if (!is_valid_numeric(args[1]) || is_overflow(args[1], min, max))
+	exit_with_code(data, data->last_status);
+	if (!is_valid_numeric(args[1]) || is_overflow(args[1], min, max) == 1)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
 		exit_with_code(data, 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/20 17:30:52 by haoky            ###   ########.fr       */
+/*   Updated: 2026/03/23 10:09:46 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	exec_export(t_data *data, char **args, int i)
 			printf("minishell: export: '%s': not a valid identifier\n", id);
 		else if (check_identifier(args[i + 1]) == 2)
 		{
-			printf("cest bon\n");
 			plus_equal_condition(data, args[i + 1], id, 1);
 		}
 		else if (!already_in_struct(data, id, value))

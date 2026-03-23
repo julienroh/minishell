@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_utils1.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: jroh <jroh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:38:51 by mfumeaux          #+#    #+#             */
-/*   Updated: 2026/03/22 20:37:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/23 09:41:34 by jroh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	init_v(t_data *data, t_multi *v, int n_cmd)
 	v->pids = malloc(sizeof(pid_t) * n_cmd);
 	if (!v->pids)
 		return (ft_putstr_fd("minishell : ", 2),
-			("malloc"), data->last_status = 1, -1);
+			perror("malloc"), data->last_status = 1, -1);
 	return (0);
 }
 
