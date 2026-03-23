@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 17:11:40 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 12:32:39 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:30:52 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,12 @@ int	exec_export(t_data *data, char **args, int i)
 		value = get_value(data, args[i + 1]);
 		if (!check_identifier(id))
 			printf("minishell: export: '%s': not a valid identifier\n", id);
-		else if (check_identifier(id) == 2)
-			plus_equal_condition(data, args[i + 1], 1);
-		else if (!already_in_struct(data->env, id, value, 0))
+		else if (check_identifier(args[i + 1]) == 2)
+		{
+			printf("cest bon\n");
+			plus_equal_condition(data, args[i + 1], id, 1);
+		}
+		else if (!already_in_struct(data, id, value))
 			add_in_env(data, args, i, 1);
 		free_id_value(id, value);
 		i++;

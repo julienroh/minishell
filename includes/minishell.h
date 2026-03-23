@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 15:34:34 by adavid            #+#    #+#             */
-/*   Updated: 2026/03/18 12:44:30 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 11:49:01 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,9 +289,9 @@ void	from_list_to_array(t_data *data, t_com *head);
 
 //export_utils.c
 
-int		already_in_struct(t_env *env, char *id, char *value, int plus);
+int		already_in_struct(t_data *data, char *id, char *value);
 int		check_identifier(char *id);
-void	plus_equal_condition(t_data *data, char *id, int printable);
+void	plus_equal_condition(t_data *data, char *str, char *id, int printable);
 
 //export_utils_2.c
 

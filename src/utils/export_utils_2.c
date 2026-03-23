@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:19:06 by haoky             #+#    #+#             */
-/*   Updated: 2026/03/18 11:31:55 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:07:13 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_identifier(t_data *data, char *arg)
 	while (arg[i])
 	{
 		if (arg[i] == '+' && arg[i + 1] == '=')
-			return (ft_substr(arg, 0, i + 2));
+			return (ft_substr(arg, 0, i));
 		i++;
 	}
 	if (!find_equal)

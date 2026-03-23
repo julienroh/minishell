@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfumeaux <mfumeaux@student.42lausanne.ch>  +#+  +:+       +#+        */
+/*   By: haoky <haoky@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 10:08:35 by jroh              #+#    #+#             */
-/*   Updated: 2026/03/17 22:44:34 by mfumeaux         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:33:10 by haoky            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_overflow(char *arg, char *min, char *max)
+{
+	int		sign;
+	int		len;
+
+	sign = 1;
+	if (*arg == '-' || *arg == '+')
+	{
+		if (*arg == '-')
+			sign = -1;
+		arg++;
+	}
+	while (*arg -= '0')
+		arg++;
+	len = ft_strlen(arg);
+	if (len > 19)
+		return (1);
+	if (len < 0)
+		return (0);
+	if (sign == 1 && ft_strncmp(arg, max, 19) > 0)
+		return (1);
+	if (sign == -1 && ft_strncmp(arg, min, 19) > 0)
+		return (1);
+	return (0);
+}
 
 static int	is_valid_numeric(char *arg)
 {
@@ -50,14 +76,15 @@ static void	exit_with_code(t_data *data, long long code)
 int	exec_exit(t_data *data, char **args)
 {
 	long long	code;
+	char		*max;
+	char		*min;
 
+	max = "9223372036854775807";
+	min = "9223372036854775808";
 	printf("exit\n");
 	if (!args[1])
-	{
-		code = data->last_status;
-		exit_with_code(data, code);
-	}
-	if (!is_valid_numeric(args[1]))
+		exit_with_code(data, data->last_status);
+	if (!is_valid_numeric(args[1]) || is_overflow(args[1], min, max))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
 		exit_with_code(data, 2);
@@ -70,7 +97,5 @@ int	exec_exit(t_data *data, char **args)
 	code = ft_atoll(args[1]);
 	free_data_except_env(data);
 	free_env(data->env);
-	if (code > 255)
-		exit(code % 256);
-	exit(code);
+	exit(code % 256);
 }
